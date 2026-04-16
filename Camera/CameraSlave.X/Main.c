@@ -28,6 +28,8 @@ volatile uint8_t TxB = 0x00;
 volatile uint8_t TxBY = 0x00;
 volatile uint8_t TxJ = 0x00;
 volatile uint8_t j = 0;
+volatile uint8_t mux_select = 0x00;
+volatile bool xy_last = 0;
 
 
 const uint8_t header_dir[12] = { //header for PT instructions (PTZ)
@@ -66,7 +68,7 @@ const uint8_t header_static[9] = { // header for everything
 
 
 static void tx_uart(uint8_t byte){ // TX over UART
-    PORTBbits.RB7 ^= 1;
+    //PORTBbits.RB7 ^= 1;
     while (!PIR1bits.TXIF);
     TX1REG = byte;
     
@@ -105,6 +107,20 @@ static void TranslateTABXY(uint8_t byte){
     else{
         TxTR = 0xFF;
     }
+    if(byte & 0x04){
+        if (!xy_last){
+            mux_select ++;
+            if (mux_select > 0x03){
+                mux_select = 0;
+            }
+            PORTB = (PORTB & 0xFC) | (mux_select & 0x03);
+            xy_last = 1;
+        }
+     }
+     else{
+            xy_last = 0;
+      }
+   
     
 }
 

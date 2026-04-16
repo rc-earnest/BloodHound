@@ -10448,7 +10448,7 @@ void InitPORTA(){
 }
 
 void InitPORTB(){
-    TRISB = 0x3F;
+    TRISB = 0x3C;
     ANSELB = 0x00;
     WPUB = 0x00;
     SLRCONB = 0x00;

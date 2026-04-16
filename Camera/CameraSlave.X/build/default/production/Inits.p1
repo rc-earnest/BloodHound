@@ -1180,8 +1180,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _InitPORTB ]
 [f ]
 "32
-[; ;Inits.c: 32:     TRISB = 0x3F;
-[e = _TRISB -> -> 63 `i `uc ]
+[; ;Inits.c: 32:     TRISB = 0x3C;
+[e = _TRISB -> -> 60 `i `uc ]
 "33
 [; ;Inits.c: 33:     ANSELB = 0x00;
 [e = _ANSELB -> -> 0 `i `uc ]
