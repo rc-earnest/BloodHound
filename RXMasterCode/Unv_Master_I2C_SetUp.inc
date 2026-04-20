@@ -37,8 +37,9 @@ DATA_RECEIVED		EQU	H'046'
    
 DRIVE_CONTROL_W		EQU	H'047'
 DRIVE_CONTROL_R		EQU	H'048'
-PERIPHERAL_CONTROL_W	EQU	H'049'
-PERIPHERAL_CONTROL_R	EQU	H'04A'
+PERIPHERAL_CONTROL_W1	EQU	H'049'
+PERIPHERAL_CONTROL_W2	EQU	H'04A'
+PERIPHERAL_CONTROL_R	EQU	H'04B'
     ;***************************************************************************************
     ;****Enable and Rename For additional Slave Board Address Saving
     ;***************************************************************************************
@@ -57,9 +58,12 @@ I2C_SETUP_MASTER
 	BANKSEL	    DRIVE_CONTROL_R
 	MOVLW	    H'11'
 	MOVWF	    DRIVE_CONTROL_R	;Save Drive Control Daugher Board Read Address
-	BANKSEL	    PERIPHERAL_CONTROL_W
+	BANKSEL	    PERIPHERAL_CONTROL_W1
 	MOVLW	    H'20'
-	MOVWF	    PERIPHERAL_CONTROL_W ;Save Peripheral Control Daugher Board Write Address
+	MOVWF	    PERIPHERAL_CONTROL_W1 ;Save Peripheral Control Daugher Board Write Address
+	BANKSEL	    PERIPHERAL_CONTROL_W2
+	MOVLW	    H'44'
+	MOVWF	    PERIPHERAL_CONTROL_W2
 	BANKSEL	    PERIPHERAL_CONTROL_R
 	MOVLW	    H'21'
 	MOVWF	    PERIPHERAL_CONTROL_R ;Save Peripheral Control Daugher Board Read Address
@@ -80,21 +84,21 @@ I2C_SETUP_MASTER
 	BANKSEL	    TRISC
 	BSF	    TRISC,3
 	BSF	    TRISC,4 		;Set SCL and SDA as inputs
-	BANKSEL	    SSPADD
+	BANKSEL	    SSP1ADD
 	MOVLW	    H'27'
-	MOVWF	    SSPADD		;Set BAUD Generator to 100Khz (16M Occilator)
-	BANKSEL	    SSPCON
+	MOVWF	    SSP1ADD		;Set BAUD Generator to 100Khz (16M Occilator)
+	BANKSEL	    SSP1CON1
 	MOVLW	    H'28'		
-	MOVWF	    SSPCON		;Enable SDA and SLC Pins and Set as I2C Master Mode
-	BANKSEL	    SSPCON2
+	MOVWF	    SSP1CON1		;Enable SDA and SLC Pins and Set as I2C Master Mode
+	BANKSEL	    SSP1CON2
 	MOVLW	    H'00'
-	MOVWF	    SSPCON2		;Disable General Call
+	MOVWF	    SSP1CON2		;Disable General Call
 	BANKSEL	    SSP1CON3
 	MOVLW	    H'08'		;Min SDA Hold time 300ns
 	MOVWF	    SSP1CON3
-	BANKSEL	    SSPSTAT
+	BANKSEL	    SSP1STAT
 	MOVLW	    H'A0'		
-	MOVWF	    SSPSTAT		;Not in Tx mode, Slew Rate Control Disabled
+	MOVWF	    SSP1STAT		;Not in Tx mode, Slew Rate Control Disabled
 	RETURN
 	
 ;******************************************************************************************************
@@ -102,76 +106,76 @@ I2C_SETUP_MASTER
 ;******************************************************************************************************
 I2C_WRITE
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BSF	    SSPCON2,0		;Generate Start Condition
+	BANKSEL	    SSP1CON2
+	BSF	    SSP1CON2,0		;Generate Start Condition
 START_WRITE_DONE
-	BTFSC	    SSPCON2,0
+	BTFSC	    SSP1CON2,0
 	GOTO	    START_WRITE_DONE	;Wait Until Start Condition Completes
 	BANKSEL	    ADDRESS_W
 	MOVFW	    ADDRESS_W
-	BANKSEL	    SSPBUF
-	MOVWF	    SSPBUF		;Send Peripheral Address (Write)
+	BANKSEL	    SSP1BUF
+	MOVWF	    SSP1BUF		;Send Peripheral Address (Write)
 ADDRESS_SENT_W
-	BANKSEL	    SSPSTAT
-	BTFSC	    SSPSTAT,0		
+	BANKSEL	    SSP1STAT
+	BTFSC	    SSP1STAT,0		
 	GOTO	    ADDRESS_SENT_W	;Wait Until Buffer is Clear (Address is Sent)
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BTFSC	    SSPCON2,6		;Was an Acknowledge Received?
+	BANKSEL	    SSP1CON2
+	BTFSC	    SSP1CON2,6		;Was an Acknowledge Received?
 	GOTO	    BAD_COND		;Acknowledge Not Received
 	BANKSEL	    DATA_TX_1
 	MOVFW	    DATA_TX_1
-	BANKSEL	    SSPBUF
-	MOVWF	    SSPBUF		;Send First Data Byte
+	BANKSEL	    SSP1BUF
+	MOVWF	    SSP1BUF		;Send First Data Byte
 DATA_1_SENT
-	BANKSEL	    SSPSTAT
-	BTFSC	    SSPSTAT,0
+	BANKSEL	    SSP1STAT
+	BTFSC	    SSP1STAT,0
 	GOTO	    DATA_1_SENT		;Wait Until Buffer is Clear (Data is Sent)
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BTFSC	    SSPCON2,6		;Was an Acknowledge Received?
+	BANKSEL	    SSP1CON2
+	BTFSC	    SSP1CON2,6		;Was an Acknowledge Received?
 	GOTO	    BAD_COND		;Acknowledge Not Received
 	BANKSEL	    DATA_TX_2
 	MOVFW	    DATA_TX_2
-	BANKSEL	    SSPBUF
-	MOVWF	    SSPBUF		;Send Second Data Byte
+	BANKSEL	    SSP1BUF
+	MOVWF	    SSP1BUF		;Send Second Data Byte
 DATA_2_SENT
-	BANKSEL	    SSPSTAT
-	BTFSC	    SSPSTAT,0
+	BANKSEL	    SSP1STAT
+	BTFSC	    SSP1STAT,0
 	GOTO	    DATA_2_SENT		;Wait Unitl Buffer is Clear (Data is Sent)
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BTFSC	    SSPCON2,6		;Was an Acknowledge Received?
+	BANKSEL	    SSP1CON2
+	BTFSC	    SSP1CON2,6		;Was an Acknowledge Received?
 	GOTO	    BAD_COND		;Acknowledge not Received
 	BANKSEL	    DATA_TX_3
 	MOVFW	    DATA_TX_3
-	BANKSEL	    SSPBUF
-	MOVWF	    SSPBUF		;Send Third Data Byte
+	BANKSEL	    SSP1BUF
+	MOVWF	    SSP1BUF		;Send Third Data Byte
 DATA_3_SENT
-	BANKSEL	    SSPSTAT
-	BTFSC	    SSPSTAT,0
+	BANKSEL	    SSP1STAT
+	BTFSC	    SSP1STAT,0
 	GOTO	    DATA_3_SENT		;Wait Until Buffer is Clear (Data is Sent)
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BTFSC	    SSPCON2,6		;Was an Acknowledge Received?
+	BANKSEL	    SSP1CON2
+	BTFSC	    SSP1CON2,6		;Was an Acknowledge Received?
 	GOTO	    BAD_COND		;Acknowledge Not Received
 	BANKSEL	    DATA_TX_4
 	MOVFW	    DATA_TX_4
-	BANKSEL	    SSPBUF
-	MOVWF	    SSPBUF		;Send Fourth Data Byte
+	BANKSEL	    SSP1BUF
+	MOVWF	    SSP1BUF		;Send Fourth Data Byte
 DATA_4_SENT
-	BANKSEL	    SSPSTAT
-	BTFSC	    SSPSTAT,0
+	BANKSEL	    SSP1STAT
+	BTFSC	    SSP1STAT,0
 	GOTO	    DATA_4_SENT		;Wait Until Buffer is Clear (Data is Sent)
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BTFSC	    SSPCON2,6		;Was an Acknowledge Received?
+	BANKSEL	    SSP1CON2
+	BTFSC	    SSP1CON2,6		;Was an Acknowledge Received?
 	GOTO	    BAD_COND		;Acknowledge Not Received
 GOOD_STOP
-	BANKSEL	    SSPCON2
-	BSF	    SSPCON2,2		;Generate a Stop Condition
+	BANKSEL	    SSP1CON2
+	BSF	    SSP1CON2,2		;Generate a Stop Condition
 GOOD_STOP_DONE
-	BTFSC	    SSPCON2,2
+	BTFSC	    SSP1CON2,2
 	GOTO	    GOOD_STOP_DONE	;Wait Until Stop Condition Completes
 	MOVLW	    H'00'
 	RETURN				;Write Complete.  Return With 0x00 in Working Register
@@ -182,79 +186,79 @@ GOOD_STOP_DONE
 ;******************************************************************************************************************
 I2C_READ
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BSF	    SSPCON2,0		;Generate Start Condition
+	BANKSEL	    SSP1CON2
+	BSF	    SSP1CON2,0		;Generate Start Condition
 START_READ_DONE_1
-	BTFSC	    SSPCON2,0
+	BTFSC	    SSP1CON2,0
 	GOTO	    START_READ_DONE_1	;Wait Until Start Condition Completes
 	BANKSEL	    ADDRESS_W
 	MOVFW	    ADDRESS_W
-	BANKSEL	    SSPBUF
-	MOVWF	    SSPBUF		;Send Peripheral Address (Write)
+	BANKSEL	    SSP1BUF
+	MOVWF	    SSP1BUF		;Send Peripheral Address (Write)
 ADDRESS_SENT_R_1
-	BANKSEL	    SSPSTAT
-	BTFSC	    SSPSTAT,0		
+	BANKSEL	    SSP1STAT
+	BTFSC	    SSP1STAT,0		
 	GOTO	    ADDRESS_SENT_R_1	;Wait Until Buffer is Clear (Address is Sent)
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BTFSC	    SSPCON2,6		;Was an Acknowledge Received?
+	BANKSEL	    SSP1CON2
+	BTFSC	    SSP1CON2,6		;Was an Acknowledge Received?
 	GOTO	    BAD_COND		;Acknowledge Not Received
 	BANKSEL	    PIR1
 	BCF	    PIR1,3		;Clear SSP interrupt Flag
 	BANKSEL	    DATA_TX_1
 	MOVFW	    DATA_TX_1
-	BANKSEL	    SSPBUF
-	MOVWF	    SSPBUF		;Send First Data Byte
+	BANKSEL	    SSP1BUF
+	MOVWF	    SSP1BUF		;Send First Data Byte
 DATA_1_SENT_R
-	BANKSEL	    SSPSTAT
-	BTFSC	    SSPSTAT,0
+	BANKSEL	    SSP1STAT
+	BTFSC	    SSP1STAT,0
 	GOTO	    DATA_1_SENT_R	;Wait Until Buffer is Clear (Data is Sent)
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BTFSC	    SSPCON2,6		;Was an Acknowledge Received?
+	BANKSEL	    SSP1CON2
+	BTFSC	    SSP1CON2,6		;Was an Acknowledge Received?
 	GOTO	    BAD_COND		;Acknowledge Not Received
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BSF	    SSPCON2,0		;Generate Repeated Start Condition
+	BANKSEL	    SSP1CON2
+	BSF	    SSP1CON2,0		;Generate Repeated Start Condition
 START_READ_DONE_2
-	BTFSC	    SSPCON2,0
+	BTFSC	    SSP1CON2,0
 	GOTO	    START_READ_DONE_2	;Wait Until Repeated Start Condition Completes
 	BANKSEL	    PIR1
 	BCF	    PIR1,3		;Clear SSP interrupt Flag
 	BANKSEL	    ADDRESS_R
 	MOVFW	    ADDRESS_R
-	BANKSEL	    SSPBUF
-	MOVWF	    SSPBUF		;Send Peripheral Address (Read)
+	BANKSEL	    SSP1BUF
+	MOVWF	    SSP1BUF		;Send Peripheral Address (Read)
 ADDRESS_SENT_R_2
-	BANKSEL	    SSPSTAT
-	BTFSC	    SSPSTAT,0		
+	BANKSEL	    SSP1STAT
+	BTFSC	    SSP1STAT,0		
 	GOTO	    ADDRESS_SENT_R_2	;Wait Until Buffer is Clear (Address is Sent)
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BTFSC	    SSPCON2,6		;Was an Acknowledge Received?
+	BANKSEL	    SSP1CON2
+	BTFSC	    SSP1CON2,6		;Was an Acknowledge Received?
 	GOTO	    BAD_COND		;Acknowledge Not Received
-	BANKSEL	    SSPCON2
-	BSF	    SSPCON2,3		;Enable Receive Mode
+	BANKSEL	    SSP1CON2
+	BSF	    SSP1CON2,3		;Enable Receive Mode
 	BANKSEL	    PIR1
 	BCF	    PIR1,3		;Clear SSP interrupt Flag
-	BANKSEL	    SSPBUF
-	MOVFW	    SSPBUF		;Clear SSPBUF Buffer
+	BANKSEL	    SSP1BUF
+	MOVFW	    SSP1BUF		;Clear SSP1BUF Buffer
 	CALL	    I2C_IDLE		;Ensure the I2C BUS is idle
-	BANKSEL	    SSPCON2
-	BSF	    SSPCON2,5		;Set Acknowledge Data to NACK
-	BSF	    SSPCON2,4		;Send NACK (Stop Data Receive)
+	BANKSEL	    SSP1CON2
+	BSF	    SSP1CON2,5		;Set Acknowledge Data to NACK
+	BSF	    SSP1CON2,4		;Send NACK (Stop Data Receive)
 NACK_DONE
-	BTFSC	    SSPCON2,4
+	BTFSC	    SSP1CON2,4
 	GOTO	    NACK_DONE		;Wait Until NACK Completes
-	BANKSEL	    SSPCON2
-	BCF	    SSPCON2,3		;Disable Receive Mode
-	BANKSEL	    SSPCON2
-	BSF	    SSPCON2,2		;Generate Stop Condition
+	BANKSEL	    SSP1CON2
+	BCF	    SSP1CON2,3		;Disable Receive Mode
+	BANKSEL	    SSP1CON2
+	BSF	    SSP1CON2,2		;Generate Stop Condition
 READ_STOP_DONE_2
-	BTFSC	    SSPCON2,2
+	BTFSC	    SSP1CON2,2
 	GOTO	    READ_STOP_DONE_2	;Wait Until Stop Condition Completes
-	BANKSEL	    SSPBUF
-	MOVFW	    SSPBUF
+	BANKSEL	    SSP1BUF
+	MOVFW	    SSP1BUF
 	BANKSEL	    DATA_RECEIVED
 	MOVWF	    DATA_RECEIVED	;Save Data Sent By the Peripheral
 	RETURN
@@ -263,10 +267,10 @@ READ_STOP_DONE_2
 ;****BAD_COND Function is GOTO'd When a Slave Does not ACK.  Will Exit Current Routine		    ***
 ;******************************************************************************************************
 BAD_COND
-	BANKSEL	    SSPCON2
-	BSF	    SSPCON2,2		;Generate Stop Condition
+	BANKSEL	    SSP1CON2
+	BSF	    SSP1CON2,2		;Generate Stop Condition
 BAD_STOP_DONE
-	BTFSC	    SSPCON2,2
+	BTFSC	    SSP1CON2,2
 	GOTO	    BAD_STOP_DONE	;Wait Until Stop Condition Completes
 	MOVLW	    H'FF'
 	RETURN				;Write/Read Failed.  Return With 0xFF in Working Register
@@ -275,15 +279,15 @@ BAD_STOP_DONE
 ;****I2C_Idle Function is Used to Ensure I2C Line is Not Busy.  Will Return to Function When Line is Idle ***
 ;************************************************************************************************************
 I2C_IDLE
-	BANKSEL	    SSPCON2
+	BANKSEL	    SSP1CON2
 	MOVLW	    H'1F'
-	ANDWF	    SSPCON2		;Compare to 0x1F to Test for 5 Busy Conditions
+	ANDWF	    SSP1CON2		;Compare to 0x1F to Test for 5 Busy Conditions
 	BANKSEL	    STATUS
 	BTFSS	    STATUS,2
 	GOTO	    I2C_IDLE		;If any Conditions Still Busy Wait
 CHECK_R_W
-	BANKSEL	   SSPSTAT
-	BTFSC	   SSPSTAT,2
+	BANKSEL	   SSP1STAT
+	BTFSC	   SSP1STAT,2
 	GOTO	   CHECK_R_W		;Wait Until  a Transmission is Not in Process
 	RETURN				;I2C BUS is Idle Exit Routine
 	
