@@ -15,45 +15,45 @@
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"8 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Inits.c
+"10 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Inits.c
 [v _InitOsc InitOsc `(v  1 e 1 0 ]
-"13
+"19
 [v _InitOpt InitOpt `(v  1 e 1 0 ]
-"17
+"27
 [v _InitPIN InitPIN `(v  1 e 1 0 ]
-"23
+"36
 [v _InitPORTA InitPORTA `(v  1 e 1 0 ]
-"31
+"48
 [v _InitPORTB InitPORTB `(v  1 e 1 0 ]
-"39
+"59
 [v _InitPORTC InitPORTC `(v  1 e 1 0 ]
-"46
+"69
 [v _InitUART InitUART `(v  1 e 1 0 ]
-"54
+"83
 [v _InitI2C InitI2C `(v  1 e 1 0 ]
-"61
+"96
 [v _InitISR InitISR `(v  1 e 1 0 ]
-"70 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Main.c
+"88 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Main.c
 [v _tx_uart tx_uart `(v  1 s 1 tx_uart ]
-"78
+"99
 [v _TranslateTABXY TranslateTABXY `(v  1 s 1 TranslateTABXY ]
-"128
+"165
 [v _TranslateJoysticks TranslateJoysticks `(v  1 s 1 TranslateJoysticks ]
-"140
+"186
 [v _TranslateY TranslateY `(v  1 s 1 TranslateY ]
-"176
+"225
 [v _TranslateX TranslateX `(v  1 s 1 TranslateX ]
-"211
+"257
 [v _send_camera_command send_camera_command `(v  1 s 1 send_camera_command ]
-"224
+"274
 [v _send_camera_button send_camera_button `(v  1 s 1 send_camera_button ]
-"235
+"292
 [v _lookup_and_send_move lookup_and_send_move `(v  1 s 1 lookup_and_send_move ]
-"246
+"308
 [v _lookup_and_send_buttons lookup_and_send_buttons `(v  1 s 1 lookup_and_send_buttons ]
-"258
+"330
 [v _ISR ISR `II(v  1 e 1 0 ]
-"302
+"389
 [v _main main `(v  1 e 1 0 ]
 "351 C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/PIC12-16F1xxx_DFP/1.7.242/xc8\pic\include\proc/pic16f1788.h
 [v _INTCON INTCON `VEuc  1 e 1 @11 ]
@@ -180,106 +180,106 @@
 [v _INLVLC INLVLC `VEuc  1 e 1 @910 ]
 "8426
 [v _CLKRCON CLKRCON `VEuc  1 e 1 @1306 ]
-"17 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Main.c
+"19 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Main.c
 [v _rx_done rx_done `VEa  1 e 1 0 ]
-"18
-[v _X_Byte X_Byte `VEuc  1 e 1 0 ]
-"19
-[v _Y_Byte Y_Byte `VEuc  1 e 1 0 ]
 "20
-[v _TsABXY TsABXY `VEuc  1 e 1 0 ]
+[v _X_Byte X_Byte `VEuc  1 e 1 0 ]
 "21
-[v _JButtons JButtons `VEuc  1 e 1 0 ]
+[v _Y_Byte Y_Byte `VEuc  1 e 1 0 ]
 "22
-[v _TxY TxY `VEuc  1 e 1 0 ]
+[v _TsABXY TsABXY `VEuc  1 e 1 0 ]
 "23
-[v _TxX TxX `VEuc  1 e 1 0 ]
+[v _JButtons JButtons `VEuc  1 e 1 0 ]
 "24
-[v _TxTL TxTL `VEuc  1 e 1 0 ]
+[v _TxY TxY `VEuc  1 e 1 0 ]
 "25
-[v _TxTR TxTR `VEuc  1 e 1 0 ]
+[v _TxX TxX `VEuc  1 e 1 0 ]
 "26
-[v _TxA TxA `VEuc  1 e 1 0 ]
+[v _TxTL TxTL `VEuc  1 e 1 0 ]
 "27
-[v _TxB TxB `VEuc  1 e 1 0 ]
+[v _TxTR TxTR `VEuc  1 e 1 0 ]
 "28
-[v _TxBY TxBY `VEuc  1 e 1 0 ]
+[v _TxA TxA `VEuc  1 e 1 0 ]
 "29
-[v _TxJ TxJ `VEuc  1 e 1 0 ]
+[v _TxB TxB `VEuc  1 e 1 0 ]
 "30
-[v _j j `VEuc  1 e 1 0 ]
+[v _TxBY TxBY `VEuc  1 e 1 0 ]
 "31
-[v _mux_select mux_select `VEuc  1 e 1 0 ]
+[v _TxJ TxJ `VEuc  1 e 1 0 ]
 "32
+[v _j j `VEuc  1 e 1 0 ]
+"33
+[v _mux_select mux_select `VEuc  1 e 1 0 ]
+"34
 [v _xy_last xy_last `VEa  1 e 1 0 ]
-"35
+"41
 [v _header_dir header_dir `DC[12]uc  1 e 12 0 ]
-"40
+"50
 [v _cmd_table cmd_table `DC[12][7]uc  1 e 84 0 ]
-"55
+"69
 [v _cmd_button_table cmd_button_table `DC[6][10]uc  1 e 60 0 ]
-"65
+"80
 [v _header_static header_static `DC[9]uc  1 e 9 0 ]
-"302
+"389
 [v _main main `(v  1 e 1 0 ]
 {
-"336
+"439
 } 0
-"235
+"292
 [v _lookup_and_send_move lookup_and_send_move `(v  1 s 1 lookup_and_send_move ]
 {
 [v lookup_and_send_move@cmd cmd `uc  1 p 1 wreg ]
-"236
+"293
 [v lookup_and_send_move@i i `uc  1 a 1 18 ]
-"235
+"292
 [v lookup_and_send_move@cmd cmd `uc  1 p 1 wreg ]
-"237
+"294
 [v lookup_and_send_move@cmd cmd `uc  1 p 1 17 ]
-"244
+"302
 } 1
-"211
+"257
 [v _send_camera_command send_camera_command `(v  1 s 1 send_camera_command ]
 {
 [v send_camera_command@byte byte `uc  1 p 1 wreg ]
-"212
+"258
 [v send_camera_command@i i `uc  1 a 1 14 ]
-"211
+"257
 [v send_camera_command@byte byte `uc  1 p 1 wreg ]
-"214
+"261
 [v send_camera_command@byte byte `uc  1 p 1 13 ]
-"222
+"269
 } 1
-"246
+"308
 [v _lookup_and_send_buttons lookup_and_send_buttons `(v  1 s 1 lookup_and_send_buttons ]
 {
 [v lookup_and_send_buttons@cmd cmd `uc  1 p 1 wreg ]
-"247
+"309
 [v lookup_and_send_buttons@i i `uc  1 a 1 18 ]
-"246
+"308
 [v lookup_and_send_buttons@cmd cmd `uc  1 p 1 wreg ]
-"248
+"310
 [v lookup_and_send_buttons@cmd cmd `uc  1 p 1 17 ]
-"255
+"318
 } 1
-"224
+"274
 [v _send_camera_button send_camera_button `(v  1 s 1 send_camera_button ]
 {
 [v send_camera_button@byte byte `uc  1 p 1 wreg ]
-"225
+"275
 [v send_camera_button@i i `uc  1 a 1 14 ]
-"224
+"274
 [v send_camera_button@byte byte `uc  1 p 1 wreg ]
-"226
+"278
 [v send_camera_button@byte byte `uc  1 p 1 13 ]
-"233
+"286
 } 1
-"70
+"88
 [v _tx_uart tx_uart `(v  1 s 1 tx_uart ]
 {
 [v tx_uart@byte byte `uc  1 p 1 wreg ]
 [v tx_uart@byte byte `uc  1 p 1 wreg ]
 [v tx_uart@byte byte `uc  1 p 1 6 ]
-"75
+"92
 } 1
 "15 C:\Program Files\Microchip\xc8\v3.10\pic\sources\c99\common\Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
@@ -291,91 +291,91 @@
 [v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
 "53
 } 0
-"140 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Main.c
+"186 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Main.c
 [v _TranslateY TranslateY `(v  1 s 1 TranslateY ]
 {
 [v TranslateY@byte byte `uc  1 p 1 wreg ]
 [v TranslateY@byte byte `uc  1 p 1 wreg ]
-"142
+"188
 [v TranslateY@byte byte `uc  1 p 1 0 ]
-"173
+"212
 } 1
-"176
+"225
 [v _TranslateX TranslateX `(v  1 s 1 TranslateX ]
 {
 [v TranslateX@byte byte `uc  1 p 1 wreg ]
 [v TranslateX@byte byte `uc  1 p 1 wreg ]
-"178
+"227
 [v TranslateX@byte byte `uc  1 p 1 0 ]
-"209
+"251
 } 1
-"78
+"99
 [v _TranslateTABXY TranslateTABXY `(v  1 s 1 TranslateTABXY ]
 {
 [v TranslateTABXY@byte byte `uc  1 p 1 wreg ]
 [v TranslateTABXY@byte byte `uc  1 p 1 wreg ]
-"80
+"102
 [v TranslateTABXY@byte byte `uc  1 p 1 1 ]
-"125
+"159
 } 1
-"128
+"165
 [v _TranslateJoysticks TranslateJoysticks `(v  1 s 1 TranslateJoysticks ]
 {
 [v TranslateJoysticks@byte byte `uc  1 p 1 wreg ]
 [v TranslateJoysticks@byte byte `uc  1 p 1 wreg ]
-"130
+"167
 [v TranslateJoysticks@byte byte `uc  1 p 1 0 ]
-"137
+"173
 } 1
-"46 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Inits.c
+"69 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Inits.c
 [v _InitUART InitUART `(v  1 e 1 0 ]
 {
-"52
+"78
 } 0
-"39
+"59
 [v _InitPORTC InitPORTC `(v  1 e 1 0 ]
 {
-"44
+"64
 } 0
-"31
+"48
 [v _InitPORTB InitPORTB `(v  1 e 1 0 ]
 {
-"37
+"54
 } 0
-"23
+"36
 [v _InitPORTA InitPORTA `(v  1 e 1 0 ]
 {
-"29
+"42
 } 0
-"17
+"27
 [v _InitPIN InitPIN `(v  1 e 1 0 ]
 {
-"21
+"31
 } 0
-"8
+"10
 [v _InitOsc InitOsc `(v  1 e 1 0 ]
 {
-"11
+"14
 } 0
-"13
+"19
 [v _InitOpt InitOpt `(v  1 e 1 0 ]
 {
-"15
+"22
 } 0
-"61
+"96
 [v _InitISR InitISR `(v  1 e 1 0 ]
 {
-"66
+"103
 } 0
-"54
+"83
 [v _InitI2C InitI2C `(v  1 e 1 0 ]
 {
-"59
+"91
 } 0
-"258 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Main.c
+"330 C:\Users\rudyd\BloodHound\Camera\CameraSlave.X\Main.c
 [v _ISR ISR `II(v  1 e 1 0 ]
 {
-"299
+"386
 } 0
 "5 C:\Program Files\Microchip\xc8\v3.10\pic\sources\c99\common\awmod.c
 [v ___awmod __awmod `(i  1 e 2 0 ]

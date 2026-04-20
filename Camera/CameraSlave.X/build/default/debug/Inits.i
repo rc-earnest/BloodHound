@@ -8,33 +8,67 @@
 # 2 "<built-in>" 2
 # 1 "Inits.c" 2
 
-
 # 1 "./Config.h" 1
-# 16 "./Config.h"
+# 24 "./Config.h"
 #pragma config FOSC = INTOSC
+
+
 #pragma config WDTE = OFF
+
+
 #pragma config PWRTE = OFF
+
+
 #pragma config MCLRE = ON
+
+
 #pragma config CP = OFF
+
+
 #pragma config CPD = OFF
+
+
 #pragma config BOREN = OFF
+
+
 #pragma config CLKOUTEN = OFF
+
+
 #pragma config IESO = OFF
+
+
+
 #pragma config FCMEN = OFF
 
 
+
+
+
+
 #pragma config WRT = OFF
+
+
 #pragma config VCAPEN = OFF
+
+
 #pragma config PLLEN = OFF
+
+
+
 #pragma config STVREN = OFF
+
+
 #pragma config BORV = LO
+
+
 #pragma config LPBOR = OFF
+
+
 #pragma config DEBUG = OFF
+
+
 #pragma config LVP = OFF
-
-
-
-
+# 92 "./Config.h"
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -10401,12 +10435,19 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
-# 41 "./Config.h" 2
+# 93 "./Config.h" 2
+
+
 
 
 
 
 typedef unsigned char uchar;
+
+
+
+
+
 
 
 void InitOsc(void);
@@ -10418,26 +10459,40 @@ void InitPORTC(void);
 void InitUART(void);
 void InitI2C(void);
 void InitISR(void);
-# 4 "Inits.c" 2
+# 3 "Inits.c" 2
 
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdbool.h" 1 3
-# 7 "Inits.c" 2
+# 6 "Inits.c" 2
+
+
+
 
 void InitOsc(){
     OSCCON = 0XF8;
+
     CLKRCON = 0X00;
 }
 
+
+
+
 void InitOpt(){
     OPTION_REG = 0x00;
+
 }
+
+
+
 
 void InitPIN(){
 
     APFCON1 = 0x00;
     APFCON2 = 0x00;
 }
+
+
+
 
 void InitPORTA(){
     TRISA = 0xFF;
@@ -10447,6 +10502,10 @@ void InitPORTA(){
     INLVLA = 0x00;
 }
 
+
+
+
+
 void InitPORTB(){
     TRISB = 0x3C;
     ANSELB = 0x00;
@@ -10455,6 +10514,9 @@ void InitPORTB(){
     INLVLB = 0x00;
 }
 
+
+
+
 void InitPORTC(){
     TRISC = 0xBF;
     WPUC = 0x00;
@@ -10462,24 +10524,41 @@ void InitPORTC(){
     INLVLC = 0x00;
 }
 
+
+
+
 void InitUART(){
     TX1STA = 0x24;
+
     RC1STA = 0x80;
     BAUD1CON = 0x08;
     SP1BRGL = 0x8A;
     SP1BRGH = 0x00;
+
+
 }
+
+
+
 
 void InitI2C(){
     SSP1STAT = 0x80;
     SSP1CON1 = 0x26;
+
     SSP1CON2 = 0x01;
+
     SSP1ADD = 0x22 << 1;
+
 }
+
+
+
 
 void InitISR(){
     INTCON = 0x40;
+
     PIE1 = 0x08;
+
     PIE2 = 0x00;
     PIE3 = 0x00;
 }

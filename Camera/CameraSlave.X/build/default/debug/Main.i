@@ -9,31 +9,66 @@
 # 1 "Main.c" 2
 # 10 "Main.c"
 # 1 "./Config.h" 1
-# 16 "./Config.h"
+# 24 "./Config.h"
 #pragma config FOSC = INTOSC
+
+
 #pragma config WDTE = OFF
+
+
 #pragma config PWRTE = OFF
+
+
 #pragma config MCLRE = ON
+
+
 #pragma config CP = OFF
+
+
 #pragma config CPD = OFF
+
+
 #pragma config BOREN = OFF
+
+
 #pragma config CLKOUTEN = OFF
+
+
 #pragma config IESO = OFF
+
+
+
 #pragma config FCMEN = OFF
 
 
+
+
+
+
 #pragma config WRT = OFF
+
+
 #pragma config VCAPEN = OFF
+
+
 #pragma config PLLEN = OFF
+
+
+
 #pragma config STVREN = OFF
+
+
 #pragma config BORV = LO
+
+
 #pragma config LPBOR = OFF
+
+
 #pragma config DEBUG = OFF
+
+
 #pragma config LVP = OFF
-
-
-
-
+# 92 "./Config.h"
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -10400,12 +10435,19 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
-# 41 "./Config.h" 2
+# 93 "./Config.h" 2
+
+
 
 
 
 
 typedef unsigned char uchar;
+
+
+
+
+
 
 
 void InitOsc(void);
@@ -10422,6 +10464,8 @@ void InitISR(void);
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdbool.h" 1 3
 # 14 "Main.c" 2
+
+
 
 
 
@@ -10443,9 +10487,17 @@ volatile uint8_t mux_select = 0x00;
 volatile _Bool xy_last = 0;
 
 
+
+
+
+
 const uint8_t header_dir[12] = {
     0x55,0xAA,0x07,0x4D,0x00,0x01,0x00,0x98,0x00,0x47,0x20,0x00
 };
+
+
+
+
 
 
 const uint8_t cmd_table[12][7] = {
@@ -10463,6 +10515,10 @@ const uint8_t cmd_table[12][7] = {
     {0x0B,0x69,0x83,0x00,0x80,0x07,0xFF},
 };
 
+
+
+
+
 const uint8_t cmd_button_table [6][10] = {
     {0x00,0x5A,0x01,0x00,0x00,0x00,0x01,0x00,0xF3,0xD8},
     {0x01,0x5A,0xFF,0x00,0x00,0x00,0x01,0x00,0x2D,0xCD},
@@ -10473,20 +10529,28 @@ const uint8_t cmd_button_table [6][10] = {
 };
 
 
+
 const uint8_t header_static[9] = {
     0x55,0xAA,0x07,0x4D,0x00,0x01,0x00,0x98,0x00
 };
+
+
+
 
 
 static void tx_uart(uint8_t byte){
 
     while (!PIR1bits.TXIF);
     TX1REG = byte;
-
 }
 
 
+
+
+
+
 static void TranslateTABXY(uint8_t byte){
+
 
     if (byte & 0x08){
         TxBY = 0x04;
@@ -10494,36 +10558,50 @@ static void TranslateTABXY(uint8_t byte){
     else{
         TxBY=0xFF;
     }
+
+
     if (byte & 0x02){
         TxB=0x02;
     }
     else{
         TxB = 0xFF;
     }
+
+
     if (byte & 0x01){
         TxA = 0x05;
     }
     else{
         TxA = 0xFF;
     }
+
+
     if (byte & 0x10){
         TxTL = 0x01;
     }
     else {
         TxTL = 0xFF;
     }
+
+
     if (byte & 0x20){
         TxTR = 0x00;
     }
     else{
         TxTR = 0xFF;
     }
+
+
+
+
     if(byte & 0x04){
         if (!xy_last){
             mux_select ++;
             if (mux_select > 0x03){
                 mux_select = 0;
             }
+
+
             PORTB = (PORTB & 0xFC) | (mux_select & 0x03);
             xy_last = 1;
         }
@@ -10531,9 +10609,10 @@ static void TranslateTABXY(uint8_t byte){
      else{
             xy_last = 0;
       }
-
-
 }
+
+
+
 
 
 static void TranslateJoysticks(uint8_t byte){
@@ -10544,108 +10623,107 @@ static void TranslateJoysticks(uint8_t byte){
     else{
         TxJ = 0xFF;
     }
-
 }
-
-
+# 186 "Main.c"
 static void TranslateY(uint8_t byte){
 
     if (byte <= 0x32){
         TxY = 0x05;
     }
-
     else if (byte <= 0x5A){
         TxY = 0x04;
     }
-
     else if (byte <= 0x7B){
         TxY = 0x03;
     }
-
     else if (byte <= 0x88){
         TxY = 0xFF;
     }
-
     else if (byte <= 0x94){
         TxY = 0xFF;
     }
-
     else if (byte <= 0xB5){
         TxY = 0x00;
     }
-
     else if (byte <= 0xDD){
         TxY = 0x01;
     }
-    else {
+    else{
         TxY = 0x02;
     }
-
 }
-
-
+# 225 "Main.c"
 static void TranslateX(uint8_t byte){
 
     if (byte <= 0x32){
         TxX = 0x08;
     }
-
     else if (byte <= 0x5A){
         TxX = 0x07;
     }
-
     else if (byte <= 0x7B){
         TxX = 0x06;
     }
-
     else if (byte <= 0x88){
         TxX = 0xFF;
     }
-
     else if (byte <= 0x94){
         TxX = 0xFF;
     }
-
     else if (byte <= 0xB5){
         TxX = 0x09;
     }
-
     else if (byte <= 0xDD){
         TxX = 0x0A;
     }
-    else {
+    else{
         TxX = 0x0B;
     }
-
 }
+
+
+
+
 
 static void send_camera_command(uint8_t byte){
     uint8_t i;
+
 
     for ( i = 0; i < 12u; i++) {
         tx_uart(header_dir[i]);
     }
 
+
     for ( i = 1; i < 7u; i++){
         tx_uart(cmd_table[byte][i]);
     }
-
 }
+
+
+
 
 static void send_camera_button(uint8_t byte){
     uint8_t i;
+
+
     for ( i = 0; i < 9u; i++){
         tx_uart(header_static[i]);
     }
+
 
     for (i =1; i < 10u; i++){
         tx_uart(cmd_button_table[byte][i]);
     }
 }
 
+
+
+
+
 static void lookup_and_send_move(uint8_t cmd){
     uint8_t i;
     if (cmd == 0xFF) return;
+
     for (i = 0; i < 12u; i++){
         if (cmd_table[i][0] == cmd){
             send_camera_command(i);
@@ -10654,9 +10732,14 @@ static void lookup_and_send_move(uint8_t cmd){
     }
 }
 
+
+
+
+
 static void lookup_and_send_buttons(uint8_t cmd){
     uint8_t i;
     if (cmd == 0xFF) return;
+
     for (i = 0; i < 6u; i ++){
         if (cmd_button_table[i][0] == cmd){
             send_camera_button(i);
@@ -10664,11 +10747,14 @@ static void lookup_and_send_buttons(uint8_t cmd){
         }
     }
 }
-
-
+# 330 "Main.c"
 void __attribute__((picinterrupt(("")))) ISR(){
 
+
     if (PIR1bits.SSP1IF){
+
+
+
 
         if (SSP1CON1bits.SSPOV || SSP1CON1bits.WCOL){
             SSP1CON1bits.SSPOV = 0;
@@ -10677,40 +10763,53 @@ void __attribute__((picinterrupt(("")))) ISR(){
             j = 0;
         }
 
+
         else if (SSP1STATbits.R_nW == 0){
+
             if (j == 0){
+
                 (void)SSP1BUF;
                 SSP1CON1bits.CKP = 1;
             }
             else if (j == 1){
+
                 Y_Byte = SSP1BUF;
                 SSP1CON1bits.CKP = 1;
             }
             else if (j == 2){
+
                 X_Byte = SSP1BUF;
                 SSP1CON1bits.CKP = 1;
             }
             else if (j == 3){
+
                 TsABXY = SSP1BUF;
                 SSP1CON1bits.CKP = 1;
             }
             else if (j == 4){
+
                 JButtons = SSP1BUF;
                 rx_done = 1;
                 SSP1CON1bits.CKP = 0;
             }
+
+
             j = (j + 1) % 5;
         }
         else{
+
             (void)SSP1BUF;
         }
     }
-    PIR1bits.SSP1IF = 0;
 
+
+    PIR1bits.SSP1IF = 0;
 }
 
 
 void main(){
+
+
 
     InitOsc();
     InitOpt();
@@ -10726,20 +10825,34 @@ void main(){
     INTCONbits.GIE = 1;
 
 
+
+
+
     while (1){
         if (rx_done){
+
+
             TranslateY(Y_Byte);
             TranslateX(X_Byte);
             TranslateTABXY(TsABXY);
             TranslateJoysticks(JButtons);
+
+
+
+
             lookup_and_send_move(TxY);
             lookup_and_send_move(TxX);
+
+
             lookup_and_send_buttons(TxA);
             lookup_and_send_buttons(TxBY);
             lookup_and_send_buttons(TxB);
             lookup_and_send_buttons(TxTR);
             lookup_and_send_buttons(TxTL);
             lookup_and_send_buttons(TxJ);
+
+
+
             rx_done = 0;
             SSP1CON1bits.CKP = 1;
         }
