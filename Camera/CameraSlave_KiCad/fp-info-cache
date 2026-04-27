@@ -1,4 +1,4 @@
-25624246815043770
+25626023522742538
 1FootPrintLibrary
 0805
 
@@ -34,6 +34,13 @@ DIODE_0805
 0
 2
 2
+1FootPrintLibrary
+Header_1_x_1
+
+
+0
+1
+1
 1FootPrintLibrary
 Header_1_x_2
 

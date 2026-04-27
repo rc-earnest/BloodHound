@@ -357,7 +357,7 @@ TranslateX@byte 20 0 BANK0 1
 TranslateY@byte 20 0 BANK0 1
 send_camera_button@i 2E 0 BANK0 1
 __end_of_send_camera_command 230 0 CODE 0
-__Hreset_vec 3 0 CODE 0
+__Hreset_vec 2 0 CODE 0
 __Lreset_vec 0 0 CODE 0
 _BAUD1CON 19F 0 ABS 0
 intlevel0 0 0 ENTRY 0
@@ -392,7 +392,7 @@ ___wmul@product 24 0 BANK0 1
 __end_of_lookup_and_send_move 373 0 CODE 0
 _lookup_and_send_buttons 373 0 CODE 0
 %segments
-reset_vec 0 5 CODE 0 0
+reset_vec 0 3 CODE 0 0
 intentry 8 287 CODE 8 0
 bssCOMMON 70 7B COMMON 70 1
 cstackBANK0 20 40 BANK0 20 1
@@ -405,8 +405,8 @@ text10 7A4 83D CODE 7A4 0
 stringtext4 83E 84F STRCODE 83E 0
 text18 850 879 CODE 850 0
 %locals
-dist/default/debug\CameraSlave.X.debug.o
-C:\Users\rudyd\AppData\Local\Temp\xcAsfs.0\driver_tmp_1.s
+dist/default/production\CameraSlave.X.production.o
+C:\Users\rudyd\AppData\Local\Temp\xcAsa0o.0\driver_tmp_1.s
 2407 69 0 CODE 0
 2410 69 0 CODE 0
 2476 69 0 CODE 0

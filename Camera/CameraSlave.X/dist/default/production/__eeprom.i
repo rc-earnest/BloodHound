@@ -1,4 +1,4 @@
-# 1 "Main.c"
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\sources\\c99\\pic\\__eeprom.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 295 "<built-in>" 3
@@ -6,69 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "Main.c" 2
-# 10 "Main.c"
-# 1 "./Config.h" 1
-# 24 "./Config.h"
-#pragma config FOSC = INTOSC
-
-
-#pragma config WDTE = OFF
-
-
-#pragma config PWRTE = OFF
-
-
-#pragma config MCLRE = ON
-
-
-#pragma config CP = OFF
-
-
-#pragma config CPD = OFF
-
-
-#pragma config BOREN = OFF
-
-
-#pragma config CLKOUTEN = OFF
-
-
-#pragma config IESO = OFF
-
-
-
-#pragma config FCMEN = OFF
-
-
-
-
-
-
-#pragma config WRT = OFF
-
-
-#pragma config VCAPEN = OFF
-
-
-#pragma config PLLEN = OFF
-
-
-
-#pragma config STVREN = OFF
-
-
-#pragma config BORV = LO
-
-
-#pragma config LPBOR = OFF
-
-
-#pragma config DEBUG = OFF
-
-
-#pragma config LVP = OFF
-# 92 "./Config.h"
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\sources\\c99\\pic\\__eeprom.c" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -10435,439 +10373,175 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
-# 93 "./Config.h" 2
+# 2 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\sources\\c99\\pic\\__eeprom.c" 2
 
 
 
+void
+__eecpymem(volatile unsigned char *to, __eeprom unsigned char * from, unsigned char size)
+{
+ volatile unsigned char *cp = to;
 
+ while (EECON1bits.WR) continue;
+ EEADR = (unsigned char)from;
+ while(size--) {
+  while (EECON1bits.WR) continue;
 
+  EECON1 &= 0x7F;
 
-typedef unsigned char uchar;
-
-
-
-
-
-
-
-void InitOsc(void);
-void InitOpt(void);
-void InitPIN(void);
-void InitPORTA(void);
-void InitPORTB(void);
-void InitPORTC(void);
-void InitUART(void);
-void InitI2C(void);
-void InitISR(void);
-# 11 "Main.c" 2
-
-
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdbool.h" 1 3
-# 14 "Main.c" 2
-
-
-
-
-
-volatile _Bool rx_done = 0;
-volatile uint8_t X_Byte = 0x00;
-volatile uint8_t Y_Byte = 0x00;
-volatile uint8_t TsABXY = 0x00;
-volatile uint8_t JButtons = 0x00;
-volatile uint8_t TxY = 0x00;
-volatile uint8_t TxX = 0x00;
-volatile uint8_t TxTL = 0x00;
-volatile uint8_t TxTR = 0x00;
-volatile uint8_t TxA = 0x00;
-volatile uint8_t TxB = 0x00;
-volatile uint8_t TxBY = 0x00;
-volatile uint8_t TxJ = 0x00;
-volatile uint8_t j = 0;
-volatile uint8_t mux_select = 0x00;
-volatile _Bool xy_last = 0;
-volatile _Bool Last_TL = 0;
-volatile _Bool Last_TR = 0;
-
-
-
-
-
-
-const uint8_t header_dir[12] = {
-    0x55,0xAA,0x07,0x4D,0x00,0x01,0x00,0x98,0x00,0x47,0x20,0x00
-};
-
-
-
-
-
-
-const uint8_t cmd_table[12][7] = {
-    {0x00,0x00,0x80,0xDD,0x7F,0x8B,0x0B},
-    {0x01,0x00,0x80,0x51,0x7F,0x4B,0x6F},
-    {0x02,0x00,0x80,0x97,0x7C,0xEA,0x7C},
-    {0x03,0x00,0x80,0x23,0x80,0xAB,0x0B},
-    {0x04,0x00,0x80,0xAF,0x80,0x6B,0x6F},
-    {0x05,0x00,0x80,0x69,0x83,0xCA,0x7C},
-    {0x06,0xDD,0x7F,0x00,0x80,0xC7,0x18},
-    {0x07,0x51,0x7F,0x00,0x80,0x57,0x32},
-    {0x08,0x97,0x7C,0x00,0x80,0xDF,0xFE},
-    {0x09,0x23,0x80,0x00,0x80,0x1F,0x19},
-    {0x0A,0xAF,0x80,0x00,0x80,0x8F,0x33},
-    {0x0B,0x69,0x83,0x00,0x80,0x07,0xFF},
-};
-
-
-
-
-
-const uint8_t cmd_button_table [7][10] = {
-    {0x00,0x5A,0x01,0x00,0x00,0x00,0x01,0x00,0xF3,0xD8},
-    {0x01,0x5A,0xFF,0x00,0x00,0x00,0x01,0x00,0x2D,0xCD},
-    {0x02,0x7C,0x00,0x00,0x00,0x00,0x00,0x00,0x70,0x9F},
-    {0x03,0x47,0x4A,0x19,0xB8,0x8B,0x00,0x80,0x31,0x53},
-    {0x04,0x6D,0x01,0x03,0x00,0x00,0x00,0x00,0xA0,0xDB},
-    {0x05,0x47,0xFE,0x00,0x00,0x00,0x00,0x00,0xED,0x00},
-    {0x06,0x5A,0x00,0x00,0x00,0x00,0x00,0x00,0xB2,0xD8},
-};
-
-
-
-const uint8_t header_static[9] = {
-    0x55,0xAA,0x07,0x4D,0x00,0x01,0x00,0x98,0x00
-};
-
-
-
-
-
-static void tx_uart(uint8_t byte){
-
-    while (!PIR1bits.TXIF);
-    TX1REG = byte;
+  EECON1bits.RD = 1;
+  *cp++ = EEDATA;
+  ++EEADR;
+ }
+# 36 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\sources\\c99\\pic\\__eeprom.c"
 }
 
+void
+__memcpyee(__eeprom unsigned char * to, const unsigned char *from, unsigned char size)
+{
+ const unsigned char *ptr =from;
 
+ while (EECON1bits.WR) continue;
+ EEADR = (unsigned char)to - 1U;
 
+ EECON1 &= 0x7F;
 
-static void send_camera_button(uint8_t byte){
-    uint8_t i;
-
-
-    for ( i = 0; i < 9u; i++){
-        tx_uart(header_static[i]);
-    }
-
-
-    for (i =1; i < 10u; i++){
-        tx_uart(cmd_button_table[byte][i]);
-    }
+ while(size--) {
+  while (EECON1bits.WR) {
+   continue;
+  }
+  EEDATA = *ptr++;
+  ++EEADR;
+  STATUSbits.CARRY = 0;
+  if (INTCONbits.GIE) {
+   STATUSbits.CARRY = 1;
+  }
+  INTCONbits.GIE = 0;
+  EECON1bits.WREN = 1;
+  EECON2 = 0x55;
+  EECON2 = 0xAA;
+  EECON1bits.WR = 1;
+  EECON1bits.WREN = 0;
+  if (STATUSbits.CARRY) {
+   INTCONbits.GIE = 1;
+  }
+ }
+# 101 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\sources\\c99\\pic\\__eeprom.c"
 }
 
-
-
-
-
-static void lookup_and_send_buttons(uint8_t cmd){
-    uint8_t i;
-    if (cmd == 0xFF) return;
-
-    for (i = 0; i < 7u; i ++){
-        if (cmd_button_table[i][0] == cmd){
-            send_camera_button(i);
-            break;
-        }
-    }
+unsigned char
+__eetoc(__eeprom void *addr)
+{
+ unsigned char data;
+ __eecpymem((unsigned char *) &data,addr,1);
+ return data;
 }
 
-
-
-
-
-
-static void TranslateTABXY(uint8_t byte){
-
-
-    if (byte & 0x08){
-        TxBY = 0x04;
-    }
-    else{
-        TxBY=0xFF;
-    }
-
-
-    if (byte & 0x02){
-        TxB=0x02;
-    }
-    else{
-        TxB = 0xFF;
-    }
-
-
-    if (byte & 0x01){
-        TxA = 0x03;
-    }
-    else{
-        TxA = 0xFF;
-    }
-
-
-    if (byte & 0x20){
-        TxTL = 0x00;
-        Last_TL = 1;
-    }
-    else{
-        if (Last_TL) {
-            lookup_and_send_buttons(0x06);
-        }
-        TxTL = 0xFF;
-        Last_TL = 0;
-    }
-
-
-    if (byte & 0x20){
-        TxTR = 0x00;
-        Last_TR = 1;
-    }
-    else{
-        if (Last_TR) {
-            lookup_and_send_buttons(0x06);
-        }
-        TxTR = 0xFF;
-        Last_TR = 0;
-    }
-
-
-
-
-    if(byte & 0x04){
-        if (!xy_last){
-            mux_select ++;
-            if (mux_select > 0x03){
-                mux_select = 0;
-            }
-
-
-            PORTB = (PORTB & 0xFC) | (mux_select & 0x03);
-            xy_last = 1;
-        }
-     }
-     else{
-            xy_last = 0;
-      }
+unsigned int
+__eetoi(__eeprom void *addr)
+{
+ unsigned int data;
+ __eecpymem((unsigned char *) &data,addr,2);
+ return data;
 }
 
-
-
-
-
-static void TranslateJoysticks(uint8_t byte){
-
-    if (byte & 0x01){
-        TxJ = 0x03;
-    }
-    else{
-        TxJ = 0xFF;
-    }
+#pragma warning push
+#pragma warning disable 2040
+__uint24
+__eetom(__eeprom void *addr)
+{
+ __uint24 data;
+ __eecpymem((unsigned char *) &data,addr,3);
+ return data;
 }
-# 232 "Main.c"
-static void TranslateY(uint8_t byte){
+#pragma warning pop
 
-    if (byte <= 0x32){
-        TxY = 0x05;
-    }
-    else if (byte <= 0x5A){
-        TxY = 0x04;
-    }
-    else if (byte <= 0x7B){
-        TxY = 0x03;
-    }
-    else if (byte <= 0x88){
-        TxY = 0xFF;
-    }
-    else if (byte <= 0x94){
-        TxY = 0xFF;
-    }
-    else if (byte <= 0xB5){
-        TxY = 0x00;
-    }
-    else if (byte <= 0xDD){
-        TxY = 0x01;
-    }
-    else{
-        TxY = 0x02;
-    }
-}
-# 271 "Main.c"
-static void TranslateX(uint8_t byte){
-
-    if (byte <= 0x32){
-        TxX = 0x08;
-    }
-    else if (byte <= 0x5A){
-        TxX = 0x07;
-    }
-    else if (byte <= 0x7B){
-        TxX = 0x06;
-    }
-    else if (byte <= 0x88){
-        TxX = 0xFF;
-    }
-    else if (byte <= 0x94){
-        TxX = 0xFF;
-    }
-    else if (byte <= 0xB5){
-        TxX = 0x09;
-    }
-    else if (byte <= 0xDD){
-        TxX = 0x0A;
-    }
-    else{
-        TxX = 0x0B;
-    }
+unsigned long
+__eetol(__eeprom void *addr)
+{
+ unsigned long data;
+ __eecpymem((unsigned char *) &data,addr,4);
+ return data;
 }
 
+#pragma warning push
+#pragma warning disable 1516
+unsigned long long
+__eetoo(__eeprom void *addr)
+{
+ unsigned long long data;
+ __eecpymem((unsigned char *) &data,addr,8);
+ return data;
+}
+#pragma warning pop
 
-
-
-
-static void send_camera_command(uint8_t byte){
-    uint8_t i;
-
-
-    for ( i = 0; i < 12u; i++) {
-        tx_uart(header_dir[i]);
-    }
-
-
-    for ( i = 1; i < 7u; i++){
-        tx_uart(cmd_table[byte][i]);
-    }
+unsigned char
+__ctoee(__eeprom void *addr, unsigned char data)
+{
+ __memcpyee(addr,(unsigned char *) &data,1);
+ return data;
 }
 
-
-
-
-
-static void lookup_and_send_move(uint8_t cmd){
-    uint8_t i;
-    if (cmd == 0xFF) return;
-
-    for (i = 0; i < 12u; i++){
-        if (cmd_table[i][0] == cmd){
-            send_camera_command(i);
-            break;
-        }
-    }
-}
-# 343 "Main.c"
-void __attribute__((picinterrupt(("")))) ISR(){
-
-
-    if (PIR1bits.SSP1IF){
-
-
-
-
-        if (SSP1CON1bits.SSPOV || SSP1CON1bits.WCOL){
-            SSP1CON1bits.SSPOV = 0;
-            SSP1CON1bits.WCOL = 0;
-            (void)SSP1BUF;
-            j = 0;
-        }
-
-
-        else if (SSP1STATbits.R_nW == 0){
-
-            if (j == 0){
-
-                (void)SSP1BUF;
-                SSP1CON1bits.CKP = 1;
-            }
-            else if (j == 1){
-
-                Y_Byte = SSP1BUF;
-                SSP1CON1bits.CKP = 1;
-            }
-            else if (j == 2){
-
-                X_Byte = SSP1BUF;
-                SSP1CON1bits.CKP = 1;
-            }
-            else if (j == 3){
-
-                TsABXY = SSP1BUF;
-                SSP1CON1bits.CKP = 1;
-            }
-            else if (j == 4){
-
-                JButtons = SSP1BUF;
-                rx_done = 1;
-                SSP1CON1bits.CKP = 0;
-            }
-
-
-            j = (j + 1) % 5;
-        }
-        else{
-
-            (void)SSP1BUF;
-        }
-    }
-
-
-    PIR1bits.SSP1IF = 0;
+unsigned int
+__itoee(__eeprom void *addr, unsigned int data)
+{
+ __memcpyee(addr,(unsigned char *) &data,2);
+ return data;
 }
 
+#pragma warning push
+#pragma warning disable 2040
+__uint24
+__mtoee(__eeprom void *addr, __uint24 data)
+{
+ __memcpyee(addr,(unsigned char *) &data,3);
+ return data;
+}
+#pragma warning pop
 
-void main(){
+unsigned long
+__ltoee(__eeprom void *addr, unsigned long data)
+{
+ __memcpyee(addr,(unsigned char *) &data,4);
+ return data;
+}
 
+#pragma warning push
+#pragma warning disable 1516
+unsigned long long
+__otoee(__eeprom void *addr, unsigned long long data)
+{
+ __memcpyee(addr,(unsigned char *) &data,8);
+ return data;
+}
+#pragma warning pop
 
+float
+__eetoft(__eeprom void *addr)
+{
+ float data;
+ __eecpymem((unsigned char *) &data,addr,3);
+ return data;
+}
 
-    InitOsc();
-    InitOpt();
-    InitPIN();
-    InitPORTA();
-    InitPORTB();
-    InitPORTC();
-    InitUART();
-    InitI2C();
-    InitISR();
+double
+__eetofl(__eeprom void *addr)
+{
+ double data;
+ __eecpymem((unsigned char *) &data,addr,4);
+ return data;
+}
 
+float
+__fttoee(__eeprom void *addr, float data)
+{
+ __memcpyee(addr,(unsigned char *) &data,3);
+ return data;
+}
 
-    INTCONbits.GIE = 1;
-
-
-
-
-
-    while (1){
-        if (rx_done){
-
-
-            TranslateY(Y_Byte);
-            TranslateX(X_Byte);
-            TranslateTABXY(TsABXY);
-            TranslateJoysticks(JButtons);
-
-
-
-
-            lookup_and_send_move(TxY);
-            lookup_and_send_move(TxX);
-
-
-            lookup_and_send_buttons(TxA);
-            lookup_and_send_buttons(TxBY);
-            lookup_and_send_buttons(TxB);
-            lookup_and_send_buttons(TxTR);
-            lookup_and_send_buttons(TxTL);
-            lookup_and_send_buttons(TxJ);
-
-
-
-            rx_done = 0;
-            SSP1CON1bits.CKP = 1;
-        }
-    }
+double
+__fltoee(__eeprom void *addr, double data)
+{
+ __memcpyee(addr,(unsigned char *) &data,4);
+ return data;
 }

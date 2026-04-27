@@ -1,4 +1,4 @@
-# 1 "Main.c"
+# 1 "Inits.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 295 "<built-in>" 3
@@ -6,8 +6,8 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "Main.c" 2
-# 10 "Main.c"
+# 1 "Inits.c" 2
+
 # 1 "./Config.h" 1
 # 24 "./Config.h"
 #pragma config FOSC = INTOSC
@@ -10459,415 +10459,106 @@ void InitPORTC(void);
 void InitUART(void);
 void InitI2C(void);
 void InitISR(void);
-# 11 "Main.c" 2
+# 3 "Inits.c" 2
 
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdbool.h" 1 3
-# 14 "Main.c" 2
+# 6 "Inits.c" 2
 
 
 
 
+void InitOsc(){
+    OSCCON = 0XF8;
 
-volatile _Bool rx_done = 0;
-volatile uint8_t X_Byte = 0x00;
-volatile uint8_t Y_Byte = 0x00;
-volatile uint8_t TsABXY = 0x00;
-volatile uint8_t JButtons = 0x00;
-volatile uint8_t TxY = 0x00;
-volatile uint8_t TxX = 0x00;
-volatile uint8_t TxTL = 0x00;
-volatile uint8_t TxTR = 0x00;
-volatile uint8_t TxA = 0x00;
-volatile uint8_t TxB = 0x00;
-volatile uint8_t TxBY = 0x00;
-volatile uint8_t TxJ = 0x00;
-volatile uint8_t j = 0;
-volatile uint8_t mux_select = 0x00;
-volatile _Bool xy_last = 0;
-volatile _Bool Last_TL = 0;
-volatile _Bool Last_TR = 0;
-
-
-
-
-
-
-const uint8_t header_dir[12] = {
-    0x55,0xAA,0x07,0x4D,0x00,0x01,0x00,0x98,0x00,0x47,0x20,0x00
-};
-
-
-
-
-
-
-const uint8_t cmd_table[12][7] = {
-    {0x00,0x00,0x80,0xDD,0x7F,0x8B,0x0B},
-    {0x01,0x00,0x80,0x51,0x7F,0x4B,0x6F},
-    {0x02,0x00,0x80,0x97,0x7C,0xEA,0x7C},
-    {0x03,0x00,0x80,0x23,0x80,0xAB,0x0B},
-    {0x04,0x00,0x80,0xAF,0x80,0x6B,0x6F},
-    {0x05,0x00,0x80,0x69,0x83,0xCA,0x7C},
-    {0x06,0xDD,0x7F,0x00,0x80,0xC7,0x18},
-    {0x07,0x51,0x7F,0x00,0x80,0x57,0x32},
-    {0x08,0x97,0x7C,0x00,0x80,0xDF,0xFE},
-    {0x09,0x23,0x80,0x00,0x80,0x1F,0x19},
-    {0x0A,0xAF,0x80,0x00,0x80,0x8F,0x33},
-    {0x0B,0x69,0x83,0x00,0x80,0x07,0xFF},
-};
-
-
-
-
-
-const uint8_t cmd_button_table [7][10] = {
-    {0x00,0x5A,0x01,0x00,0x00,0x00,0x01,0x00,0xF3,0xD8},
-    {0x01,0x5A,0xFF,0x00,0x00,0x00,0x01,0x00,0x2D,0xCD},
-    {0x02,0x7C,0x00,0x00,0x00,0x00,0x00,0x00,0x70,0x9F},
-    {0x03,0x47,0x4A,0x19,0xB8,0x8B,0x00,0x80,0x31,0x53},
-    {0x04,0x6D,0x01,0x03,0x00,0x00,0x00,0x00,0xA0,0xDB},
-    {0x05,0x47,0xFE,0x00,0x00,0x00,0x00,0x00,0xED,0x00},
-    {0x06,0x5A,0x00,0x00,0x00,0x00,0x00,0x00,0xB2,0xD8},
-};
-
-
-
-const uint8_t header_static[9] = {
-    0x55,0xAA,0x07,0x4D,0x00,0x01,0x00,0x98,0x00
-};
-
-
-
-
-
-static void tx_uart(uint8_t byte){
-
-    while (!PIR1bits.TXIF);
-    TX1REG = byte;
+    CLKRCON = 0X00;
 }
 
 
 
 
-static void send_camera_button(uint8_t byte){
-    uint8_t i;
+void InitOpt(){
+    OPTION_REG = 0x00;
+
+}
 
 
-    for ( i = 0; i < 9u; i++){
-        tx_uart(header_static[i]);
-    }
 
 
-    for (i =1; i < 10u; i++){
-        tx_uart(cmd_button_table[byte][i]);
-    }
+void InitPIN(){
+
+    APFCON1 = 0x00;
+    APFCON2 = 0x00;
+}
+
+
+
+
+void InitPORTA(){
+    TRISA = 0xFF;
+    ANSELA = 0x00;
+    WPUA = 0x00;
+    SLRCONA = 0x00;
+    INLVLA = 0x00;
 }
 
 
 
 
 
-static void lookup_and_send_buttons(uint8_t cmd){
-    uint8_t i;
-    if (cmd == 0xFF) return;
-
-    for (i = 0; i < 7u; i ++){
-        if (cmd_button_table[i][0] == cmd){
-            send_camera_button(i);
-            break;
-        }
-    }
+void InitPORTB(){
+    TRISB = 0x3C;
+    ANSELB = 0x00;
+    WPUB = 0x00;
+    SLRCONB = 0x00;
+    INLVLB = 0x00;
 }
 
 
 
 
-
-
-static void TranslateTABXY(uint8_t byte){
-
-
-    if (byte & 0x08){
-        TxBY = 0x04;
-    }
-    else{
-        TxBY=0xFF;
-    }
-
-
-    if (byte & 0x02){
-        TxB=0x02;
-    }
-    else{
-        TxB = 0xFF;
-    }
-
-
-    if (byte & 0x01){
-        TxA = 0x03;
-    }
-    else{
-        TxA = 0xFF;
-    }
-
-
-    if (byte & 0x20){
-        TxTL = 0x00;
-        Last_TL = 1;
-    }
-    else{
-        if (Last_TL) {
-            lookup_and_send_buttons(0x06);
-        }
-        TxTL = 0xFF;
-        Last_TL = 0;
-    }
-
-
-    if (byte & 0x20){
-        TxTR = 0x00;
-        Last_TR = 1;
-    }
-    else{
-        if (Last_TR) {
-            lookup_and_send_buttons(0x06);
-        }
-        TxTR = 0xFF;
-        Last_TR = 0;
-    }
-
-
-
-
-    if(byte & 0x04){
-        if (!xy_last){
-            mux_select ++;
-            if (mux_select > 0x03){
-                mux_select = 0;
-            }
-
-
-            PORTB = (PORTB & 0xFC) | (mux_select & 0x03);
-            xy_last = 1;
-        }
-     }
-     else{
-            xy_last = 0;
-      }
+void InitPORTC(){
+    TRISC = 0xBF;
+    WPUC = 0x00;
+    SLRCONC = 0x00;
+    INLVLC = 0x00;
 }
 
 
 
 
+void InitUART(){
+    TX1STA = 0x24;
 
-static void TranslateJoysticks(uint8_t byte){
+    RC1STA = 0x80;
+    BAUD1CON = 0x08;
+    SP1BRGL = 0x8A;
+    SP1BRGH = 0x00;
 
-    if (byte & 0x01){
-        TxJ = 0x03;
-    }
-    else{
-        TxJ = 0xFF;
-    }
-}
-# 232 "Main.c"
-static void TranslateY(uint8_t byte){
 
-    if (byte <= 0x32){
-        TxY = 0x05;
-    }
-    else if (byte <= 0x5A){
-        TxY = 0x04;
-    }
-    else if (byte <= 0x7B){
-        TxY = 0x03;
-    }
-    else if (byte <= 0x88){
-        TxY = 0xFF;
-    }
-    else if (byte <= 0x94){
-        TxY = 0xFF;
-    }
-    else if (byte <= 0xB5){
-        TxY = 0x00;
-    }
-    else if (byte <= 0xDD){
-        TxY = 0x01;
-    }
-    else{
-        TxY = 0x02;
-    }
-}
-# 271 "Main.c"
-static void TranslateX(uint8_t byte){
-
-    if (byte <= 0x32){
-        TxX = 0x08;
-    }
-    else if (byte <= 0x5A){
-        TxX = 0x07;
-    }
-    else if (byte <= 0x7B){
-        TxX = 0x06;
-    }
-    else if (byte <= 0x88){
-        TxX = 0xFF;
-    }
-    else if (byte <= 0x94){
-        TxX = 0xFF;
-    }
-    else if (byte <= 0xB5){
-        TxX = 0x09;
-    }
-    else if (byte <= 0xDD){
-        TxX = 0x0A;
-    }
-    else{
-        TxX = 0x0B;
-    }
 }
 
 
 
 
+void InitI2C(){
+    SSP1STAT = 0x80;
+    SSP1CON1 = 0x26;
 
-static void send_camera_command(uint8_t byte){
-    uint8_t i;
+    SSP1CON2 = 0x01;
 
+    SSP1ADD = 0x22 << 1;
 
-    for ( i = 0; i < 12u; i++) {
-        tx_uart(header_dir[i]);
-    }
-
-
-    for ( i = 1; i < 7u; i++){
-        tx_uart(cmd_table[byte][i]);
-    }
 }
 
 
 
 
+void InitISR(){
+    INTCON = 0x40;
 
-static void lookup_and_send_move(uint8_t cmd){
-    uint8_t i;
-    if (cmd == 0xFF) return;
+    PIE1 = 0x08;
 
-    for (i = 0; i < 12u; i++){
-        if (cmd_table[i][0] == cmd){
-            send_camera_command(i);
-            break;
-        }
-    }
-}
-# 343 "Main.c"
-void __attribute__((picinterrupt(("")))) ISR(){
-
-
-    if (PIR1bits.SSP1IF){
-
-
-
-
-        if (SSP1CON1bits.SSPOV || SSP1CON1bits.WCOL){
-            SSP1CON1bits.SSPOV = 0;
-            SSP1CON1bits.WCOL = 0;
-            (void)SSP1BUF;
-            j = 0;
-        }
-
-
-        else if (SSP1STATbits.R_nW == 0){
-
-            if (j == 0){
-
-                (void)SSP1BUF;
-                SSP1CON1bits.CKP = 1;
-            }
-            else if (j == 1){
-
-                Y_Byte = SSP1BUF;
-                SSP1CON1bits.CKP = 1;
-            }
-            else if (j == 2){
-
-                X_Byte = SSP1BUF;
-                SSP1CON1bits.CKP = 1;
-            }
-            else if (j == 3){
-
-                TsABXY = SSP1BUF;
-                SSP1CON1bits.CKP = 1;
-            }
-            else if (j == 4){
-
-                JButtons = SSP1BUF;
-                rx_done = 1;
-                SSP1CON1bits.CKP = 0;
-            }
-
-
-            j = (j + 1) % 5;
-        }
-        else{
-
-            (void)SSP1BUF;
-        }
-    }
-
-
-    PIR1bits.SSP1IF = 0;
-}
-
-
-void main(){
-
-
-
-    InitOsc();
-    InitOpt();
-    InitPIN();
-    InitPORTA();
-    InitPORTB();
-    InitPORTC();
-    InitUART();
-    InitI2C();
-    InitISR();
-
-
-    INTCONbits.GIE = 1;
-
-
-
-
-
-    while (1){
-        if (rx_done){
-
-
-            TranslateY(Y_Byte);
-            TranslateX(X_Byte);
-            TranslateTABXY(TsABXY);
-            TranslateJoysticks(JButtons);
-
-
-
-
-            lookup_and_send_move(TxY);
-            lookup_and_send_move(TxX);
-
-
-            lookup_and_send_buttons(TxA);
-            lookup_and_send_buttons(TxBY);
-            lookup_and_send_buttons(TxB);
-            lookup_and_send_buttons(TxTR);
-            lookup_and_send_buttons(TxTL);
-            lookup_and_send_buttons(TxJ);
-
-
-
-            rx_done = 0;
-            SSP1CON1bits.CKP = 1;
-        }
-    }
+    PIE2 = 0x00;
+    PIE3 = 0x00;
 }

@@ -4,12 +4,12 @@ Linker command line:
 
 -W-3 \
   --edf=C:\Program Files\Microchip\xc8\v3.10\pic\dat\20250813170317_en.msgs \
-  -cn -h+dist/default/debug\CameraSlave.X.debug.sym \
-  --cmf=dist/default/debug\CameraSlave.X.debug.cmf -z -Q16F1788 \
-  -oC:\Users\rudyd\AppData\Local\Temp\xcAsfs.0\driver_tmp_3.o \
+  -cn -h+dist/default/production\CameraSlave.X.production.sym \
+  --cmf=dist/default/production\CameraSlave.X.production.cmf -z -Q16F1788 \
+  -oC:\Users\rudyd\AppData\Local\Temp\xcAsa0o.0\driver_tmp_3.o \
   --defsym=__MPLAB_BUILD=1 --fixupoverflow=error \
-  -Mdist/default/debug/CameraSlave.X.debug.map \
-  --md=C:\Users\rudyd\AppData\Local\Temp\xcAsfs.0\driver_tmp_0.dat -E1 \
+  -Mdist/default/production/CameraSlave.X.production.map \
+  --md=C:\Users\rudyd\AppData\Local\Temp\xcAsa0o.0\driver_tmp_0.dat -E1 \
   -ver=XC8 Compiler -ACODE=00h-07FFhx8 -ASTRCODE=00h-03FFFh \
   -ASTRING=00h-0FFhx64 -ACONST=00h-0FFhx64 -AENTRY=00h-0FFhx64 \
   -ACOMMON=070h-07Fh -ABANK0=020h-06Fh -ABANK1=0A0h-0EFh \
@@ -39,8 +39,8 @@ Linker command line:
   -peeprom_data=EEDATA -DEEDATA=2 -DCODE=2 -DSTRCODE=2 -DSTRING=2 -DCONST=2 \
   -DENTRY=2 -preset_vec=00h,intentry=04h,sivt,init,end_init -ppowerup=CODE \
   -pcinit=CODE -pfunctab=ENTRY -k \
-  C:\Users\rudyd\AppData\Local\Temp\xcAsfs.0\driver_tmp_15.o \
-  dist/default/debug\CameraSlave.X.debug.o 
+  C:\Users\rudyd\AppData\Local\Temp\xcAsa0o.0\driver_tmp_15.o \
+  dist/default/production\CameraSlave.X.production.o 
 
 Object code version is 3.11
 
@@ -49,11 +49,11 @@ Machine type is 16F1788
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-C:\Users\rudyd\AppData\Local\Temp\xcAsfs.0\driver_tmp_15.o
+C:\Users\rudyd\AppData\Local\Temp\xcAsa0o.0\driver_tmp_15.o
                 end_init                             67       67        2        8       0
-                reset_vec                             0        0        3        0       0
+                reset_vec                             0        0        2        0       0
                 config                             8007     8007        2        0       4
-dist/default/debug\CameraSlave.X.debug.o
+dist/default/production\CameraSlave.X.production.o
                 cinit                                69       69       17        8       0
                 intentry                              4        4       63        8       0
                 config                             8007     8007        2        0       4
@@ -92,7 +92,7 @@ TOTAL           Name                               Link     Load   Length     Sp
                 end_init                             67       67        2         0
                 cinit                                69       69       17         0
                 intentry                              4        4       63         0
-                reset_vec                             0        0        3         0
+                reset_vec                             0        0        2         0
                 text21                              198      198       51         0
                 text19                              415      415        A         0
                 text18                              428      428        8         0
@@ -283,7 +283,7 @@ TOTAL           Name                               Link     Load   Length     Sp
 
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class     Delta
 
-                reset_vec                      000000  000003  000003         0       0  CODE        2
+                reset_vec                      000000  000002  000002         0       0  CODE        2
                 intentry                       000004  000140  000144         8       0  CODE        2
                 cstackBANK0                    000020  000021  000041        20       1  BANK0       1
                 bssCOMMON                      000070  00000C  00007C        70       1  COMMON      1
@@ -327,13 +327,13 @@ UNUSED ADDRESS RANGES
         BANK8            00420-0046F              50           1
         BANK9            004A0-004EF              50           1
         BIGRAM           02000-027EF             7F0           1
-        CODE             00003-00003               1           2
+        CODE             00002-00003               2           2
                          0043D-03FFF             800
         COMMON           0007C-0007D               2           1
-        CONST            00003-00003               1           2
+        CONST            00002-00003               2           2
                          0043D-03FFF             100
         EEDATA           0F000-0F0FF             100           2
-        ENTRY            00003-00003               1           2
+        ENTRY            00002-00003               2           2
                          0043D-03FFF             100
         IDLOC            08000-08003               4           2
         RAM              00041-0006F              2F           1
@@ -394,9 +394,9 @@ UNUSED ADDRESS RANGES
         SFR7             00380-0039F              20           1
         SFR8             00400-0041F              20           1
         SFR9             00480-0049F              20           1
-        STRCODE          00003-00003               1           2
+        STRCODE          00002-00003               2           2
                          0043D-03FFF            3BC3
-        STRING           00003-00003               1           2
+        STRING           00002-00003               2           2
                          0043D-03FFF             100
 
                                   Symbol Table
@@ -527,7 +527,7 @@ __Hintentry                      intentry     00067
 __Hmaintext                      maintext     00000
 __Hpowerup                       powerup      00000
 __Hram                           ram          00000
-__Hreset_vec                     reset_vec    00003
+__Hreset_vec                     reset_vec    00002
 __Hsfr0                          sfr0         00000
 __Hsfr1                          sfr1         00000
 __Hsfr10                         sfr10        00000

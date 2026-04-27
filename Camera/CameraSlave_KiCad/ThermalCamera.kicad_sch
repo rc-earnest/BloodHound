@@ -2737,6 +2737,113 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -4386,6 +4493,12 @@
 		(uuid "052f5d82-e117-47af-ab4a-bc71ebe1f2b9")
 	)
 	(junction
+		(at 294.64 214.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "054848a4-e4c1-4a0f-bac4-55c33f3d44d7")
+	)
+	(junction
 		(at 349.25 111.76)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4404,10 +4517,22 @@
 		(uuid "0c8ea06c-93e4-4dde-b2ac-2c4df462b323")
 	)
 	(junction
+		(at 198.12 243.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0d136b91-6026-4f15-8204-43674f3d22d4")
+	)
+	(junction
 		(at 236.22 241.3)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "113f9efc-49de-4ea1-b02d-7d7e94df925f")
+	)
+	(junction
+		(at 256.54 93.98)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1232782e-aed3-4c87-a0d8-c5f334b4a515")
 	)
 	(junction
 		(at 266.7 214.63)
@@ -4482,6 +4607,12 @@
 		(uuid "2bc62edc-3dae-4c75-bb69-e4259878bb6f")
 	)
 	(junction
+		(at 78.74 88.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2c0fbcd2-1f5f-406b-917b-00517e140a99")
+	)
+	(junction
 		(at 40.64 193.04)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4498,6 +4629,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "41f925ed-a530-4a4b-a280-c00e3b67687f")
+	)
+	(junction
+		(at 355.6 88.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4420e37c-9628-453c-9bfc-852b28a49754")
 	)
 	(junction
 		(at 198.12 120.65)
@@ -4548,6 +4685,12 @@
 		(uuid "5a36ae66-3c82-483e-bf58-a67af8e048fe")
 	)
 	(junction
+		(at 186.69 144.78)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5ee2060f-8ce4-4b7a-93ed-a19c0d281a49")
+	)
+	(junction
 		(at 100.33 243.84)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4570,6 +4713,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "655cbb1f-4395-488e-bc22-2f47c76dd9e8")
+	)
+	(junction
+		(at 252.73 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "666f5c86-74a9-4a24-ae5e-ba5a95261a86")
 	)
 	(junction
 		(at 332.74 161.29)
@@ -4602,6 +4751,12 @@
 		(uuid "755c8dd1-f223-40f8-8193-5c4cc8009316")
 	)
 	(junction
+		(at 345.44 88.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "78602f28-1dee-46c4-a56a-1090c72a28b5")
+	)
+	(junction
 		(at 95.25 127)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4626,6 +4781,12 @@
 		(uuid "84339a08-4913-46bb-83e0-559ea17612a4")
 	)
 	(junction
+		(at 241.3 91.44)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8454b7f0-052e-41ae-adf4-319ddbc34208")
+	)
+	(junction
 		(at 72.39 151.13)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4636,6 +4797,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "879b3a91-b08a-4b61-937a-3eff3aee2140")
+	)
+	(junction
+		(at 44.45 127)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "88d2472b-f1b9-4cf3-a56e-be78821a2388")
 	)
 	(junction
 		(at 163.83 243.84)
@@ -4650,6 +4817,12 @@
 		(uuid "90fa693e-b86f-4efc-abe6-9ca9e54c6234")
 	)
 	(junction
+		(at 95.25 91.44)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "971fd683-d551-4f12-b5ac-d581ecf5b459")
+	)
+	(junction
 		(at 240.03 175.26)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4660,6 +4833,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9a39cc1f-cd65-4b54-bca2-a5c84a705a94")
+	)
+	(junction
+		(at 107.95 127)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9b5e0009-2340-4866-af5f-ae2083806dfd")
 	)
 	(junction
 		(at 241.3 241.3)
@@ -4704,6 +4883,12 @@
 		(uuid "b609b374-88c6-4b76-a6df-82227f6c3ca5")
 	)
 	(junction
+		(at 181.61 134.62)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c08765bc-b30b-4171-8e5f-6fc06f934fe6")
+	)
+	(junction
 		(at 45.72 208.28)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4740,10 +4925,22 @@
 		(uuid "e608a5c2-9f1c-4157-b781-a91ef92bff96")
 	)
 	(junction
+		(at 248.92 91.44)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e8f18d07-bd5b-4832-a6b3-f1b01284e106")
+	)
+	(junction
 		(at 349.25 137.16)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ebf18124-4d96-4b02-ad73-1f1afd3291ac")
+	)
+	(junction
+		(at 259.08 93.98)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f23afc69-33b5-4636-be97-b60ec7569b8e")
 	)
 	(junction
 		(at 40.64 180.34)
@@ -4756,6 +4953,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f6468662-69bc-4188-8d74-227894e4ea4a")
+	)
+	(junction
+		(at 364.49 88.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f7dd6433-3f54-4acd-ba12-d53616da01cd")
 	)
 	(junction
 		(at 85.09 186.69)
@@ -4939,6 +5142,16 @@
 	)
 	(wire
 		(pts
+			(xy 44.45 123.19) (xy 44.45 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "06570dcf-5d8f-4848-9a06-c4fd54be0051")
+	)
+	(wire
+		(pts
 			(xy 365.76 114.3) (xy 372.11 114.3)
 		)
 		(stroke
@@ -5099,13 +5312,23 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 127) (xy 101.6 127)
+			(xy 114.3 127) (xy 107.95 127)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "13749c7b-82e4-41f0-bdca-6e69b61b2e62")
+	)
+	(wire
+		(pts
+			(xy 186.69 142.24) (xy 186.69 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "139fe2af-1033-42c8-a882-e06f36a1c578")
 	)
 	(wire
 		(pts
@@ -5129,7 +5352,7 @@
 	)
 	(wire
 		(pts
-			(xy 364.49 87.63) (xy 364.49 91.44)
+			(xy 364.49 87.63) (xy 364.49 88.9)
 		)
 		(stroke
 			(width 0)
@@ -5209,7 +5432,7 @@
 	)
 	(wire
 		(pts
-			(xy 34.29 127) (xy 49.53 127)
+			(xy 34.29 127) (xy 44.45 127)
 		)
 		(stroke
 			(width 0)
@@ -5236,6 +5459,36 @@
 			(type default)
 		)
 		(uuid "1b45b1ec-9a57-4d34-a575-95d3a54dbe04")
+	)
+	(wire
+		(pts
+			(xy 186.69 144.78) (xy 205.74 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1b812747-36de-41ba-9de0-00167a439407")
+	)
+	(wire
+		(pts
+			(xy 355.6 88.9) (xy 364.49 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1cc7ad3f-d24a-440d-a312-d1ef4f3356f7")
+	)
+	(wire
+		(pts
+			(xy 78.74 88.9) (xy 138.43 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d11026f-abc1-4f76-81b6-625d022e216d")
 	)
 	(wire
 		(pts
@@ -5289,6 +5542,16 @@
 	)
 	(wire
 		(pts
+			(xy 364.49 88.9) (xy 364.49 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2578eb64-6d2a-478c-9246-bb3f7817cd16")
+	)
+	(wire
+		(pts
 			(xy 66.04 193.04) (xy 68.58 193.04)
 		)
 		(stroke
@@ -5296,6 +5559,16 @@
 			(type default)
 		)
 		(uuid "2798cfc8-32d8-4945-8645-1680cddf7f1d")
+	)
+	(wire
+		(pts
+			(xy 336.55 83.82) (xy 341.63 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "27a744c5-2e38-45e1-ba62-6e2bc3ace948")
 	)
 	(wire
 		(pts
@@ -5329,6 +5602,16 @@
 	)
 	(wire
 		(pts
+			(xy 341.63 88.9) (xy 345.44 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2a5e481d-45a6-4faa-ba1f-7ccf55d5e84f")
+	)
+	(wire
+		(pts
 			(xy 231.14 147.32) (xy 236.22 147.32)
 		)
 		(stroke
@@ -5346,6 +5629,16 @@
 			(type default)
 		)
 		(uuid "2dde6527-897d-4321-b62c-af87c4f9e20e")
+	)
+	(wire
+		(pts
+			(xy 252.73 114.3) (xy 252.73 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2ffcdf10-86a1-4698-8292-f462682b6bc2")
 	)
 	(wire
 		(pts
@@ -5449,6 +5742,16 @@
 	)
 	(wire
 		(pts
+			(xy 345.44 83.82) (xy 345.44 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a413880-900d-4cbb-8191-41c28023c60a")
+	)
+	(wire
+		(pts
 			(xy 80.01 186.69) (xy 85.09 186.69)
 		)
 		(stroke
@@ -5509,6 +5812,16 @@
 	)
 	(wire
 		(pts
+			(xy 248.92 91.44) (xy 262.89 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "402374d0-6c1c-4f00-9216-c432eb8746f5")
+	)
+	(wire
+		(pts
 			(xy 349.25 139.7) (xy 372.11 139.7)
 		)
 		(stroke
@@ -5516,6 +5829,16 @@
 			(type default)
 		)
 		(uuid "43366709-2e95-4279-a8bf-7e969af4b8c8")
+	)
+	(wire
+		(pts
+			(xy 181.61 132.08) (xy 181.61 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "460d17d7-ee48-4f66-9562-d99a146390ee")
 	)
 	(wire
 		(pts
@@ -5566,6 +5889,16 @@
 			(type default)
 		)
 		(uuid "4bec0e43-30b1-40b9-a045-4c709adbc7af")
+	)
+	(wire
+		(pts
+			(xy 207.01 243.84) (xy 198.12 243.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4bf90384-ddb8-41d3-bb8f-6b8413938f02")
 	)
 	(wire
 		(pts
@@ -5679,6 +6012,16 @@
 	)
 	(wire
 		(pts
+			(xy 107.95 127) (xy 101.6 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "549b6221-6471-48e6-aa3b-21519d048435")
+	)
+	(wire
+		(pts
 			(xy 45.72 208.28) (xy 45.72 213.36)
 		)
 		(stroke
@@ -5689,23 +6032,13 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 144.78) (xy 205.74 144.78)
+			(xy 163.83 144.78) (xy 186.69 144.78)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "5530bb0d-1af4-421e-8849-c05a4eb52ef7")
-	)
-	(wire
-		(pts
-			(xy 232.41 91.44) (xy 237.49 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "561e8355-df37-438c-b2d4-c0691ad4bd7a")
 	)
 	(wire
 		(pts
@@ -5776,6 +6109,16 @@
 			(type default)
 		)
 		(uuid "603ef11d-7be9-41ab-891c-af954b4ffdda")
+	)
+	(wire
+		(pts
+			(xy 107.95 123.19) (xy 107.95 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6350a5ae-4495-47b1-870f-e4801265d748")
 	)
 	(wire
 		(pts
@@ -5979,6 +6322,16 @@
 	)
 	(wire
 		(pts
+			(xy 256.54 114.3) (xy 252.73 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6f5de551-125e-473d-ab81-a343f85db66c")
+	)
+	(wire
+		(pts
 			(xy 116.84 233.68) (xy 116.84 243.84)
 		)
 		(stroke
@@ -5989,7 +6342,17 @@
 	)
 	(wire
 		(pts
-			(xy 232.41 93.98) (xy 237.49 93.98)
+			(xy 44.45 127) (xy 49.53 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "71ad4ab3-9e20-408a-8cd9-3d8bc8344d3f")
+	)
+	(wire
+		(pts
+			(xy 232.41 93.98) (xy 256.54 93.98)
 		)
 		(stroke
 			(width 0)
@@ -6089,7 +6452,7 @@
 	)
 	(wire
 		(pts
-			(xy 33.02 91.44) (xy 138.43 91.44)
+			(xy 33.02 91.44) (xy 95.25 91.44)
 		)
 		(stroke
 			(width 0)
@@ -6139,6 +6502,26 @@
 	)
 	(wire
 		(pts
+			(xy 181.61 134.62) (xy 205.74 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "80f33ff9-6cf1-45db-be01-14f0d6164ad0")
+	)
+	(wire
+		(pts
+			(xy 256.54 93.98) (xy 256.54 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "817258e7-a069-438e-a41f-f28d7d15941c")
+	)
+	(wire
+		(pts
 			(xy 40.64 193.04) (xy 40.64 180.34)
 		)
 		(stroke
@@ -6149,7 +6532,7 @@
 	)
 	(wire
 		(pts
-			(xy 33.02 88.9) (xy 138.43 88.9)
+			(xy 33.02 88.9) (xy 78.74 88.9)
 		)
 		(stroke
 			(width 0)
@@ -6199,6 +6582,16 @@
 	)
 	(wire
 		(pts
+			(xy 248.92 114.3) (xy 248.92 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "85894317-78bb-4e73-9e7b-3b9946a3201d")
+	)
+	(wire
+		(pts
 			(xy 95.25 243.84) (xy 100.33 243.84)
 		)
 		(stroke
@@ -6236,6 +6629,16 @@
 			(type default)
 		)
 		(uuid "884b383c-734f-4abc-884f-3bac72199d78")
+	)
+	(wire
+		(pts
+			(xy 256.54 110.49) (xy 256.54 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "891a6610-9946-42ea-9a3d-d1fb121d7697")
 	)
 	(wire
 		(pts
@@ -6309,6 +6712,26 @@
 	)
 	(wire
 		(pts
+			(xy 241.3 87.63) (xy 241.3 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "952cb994-d7a0-40d2-91c4-587ff23c59bd")
+	)
+	(wire
+		(pts
+			(xy 355.6 83.82) (xy 355.6 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "95af868d-843f-4e29-afd8-25572a700584")
+	)
+	(wire
+		(pts
 			(xy 111.76 186.69) (xy 111.76 189.23)
 		)
 		(stroke
@@ -6339,6 +6762,16 @@
 	)
 	(wire
 		(pts
+			(xy 294.64 214.63) (xy 298.45 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97604b37-a3af-4647-941f-a00351c0e71d")
+	)
+	(wire
+		(pts
 			(xy 219.71 215.9) (xy 228.6 215.9)
 		)
 		(stroke
@@ -6366,6 +6799,16 @@
 			(type default)
 		)
 		(uuid "982b4e44-134e-4948-bde4-fb4c7cea9aee")
+	)
+	(wire
+		(pts
+			(xy 232.41 91.44) (xy 241.3 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98558efb-a93b-4082-b637-dabb9e4ed729")
 	)
 	(wire
 		(pts
@@ -6579,6 +7022,16 @@
 	)
 	(wire
 		(pts
+			(xy 256.54 93.98) (xy 259.08 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a79be833-1480-4f88-85ff-00f469aa6643")
+	)
+	(wire
+		(pts
 			(xy 372.11 109.22) (xy 349.25 109.22)
 		)
 		(stroke
@@ -6586,6 +7039,16 @@
 			(type default)
 		)
 		(uuid "a857a2a8-ede5-418b-9eee-a85cb77bfa6a")
+	)
+	(wire
+		(pts
+			(xy 345.44 88.9) (xy 355.6 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a9c044cc-0c26-42f1-aa2d-52391d745ea4")
 	)
 	(wire
 		(pts
@@ -6719,6 +7182,16 @@
 	)
 	(wire
 		(pts
+			(xy 95.25 85.09) (xy 95.25 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b2f6f60f-4f4c-4de0-b898-59cfde2cf9ae")
+	)
+	(wire
+		(pts
 			(xy 41.91 151.13) (xy 49.53 151.13)
 		)
 		(stroke
@@ -6729,6 +7202,16 @@
 	)
 	(wire
 		(pts
+			(xy 341.63 83.82) (xy 341.63 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b40fcca3-1052-4082-9a0c-d327bf93b0d0")
+	)
+	(wire
+		(pts
 			(xy 101.6 148.59) (xy 87.63 148.59)
 		)
 		(stroke
@@ -6736,6 +7219,16 @@
 			(type default)
 		)
 		(uuid "b493a929-91af-4e4c-9391-a73ed29ede7c")
+	)
+	(wire
+		(pts
+			(xy 294.64 203.2) (xy 294.64 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b49b5d31-631f-4079-8682-167752cf1266")
 	)
 	(wire
 		(pts
@@ -6869,6 +7362,16 @@
 	)
 	(wire
 		(pts
+			(xy 259.08 87.63) (xy 259.08 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca765f8c-bbbe-46b7-85a9-941cafe312c1")
+	)
+	(wire
+		(pts
 			(xy 49.53 151.13) (xy 62.23 151.13)
 		)
 		(stroke
@@ -6929,7 +7432,7 @@
 	)
 	(wire
 		(pts
-			(xy 292.1 214.63) (xy 298.45 214.63)
+			(xy 292.1 214.63) (xy 294.64 214.63)
 		)
 		(stroke
 			(width 0)
@@ -6996,6 +7499,16 @@
 			(type default)
 		)
 		(uuid "d6374fd5-869b-4f15-98cc-0034d3f190e5")
+	)
+	(wire
+		(pts
+			(xy 241.3 91.44) (xy 248.92 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d6a8cc57-1785-410d-a06f-629632d9ece3")
 	)
 	(wire
 		(pts
@@ -7149,6 +7662,16 @@
 	)
 	(wire
 		(pts
+			(xy 248.92 91.44) (xy 248.92 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dd96385f-7d69-4e17-9f66-c0b365a3e667")
+	)
+	(wire
+		(pts
 			(xy 245.11 198.12) (xy 245.11 201.93)
 		)
 		(stroke
@@ -7166,6 +7689,26 @@
 			(type default)
 		)
 		(uuid "ddc18f7b-6b20-41f9-97e5-887a6e2b28e0")
+	)
+	(wire
+		(pts
+			(xy 207.01 241.3) (xy 207.01 243.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e052b4d9-f147-48de-968f-a153c7ea5890")
+	)
+	(wire
+		(pts
+			(xy 78.74 85.09) (xy 78.74 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e0a8c718-07d3-4d2c-9ab3-fedcab9020e5")
 	)
 	(wire
 		(pts
@@ -7199,7 +7742,7 @@
 	)
 	(wire
 		(pts
-			(xy 161.29 134.62) (xy 205.74 134.62)
+			(xy 161.29 134.62) (xy 181.61 134.62)
 		)
 		(stroke
 			(width 0)
@@ -7226,6 +7769,16 @@
 			(type default)
 		)
 		(uuid "e647074c-1b23-4c05-9e3e-ca0c0a0d60b8")
+	)
+	(wire
+		(pts
+			(xy 259.08 93.98) (xy 262.89 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e68cd3e7-c16b-46fe-b298-bb34675bd576")
 	)
 	(wire
 		(pts
@@ -7326,6 +7879,16 @@
 			(type default)
 		)
 		(uuid "ec56ed31-d2f1-45e0-88ee-19917a3d2b29")
+	)
+	(wire
+		(pts
+			(xy 95.25 91.44) (xy 138.43 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec60906d-3e5a-4cb7-99ce-40e10b608ec3")
 	)
 	(wire
 		(pts
@@ -7446,6 +8009,16 @@
 			(type default)
 		)
 		(uuid "f3d0f9b1-c02b-4974-9fe4-8f5af5a43aca")
+	)
+	(wire
+		(pts
+			(xy 252.73 114.3) (xy 248.92 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f47ba250-46a5-44a6-ac7a-61a5ba02d4af")
 	)
 	(wire
 		(pts
@@ -8017,7 +8590,7 @@
 	)
 	(global_label "RB1"
 		(shape output)
-		(at 237.49 93.98 0)
+		(at 262.89 93.98 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8027,7 +8600,7 @@
 		)
 		(uuid "719c038a-180d-4d65-a8a3-25c63ec82e96")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 244.2247 93.98 0)
+			(at 269.6247 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8347,7 +8920,7 @@
 	)
 	(global_label "RB0"
 		(shape output)
-		(at 237.49 91.44 0)
+		(at 262.89 91.44 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8357,7 +8930,7 @@
 		)
 		(uuid "e3cbd4f8-0788-4a00-8fdc-22b397a51f01")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 244.2247 91.44 0)
+			(at 269.6247 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8657,6 +9230,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 355.6 83.82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1655436d-22e1-49ba-a86e-bee3704a35c3")
+		(property "Reference" "TP12"
+			(at 358.14 79.2479 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND"
+			(at 358.14 81.7879 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 360.68 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 360.68 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 355.6 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c7150cba-2c7f-4bb9-9f6c-13a8c1ac5468")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "1_Library:+5V")
 		(at 245.11 196.85 0)
 		(unit 1)
@@ -8873,7 +9513,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "19165891-61de-4489-8ccc-e772e5996b35")
-		(property "Reference" "R12"
+		(property "Reference" "R14"
 			(at 356.87 40.6399 0)
 			(effects
 				(font
@@ -8927,7 +9567,7 @@
 		(instances
 			(project "ThermalCamera"
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
-					(reference "R12")
+					(reference "R14")
 					(unit 1)
 				)
 			)
@@ -9090,6 +9730,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 294.64 203.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "26996703-e100-431f-9b4e-f3c1307c2106")
+		(property "Reference" "TP10"
+			(at 297.18 198.6279 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Video Out"
+			(at 297.18 201.1679 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 299.72 203.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 299.72 203.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 294.64 203.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "403ad292-bd2e-4564-a81a-cdd4c144b533")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 110.49 256.54 0)
 		(unit 1)
@@ -9215,6 +9922,73 @@
 			(project "ThermalCamera"
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
 					(reference "#PWR08")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 107.95 123.19 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2c3482b2-d9f0-474e-8b3d-c6a5ab35e846")
+		(property "Reference" "TP4"
+			(at 110.49 118.6179 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "5V"
+			(at 110.49 121.1579 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 113.03 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 113.03 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 107.95 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "934f7652-653a-4ca3-b8d9-89d43bf74ac7")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP4")
 					(unit 1)
 				)
 			)
@@ -10731,6 +11505,143 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 181.61 132.08 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "676fd729-04c2-4990-8b5b-f6ae4ae2d731")
+		(property "Reference" "TP5"
+			(at 184.15 127.5079 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TX Cam"
+			(at 184.15 130.0479 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 186.69 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 186.69 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 181.61 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "35aebcc9-14ca-4c01-aa66-3fb9315df704")
+		)
+		(instances
+			(project ""
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 256.54 106.68 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "67b57795-f21b-41a7-a12c-a4dd7ea6acbb")
+		(property "Reference" "R10"
+			(at 259.08 105.4099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "330"
+			(at 259.08 107.9499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:0805"
+			(at 257.556 106.934 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 256.54 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 256.54 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "94a42e7e-79d2-48b3-b183-42798475788b")
+		)
+		(pin "1"
+			(uuid "5f512809-9e3e-4f8f-ab6a-292fd1d8ab46")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "R10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "4xxx:4052")
 		(at 218.44 149.86 0)
 		(mirror y)
@@ -11392,6 +12303,76 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_US")
+		(at 248.92 99.06 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7330d076-8eb7-4968-bae1-dc223e24d68f")
+		(property "Reference" "R9"
+			(at 251.46 97.7899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "330"
+			(at 251.46 100.3299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:0805"
+			(at 249.936 99.314 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 248.92 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 248.92 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "f62d3023-f5b1-47aa-b991-11b5c69ff0e3")
+		)
+		(pin "1"
+			(uuid "126112d8-ed66-4f91-9221-b26303e35446")
+		)
+		(instances
+			(project ""
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "R9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "1_Library:+13V")
 		(at 120.65 200.66 0)
 		(unit 1)
@@ -11595,6 +12576,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 345.44 83.82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "75a68d68-0b0e-4fcd-ae6b-ae5ec4d4c995")
+		(property "Reference" "TP11"
+			(at 347.98 79.2479 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND"
+			(at 347.98 81.7879 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 350.52 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 350.52 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 345.44 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0ad3a12c-da68-45ce-86cc-799feeae8872")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 345.44 36.83 0)
 		(unit 1)
@@ -11604,7 +12652,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "77400992-b2ae-4f70-8e11-656d2453a534")
-		(property "Reference" "R11"
+		(property "Reference" "R13"
 			(at 347.98 35.5599 0)
 			(effects
 				(font
@@ -11658,7 +12706,7 @@
 		(instances
 			(project ""
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
-					(reference "R11")
+					(reference "R13")
 					(unit 1)
 				)
 			)
@@ -11872,6 +12920,140 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 78.74 85.09 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "82c62959-3659-4df2-8953-ea42233b0b35")
+		(property "Reference" "TP2"
+			(at 81.28 80.5179 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SCL"
+			(at 81.28 83.0579 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 83.82 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 83.82 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 78.74 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0b667b3e-7d70-4d9e-b33a-77176107035f")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 259.08 87.63 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "89af19e1-dbcc-4b1b-a329-1efb08446403")
+		(property "Reference" "TP9"
+			(at 261.62 83.0579 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RB1"
+			(at 261.62 85.5979 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 264.16 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 264.16 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 259.08 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cf89b939-33e3-44da-9bb9-41e5a7577f33")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "1_Library:+5V")
 		(at 364.49 73.66 0)
 		(unit 1)
@@ -12014,7 +13196,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9320d1a3-9ee4-41b1-a8bd-d2a8595a6f32")
-		(property "Reference" "#PWR013"
+		(property "Reference" "#PWR014"
 			(at 349.25 208.28 0)
 			(effects
 				(font
@@ -12064,7 +13246,7 @@
 		(instances
 			(project "ThermalCamera"
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
-					(reference "#PWR013")
+					(reference "#PWR014")
 					(unit 1)
 				)
 			)
@@ -12080,7 +13262,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9593f65b-a561-42f4-a308-df93cdb7ed2f")
-		(property "Reference" "#PWR012"
+		(property "Reference" "#PWR013"
 			(at 271.78 248.92 0)
 			(effects
 				(font
@@ -12130,7 +13312,7 @@
 		(instances
 			(project "ThermalCamera"
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
-					(reference "#PWR012")
+					(reference "#PWR013")
 					(unit 1)
 				)
 			)
@@ -12408,6 +13590,73 @@
 			(project "ThermalCamera"
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
 					(reference "#PWR01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 186.69 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b65e614d-fbbb-4d0c-a6dc-ad189d7203f3")
+		(property "Reference" "TP6"
+			(at 189.23 137.6679 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RX Cam"
+			(at 189.23 140.2079 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 191.77 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 191.77 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 186.69 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a826d954-25dc-4c37-910f-382251ea47b5")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP6")
 					(unit 1)
 				)
 			)
@@ -12842,7 +14091,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c6cb0dbc-f516-458d-8cd7-04d59400bb8d")
-		(property "Reference" "R10"
+		(property "Reference" "R12"
 			(at 274.32 233.6799 0)
 			(effects
 				(font
@@ -12896,7 +14145,7 @@
 		(instances
 			(project "ThermalCamera"
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
-					(reference "R10")
+					(reference "R12")
 					(unit 1)
 				)
 			)
@@ -13122,7 +14371,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ce8b2405-02b2-482b-9117-023efdb243f7")
-		(property "Reference" "#PWR015"
+		(property "Reference" "#PWR016"
 			(at 364.49 97.79 0)
 			(effects
 				(font
@@ -13172,7 +14421,7 @@
 		(instances
 			(project "ThermalCamera"
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
-					(reference "#PWR015")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
@@ -13410,7 +14659,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d4ad1d37-d756-4714-8741-493a746e36f2")
-		(property "Reference" "R9"
+		(property "Reference" "R11"
 			(at 269.24 219.7099 0)
 			(effects
 				(font
@@ -13464,7 +14713,7 @@
 		(instances
 			(project ""
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
-					(reference "R9")
+					(reference "R11")
 					(unit 1)
 				)
 			)
@@ -13532,6 +14781,73 @@
 			(project ""
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
 					(reference "#P011")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 207.01 241.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d9fd9694-2d28-42ed-ae2d-3e2631159775")
+		(property "Reference" "TP7"
+			(at 209.55 236.7279 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "-5V"
+			(at 209.55 239.2679 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 212.09 241.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 212.09 241.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 207.01 241.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "353816d6-cfc8-4c48-bc1b-8059def467f0")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP7")
 					(unit 1)
 				)
 			)
@@ -13683,7 +14999,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "df89dccd-b1ff-4246-8cbd-cdc8a8781f2c")
-		(property "Reference" "#PWR016"
+		(property "Reference" "#PWR017"
 			(at 394.97 68.58 0)
 			(effects
 				(font
@@ -13733,7 +15049,7 @@
 		(instances
 			(project "ThermalCamera"
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
-					(reference "#PWR016")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -13874,6 +15190,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 336.55 83.82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e0d45c47-fffc-4884-8ff0-960e76fed01b")
+		(property "Reference" "TP13"
+			(at 339.09 79.2479 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND"
+			(at 339.09 81.7879 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 341.63 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 341.63 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 336.55 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "481cc9cb-7391-4fc1-8c56-0bc2f0c1f28f")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "1_Library:7pin_JST")
 		(at 374.65 163.83 0)
 		(unit 1)
@@ -13968,7 +15351,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e701c693-71db-43e1-9282-d90ca11ba773")
-		(property "Reference" "#PWR014"
+		(property "Reference" "#PWR015"
 			(at 364.49 67.31 0)
 			(effects
 				(font
@@ -14018,7 +15401,74 @@
 		(instances
 			(project "ThermalCamera"
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
-					(reference "#PWR014")
+					(reference "#PWR015")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 241.3 87.63 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e948b978-c157-4861-bd96-3702d746e286")
+		(property "Reference" "TP8"
+			(at 243.84 83.0579 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RB0"
+			(at 243.84 85.5979 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 246.38 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 246.38 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 241.3 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7dcd9088-e6a9-46b8-92d6-d158883ed952")
+		)
+		(instances
+			(project ""
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP8")
 					(unit 1)
 				)
 			)
@@ -14232,6 +15682,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 95.25 85.09 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ee4a8d62-fd40-4d08-85c9-4e342e19bbb3")
+		(property "Reference" "TP3"
+			(at 97.79 80.5179 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SDA"
+			(at 97.79 83.0579 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 100.33 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 100.33 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 95.25 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "38863000-2499-444c-8565-020d4f22acd3")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "1_Library:7pin_JST")
 		(at 374.65 109.22 0)
 		(unit 1)
@@ -14378,6 +15895,139 @@
 			(project ""
 				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
 					(reference "#P03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 252.73 116.84 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f523e1b7-bc94-4538-9c05-f0be66633ec2")
+		(property "Reference" "#PWR012"
+			(at 252.73 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 252.73 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 252.73 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 252.73 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 252.73 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9f6b5af7-e169-4e1f-83f0-04b64eb46033")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "#PWR012")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 44.45 123.19 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f5e29ab4-ad2a-499b-a411-5cca3ad7c20b")
+		(property "Reference" "TP1"
+			(at 46.99 118.6179 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "13V"
+			(at 46.99 121.1579 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "1FootPrintLibrary:Header_1_x_1"
+			(at 49.53 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 49.53 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 44.45 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "aee6a5cf-9b0d-4572-907d-7e130552a21b")
+		)
+		(instances
+			(project "ThermalCamera"
+				(path "/95747a28-c237-4cce-b067-446ba01aa8d9"
+					(reference "TP1")
 					(unit 1)
 				)
 			)

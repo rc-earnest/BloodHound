@@ -32,6 +32,8 @@ volatile uint8_t TxJ = 0x00;     // Translated joystick button command index
 volatile uint8_t j = 0;          // I2C byte counter ? tracks which byte in the current I2C packet is being received
 volatile uint8_t mux_select = 0x00; // Tracks current mux channel selection (0?3), output on PORTB lower 2 bits
 volatile bool xy_last = 0;       // Edge-detect flag for the XY button ? prevents repeated mux increments while held
+volatile bool Last_TL = 0;
+volatile bool Last_TR = 0;
 
 
 // --- Constant Command Tables ---
@@ -66,13 +68,14 @@ const uint8_t cmd_table[12][7] = {
 // Each row corresponds to one button action
 // Column [0] = command index used for lookup; columns [1?9] = payload bytes sent after header_static
 // Rows: Zoom In, Zoom Out, Video On, Home, FFC/ADJ, Reset Camera
-const uint8_t cmd_button_table [6][10] = {
+const uint8_t cmd_button_table [7][10] = {
     {0x00,0x5A,0x01,0x00,0x00,0x00,0x01,0x00,0xF3,0xD8}, //Zoom in uses normal header
     {0x01,0x5A,0xFF,0x00,0x00,0x00,0x01,0x00,0x2D,0xCD}, //Zoom out uses normal header
     {0x02,0x7C,0x00,0x00,0x00,0x00,0x00,0x00,0x70,0x9F}, // Video on uses normal header
     {0x03,0x47,0x4A,0x19,0xB8,0x8B,0x00,0x80,0x31,0x53}, // Home uses normal header
     {0x04,0x6D,0x01,0x03,0x00,0x00,0x00,0x00,0xA0,0xDB}, // FFC/ADJ uses normal header
     {0x05,0x47,0xFE,0x00,0x00,0x00,0x00,0x00,0xED,0x00}, // Reset Camera uses normal header
+    {0x06,0x5A,0x00,0x00,0x00,0x00,0x00,0x00,0xB2,0xD8}, // Zoom Stop
 };
 
 // 9-byte header prepended to all button-triggered camera commands sent over UART
@@ -89,6 +92,39 @@ static void tx_uart(uint8_t byte){
     //PORTBbits.RB7 ^= 1;          // Debug toggle (commented out)
     while (!PIR1bits.TXIF);        // Spin-wait until TX buffer is ready to accept a new byte
     TX1REG = byte;                 // Load byte into UART transmit register ? hardware sends it automatically
+}
+
+// --- Send Button Command over UART ---
+// Transmits a full camera button command by first sending the 9-byte static header,
+// then sending bytes [1?9] of the matching row from cmd_button_table (skipping column [0])
+static void send_camera_button(uint8_t byte){
+    uint8_t i;
+
+    // Send the 9-byte static header first (framing for button commands)
+    for ( i = 0; i < 9u; i++){
+        tx_uart(header_static[i]);
+    }
+
+    // Send the 9 payload bytes from the button table row (columns 1?9)
+    for (i =1; i < 10u; i++){
+        tx_uart(cmd_button_table[byte][i]);
+    }
+}
+
+// --- Button Command Dispatcher ---
+// Looks up the given command index in cmd_button_table and sends the corresponding
+// button command over UART.
+// If cmd == 0xFF (inactive sentinel), the function returns immediately without sending anything.
+static void lookup_and_send_buttons(uint8_t cmd){
+    uint8_t i;
+    if (cmd == 0xFF) return; // Button not pressed ? skip transmission
+    // Search cmd_button_table for a row whose index byte (column 0) matches cmd
+    for (i = 0; i < 7u; i ++){
+        if (cmd_button_table[i][0] == cmd){
+            send_camera_button(i); // Found ? send the button command at row i
+            break;                 // Stop searching after the first match
+        }
+    }
 }
 
 
@@ -116,26 +152,36 @@ static void TranslateTABXY(uint8_t byte){
 
     // Bit 0 (0x01): A button pressed ? map to command index 0x05 (Reset Camera)
     if (byte & 0x01){
-        TxA = 0x05;
+        TxA = 0x03;
     }
     else{
         TxA = 0xFF; // Not pressed ? mark as inactive
     }
 
     // Bit 4 (0x10): Left Trigger pressed ? map to command index 0x01 (Zoom Out)
-    if (byte & 0x10){
-        TxTL = 0x01;
+    if (byte & 0x20){
+        TxTL = 0x00;
+        Last_TL = 1;
     }
-    else {
+    else{
+        if (Last_TL) {
+            lookup_and_send_buttons(0x06);
+        }
         TxTL = 0xFF; // Not pressed ? mark as inactive
+        Last_TL = 0;
     }
 
     // Bit 5 (0x20): Right Trigger pressed ? map to command index 0x00 (Zoom In)
     if (byte & 0x20){
         TxTR = 0x00;
+        Last_TR = 1;
     }
     else{
+        if (Last_TR) {
+            lookup_and_send_buttons(0x06);
+        }
         TxTR = 0xFF; // Not pressed ? mark as inactive
+        Last_TR = 0;
     }
 
     // Bit 2 (0x04): Y button ? used as a mux channel selector, NOT a camera command
@@ -268,23 +314,6 @@ static void send_camera_command(uint8_t byte){
     }
 }
 
-// --- Send Button Command over UART ---
-// Transmits a full camera button command by first sending the 9-byte static header,
-// then sending bytes [1?9] of the matching row from cmd_button_table (skipping column [0])
-static void send_camera_button(uint8_t byte){
-    uint8_t i;
-
-    // Send the 9-byte static header first (framing for button commands)
-    for ( i = 0; i < 9u; i++){
-        tx_uart(header_static[i]);
-    }
-
-    // Send the 9 payload bytes from the button table row (columns 1?9)
-    for (i =1; i < 10u; i++){
-        tx_uart(cmd_button_table[byte][i]);
-    }
-}
-
 // --- Movement Command Dispatcher ---
 // Looks up the given command index in cmd_table and sends the corresponding
 // pan/tilt command over UART.
@@ -297,22 +326,6 @@ static void lookup_and_send_move(uint8_t cmd){
         if (cmd_table[i][0] == cmd){
             send_camera_command(i); // Found ? send the movement command at row i
             break;                  // Stop searching after the first match
-        }
-    }
-}
-
-// --- Button Command Dispatcher ---
-// Looks up the given command index in cmd_button_table and sends the corresponding
-// button command over UART.
-// If cmd == 0xFF (inactive sentinel), the function returns immediately without sending anything.
-static void lookup_and_send_buttons(uint8_t cmd){
-    uint8_t i;
-    if (cmd == 0xFF) return; // Button not pressed ? skip transmission
-    // Search cmd_button_table for a row whose index byte (column 0) matches cmd
-    for (i = 0; i < 6u; i ++){
-        if (cmd_button_table[i][0] == cmd){
-            send_camera_button(i); // Found ? send the button command at row i
-            break;                 // Stop searching after the first match
         }
     }
 }
