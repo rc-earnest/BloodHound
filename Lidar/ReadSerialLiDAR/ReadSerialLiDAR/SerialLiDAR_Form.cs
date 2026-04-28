@@ -19,7 +19,6 @@ namespace ReadSerialLiDAR
         // ----------
         // VARIABLES
         // ----------
-        int selectedIndex;
         string[] portNames;
         string filePath = "..\\..\\logs";
         //byte[] LiDARdata;
@@ -37,7 +36,7 @@ namespace ReadSerialLiDAR
         void SetDefaults()
         {
             this.timer1.Enabled = false;
-            this.Timer1DurationTrackbar.Value = 1;
+            //this.Timer1DurationTrackbar.Value = 1;
             //Timer1Change(1);
             CheckDirectory();
             DataLengthStatusLabel.Text = $"Bytes Read: 0";
@@ -65,7 +64,7 @@ namespace ReadSerialLiDAR
                 {
                     // If array length is greater than 0, set index at 0
                     PortsComboBox.SelectedIndex = 0;
-                    StartButton.Enabled = true;
+                    //StartButton.Enabled = true;
                     SerialConnect(PortsComboBox.SelectedItem.ToString());
                 }
                 else
@@ -74,7 +73,7 @@ namespace ReadSerialLiDAR
                     PortsComboBox.Items.Clear();
                     PortsComboBox.Items.Add("None");
                     PortsComboBox.SelectedIndex = 0;
-                    StartButton.Enabled = false;
+                    //StartButton.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -85,6 +84,7 @@ namespace ReadSerialLiDAR
                 // Display error message
                 Console.WriteLine($"{ex.Message}\n\nPress 'Cancel' to exit program or 'OK' to continue.",
                     "ERROR", MessageBoxButtons.OKCancel);
+
                 if (DialogResult == DialogResult.Cancel)
                 {
                     // FORCE QUIT the program
@@ -124,8 +124,6 @@ namespace ReadSerialLiDAR
         {
             try
             {
-                // Translate selected index on combo box to selected port
-                selectedIndex = PortsComboBox.SelectedIndex;
                 if (serialPort1.IsOpen)
                 {
                     // Display selected port
@@ -164,19 +162,21 @@ namespace ReadSerialLiDAR
                 using (StreamWriter currentFile = File.AppendText(path))
                 {
                     string hex = BitConverter.ToString(data);
-                    currentFile.WriteLine($"ACQ TIME: {timer1.Interval.ToString()}ms | DATA: {hex}");
+                    string formattedData = $"ACQ: {DateTime.Now:yyMMdd.HHmm}.{DateTime.Now.Millisecond} | DATA: {hex}\n";
+                    currentFile.WriteLine(formattedData);
+                    DisplayTextBox.Text += formattedData;
                 }
             }
             catch (Exception ex)
             {
-                ClusterControl(true);
+                //ClusterControl(true);
                 MessageBox.Show(ex.Message);
             }
         }
-        void ClusterControl(bool value)
-        {
-            StartButton.Enabled = Timer1DurationTrackbar.Enabled = value;
-        }
+        //void ClusterControl(bool value)
+        //{
+        //    StartButton.Enabled = Timer1DurationTrackbar.Enabled = value;
+        //}
         byte[] GetData()
         {
             // Create a new 1D byte array with a length of the number of readable bytes
