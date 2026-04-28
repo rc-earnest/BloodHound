@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.IO.Ports;
-using System.Windows.Forms;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ReadSerialLiDAR
 {
@@ -20,7 +21,8 @@ namespace ReadSerialLiDAR
         // ----------
         int selectedIndex;
         string[] portNames;
-        byte[] LiDARdata;
+        string filePath = "..\\..\\logs";
+        //byte[] LiDARdata;
         private List<int> dataBuffer = new List<int>();
 
         // ----------
@@ -37,6 +39,7 @@ namespace ReadSerialLiDAR
             this.timer1.Enabled = false;
             this.Timer1DurationTrackbar.Value = 1;
             Timer1Change(1);
+            CheckDirectory();
         }
         void GetPorts()
         {
@@ -132,6 +135,14 @@ namespace ReadSerialLiDAR
                 Console.WriteLine("No ports available");
             }
         }
+        void CheckDirectory()
+        {
+            // If directory does NOT exist, create before saving
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+        }
 
         // ----------
         // PROGRAM LOGIC
@@ -145,19 +156,24 @@ namespace ReadSerialLiDAR
             // Update visual indicator
             this.TMR1_IntervalTextBox.Text = $"Timer 1 Duration: {this.timer1.Interval}ms";
         }
-        void LogDataToFile()
+        void LogDataToFile(byte[] data)
         {
             try
             {
                 // Creates log files based on the hour - resets/creates new file every hour
-                string path = $"..\\..\\logs\\{DateTime.Now:yyMMddhh}_DataSample.log";
+                string path = $"{filePath}\\{DateTime.Now:yyMMddhh}_DataSample.log";
                 using (StreamWriter currentFile = File.AppendText(path))
                 {
-                    currentFile.WriteLine(LiDARdata);
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        // Write the contents of the 1D array line-by-line to a file
+                        currentFile.WriteLine(data[i]);
+                    }
                 }
             }
             catch (Exception ex)
             {
+                ClusterControl(true);
                 MessageBox.Show(ex.Message);
             }
         }
@@ -165,6 +181,23 @@ namespace ReadSerialLiDAR
         {
             timer1.Enabled = !value;
             StartButton.Enabled = Timer1DurationTrackbar.Enabled = value;
+        }
+        byte[] GetData()
+        {
+            // Create a new 1D byte array with a length of the number of readable bytes
+            byte[] LiDARdata = new byte[0];
+            if (serialPort1.IsOpen)
+            {
+                // Flush old bytes from receive buffer to remove old data
+                serialPort1.DiscardInBuffer();
+
+                // Make array the size of the input buffer
+                LiDARdata = new byte[serialPort1.BytesToRead];
+
+                // Read input buffer with NO offset
+                serialPort1.Read(LiDARdata, 0, LiDARdata.Length);
+            }
+            return LiDARdata;
         }
 
         // ----------
@@ -176,15 +209,17 @@ namespace ReadSerialLiDAR
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            // BUG HERE ---------------------------------------------------------------------------
-            serialPort1.Read(LiDARdata, 0, dataBuffer.Count);
-            LogDataToFile();
+            // Sequentially retrieve and store/write received data
+            LogDataToFile(GetData());
 
             // Disable timer and enable controls
             ClusterControl(true);
         }
         private void StartButton_Click(object sender, EventArgs e)
         {
+            // Clear receive buffer
+            serialPort1.DiscardInBuffer();
+
             // Enable timer and disable controls
             ClusterControl(false);
         }
