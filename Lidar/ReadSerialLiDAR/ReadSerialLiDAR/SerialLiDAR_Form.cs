@@ -19,6 +19,7 @@ namespace ReadSerialLiDAR
         // ----------
         int selectedIndex;
         string[] portNames;
+        byte[] LiDARdata;
         private List<int> dataBuffer = new List<int>();
 
         // ----------
@@ -135,6 +136,22 @@ namespace ReadSerialLiDAR
             this.timer1.Interval = value * 100;
             this.TMR1_IntervalTextBox.Text = $"Timer 1 Duration: {this.timer1.Interval}ms";
         }
+        void LogDataToFile()
+        {
+            try
+            {
+                // Creates log files based on the hour - resets/creates new file every hour
+                string path = $"..\\..\\logs\\{DateTime.Now:yyMMddhh}_DataSample.log";
+                using (StreamWriter currentFile = File.AppendText(path))
+                {
+                    currentFile.WriteLine(LiDARdata);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         // ----------
         // EVENT HANDLERS
@@ -143,10 +160,24 @@ namespace ReadSerialLiDAR
         {
             Timer1Change(Timer1DurationTrackbar.Value);
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
+            // BUG HERE ---------------------------------------------------------------------------
+            serialPort1.Read(LiDARdata, 0, dataBuffer.Count);
+            LogDataToFile();
 
+            // Disable timer after a single acquisition
+            timer1.Enabled = false;
+            StartButton.Enabled = true;
+        }
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            StartButton.Enabled = false;
+            timer1.Enabled = true;
+        }
+        private void RecheckSerialPorts(object sender, EventArgs e)
+        {
+            GetPorts();
         }
     }
 }
