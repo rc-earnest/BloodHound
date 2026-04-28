@@ -19,6 +19,7 @@ namespace ReadSerialLiDAR
         // ----------
         int selectedIndex;
         string[] portNames;
+        private List<int> dataBuffer = new List<int>();
 
         // ----------
         // STARTUP
@@ -141,6 +142,11 @@ namespace ReadSerialLiDAR
         private void Timer1DurationTrackbar_Scroll(object sender, EventArgs e)
         {
             Timer1Change(Timer1DurationTrackbar.Value);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
         }
     }
 }

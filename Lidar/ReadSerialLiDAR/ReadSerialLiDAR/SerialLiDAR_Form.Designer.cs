@@ -36,6 +36,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Timer1DurationTrackbar = new System.Windows.Forms.TrackBar();
             this.TMR1_IntervalTextBox = new System.Windows.Forms.TextBox();
+            this.CommPortLabel = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Timer1DurationTrackbar)).BeginInit();
             this.SuspendLayout();
@@ -66,6 +67,10 @@
             this.CommPortStatusLabel.Size = new System.Drawing.Size(187, 25);
             this.CommPortStatusLabel.Text = "CommPortStatusLabel";
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Timer1DurationTrackbar
             // 
             this.Timer1DurationTrackbar.Location = new System.Drawing.Point(387, 306);
@@ -84,11 +89,21 @@
             this.TMR1_IntervalTextBox.Size = new System.Drawing.Size(246, 26);
             this.TMR1_IntervalTextBox.TabIndex = 3;
             // 
+            // CommPortLabel
+            // 
+            this.CommPortLabel.AutoSize = true;
+            this.CommPortLabel.Location = new System.Drawing.Point(63, 306);
+            this.CommPortLabel.Name = "CommPortLabel";
+            this.CommPortLabel.Size = new System.Drawing.Size(160, 20);
+            this.CommPortLabel.TabIndex = 4;
+            this.CommPortLabel.Text = "Detected Serial Ports";
+            // 
             // SerialLiDAR_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.CommPortLabel);
             this.Controls.Add(this.TMR1_IntervalTextBox);
             this.Controls.Add(this.Timer1DurationTrackbar);
             this.Controls.Add(this.statusStrip1);
@@ -113,6 +128,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.TrackBar Timer1DurationTrackbar;
         private System.Windows.Forms.TextBox TMR1_IntervalTextBox;
+        private System.Windows.Forms.Label CommPortLabel;
     }
 }
 
