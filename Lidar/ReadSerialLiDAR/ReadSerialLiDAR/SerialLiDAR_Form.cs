@@ -15,13 +15,13 @@ namespace ReadSerialLiDAR
     public partial class SerialLiDAR_Form : Form
     {
         // ----------
-        // Variables
+        // VARIABLES
         // ----------
         int selectedIndex;
         string[] portNames;
 
         // ----------
-        // Startup
+        // STARTUP
         // ----------
         public SerialLiDAR_Form()
         {
@@ -31,7 +31,9 @@ namespace ReadSerialLiDAR
         }
         void SetDefaults()
         {
-
+            this.timer1.Enabled = false;
+            this.Timer1DurationTrackbar.Value = 1;
+            Timer1Change(1);
         }
         void GetPorts()
         {
@@ -122,6 +124,23 @@ namespace ReadSerialLiDAR
                 // Show error message for debugging
                 Console.WriteLine("No ports available");
             }
+        }
+
+        // ----------
+        // PROGRAM LOGIC
+        // ----------
+        void Timer1Change(int value)
+        {
+            this.timer1.Interval = value * 100;
+            this.TMR1_IntervalTextBox.Text = $"Timer 1 Duration: {this.timer1.Interval}ms";
+        }
+
+        // ----------
+        // EVENT HANDLERS
+        // ----------
+        private void Timer1DurationTrackbar_Scroll(object sender, EventArgs e)
+        {
+            Timer1Change(Timer1DurationTrackbar.Value);
         }
     }
 }

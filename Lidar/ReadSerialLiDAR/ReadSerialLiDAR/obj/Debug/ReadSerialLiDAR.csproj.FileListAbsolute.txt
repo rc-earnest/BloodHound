@@ -1,10 +1,10 @@
-C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\bin\Debug\ReadSerialLiDAR.exe.config
-C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\bin\Debug\ReadSerialLiDAR.exe
-C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\bin\Debug\ReadSerialLiDAR.pdb
 C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\obj\Debug\ReadSerialLiDAR.csproj.AssemblyReference.cache
 C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\obj\Debug\ReadSerialLiDAR.SerialLiDAR_Form.resources
 C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\obj\Debug\ReadSerialLiDAR.Properties.Resources.resources
 C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\obj\Debug\ReadSerialLiDAR.csproj.GenerateResource.cache
 C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\obj\Debug\ReadSerialLiDAR.csproj.CoreCompileInputs.cache
+C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\bin\Debug\ReadSerialLiDAR.exe.config
+C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\bin\Debug\ReadSerialLiDAR.exe
+C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\bin\Debug\ReadSerialLiDAR.pdb
 C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\obj\Debug\ReadSerialLiDAR.exe
 C:\Users\Jonas C\Documents\BLOODHOUND\Lidar\ReadSerialLiDAR\ReadSerialLiDAR\obj\Debug\ReadSerialLiDAR.pdb

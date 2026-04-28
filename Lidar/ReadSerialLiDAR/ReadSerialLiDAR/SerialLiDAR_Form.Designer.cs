@@ -33,7 +33,11 @@
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.CommPortStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.Timer1DurationTrackbar = new System.Windows.Forms.TrackBar();
+            this.TMR1_IntervalTextBox = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Timer1DurationTrackbar)).BeginInit();
             this.SuspendLayout();
             // 
             // PortsComboBox
@@ -62,11 +66,31 @@
             this.CommPortStatusLabel.Size = new System.Drawing.Size(187, 25);
             this.CommPortStatusLabel.Text = "CommPortStatusLabel";
             // 
+            // Timer1DurationTrackbar
+            // 
+            this.Timer1DurationTrackbar.Location = new System.Drawing.Point(387, 306);
+            this.Timer1DurationTrackbar.Minimum = 1;
+            this.Timer1DurationTrackbar.Name = "Timer1DurationTrackbar";
+            this.Timer1DurationTrackbar.Size = new System.Drawing.Size(246, 69);
+            this.Timer1DurationTrackbar.TabIndex = 2;
+            this.Timer1DurationTrackbar.Value = 1;
+            this.Timer1DurationTrackbar.Scroll += new System.EventHandler(this.Timer1DurationTrackbar_Scroll);
+            // 
+            // TMR1_IntervalTextBox
+            // 
+            this.TMR1_IntervalTextBox.Location = new System.Drawing.Point(387, 367);
+            this.TMR1_IntervalTextBox.Name = "TMR1_IntervalTextBox";
+            this.TMR1_IntervalTextBox.ReadOnly = true;
+            this.TMR1_IntervalTextBox.Size = new System.Drawing.Size(246, 26);
+            this.TMR1_IntervalTextBox.TabIndex = 3;
+            // 
             // SerialLiDAR_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.TMR1_IntervalTextBox);
+            this.Controls.Add(this.Timer1DurationTrackbar);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.PortsComboBox);
             this.Name = "SerialLiDAR_Form";
@@ -74,6 +98,7 @@
             this.Text = "LiDAR Serial Reader";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Timer1DurationTrackbar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -85,6 +110,9 @@
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel CommPortStatusLabel;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.TrackBar Timer1DurationTrackbar;
+        private System.Windows.Forms.TextBox TMR1_IntervalTextBox;
     }
 }
 
