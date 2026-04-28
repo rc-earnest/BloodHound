@@ -29,31 +29,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.PortsComboBox = new System.Windows.Forms.ComboBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.CommPortStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Timer1DurationTrackbar = new System.Windows.Forms.TrackBar();
             this.TMR1_IntervalTextBox = new System.Windows.Forms.TextBox();
-            this.CommPortLabel = new System.Windows.Forms.Label();
             this.StartButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.utilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshSerialPortsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExitButton = new System.Windows.Forms.Button();
+            this.PortsComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Timer1DurationTrackbar)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // PortsComboBox
-            // 
-            this.PortsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.PortsComboBox.FormattingEnabled = true;
-            this.PortsComboBox.Location = new System.Drawing.Point(67, 335);
-            this.PortsComboBox.Name = "PortsComboBox";
-            this.PortsComboBox.Size = new System.Drawing.Size(143, 28);
-            this.PortsComboBox.TabIndex = 0;
             // 
             // statusStrip1
             // 
@@ -94,20 +85,11 @@
             this.TMR1_IntervalTextBox.Size = new System.Drawing.Size(246, 26);
             this.TMR1_IntervalTextBox.TabIndex = 3;
             // 
-            // CommPortLabel
-            // 
-            this.CommPortLabel.AutoSize = true;
-            this.CommPortLabel.Location = new System.Drawing.Point(63, 306);
-            this.CommPortLabel.Name = "CommPortLabel";
-            this.CommPortLabel.Size = new System.Drawing.Size(160, 20);
-            this.CommPortLabel.TabIndex = 4;
-            this.CommPortLabel.Text = "Detected Serial Ports";
-            // 
             // StartButton
             // 
             this.StartButton.Location = new System.Drawing.Point(248, 367);
             this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(92, 38);
+            this.StartButton.Size = new System.Drawing.Size(90, 40);
             this.StartButton.TabIndex = 5;
             this.StartButton.Text = "START";
             this.StartButton.UseVisualStyleBackColor = true;
@@ -128,7 +110,8 @@
             // utilitiesToolStripMenuItem
             // 
             this.utilitiesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refreshSerialPortsToolStripMenuItem});
+            this.refreshSerialPortsToolStripMenuItem,
+            this.PortsComboBox});
             this.utilitiesToolStripMenuItem.Name = "utilitiesToolStripMenuItem";
             this.utilitiesToolStripMenuItem.Size = new System.Drawing.Size(85, 29);
             this.utilitiesToolStripMenuItem.Text = "Utilities";
@@ -140,19 +123,35 @@
             this.refreshSerialPortsToolStripMenuItem.Text = "Refresh Serial Ports";
             this.refreshSerialPortsToolStripMenuItem.Click += new System.EventHandler(this.RecheckSerialPorts);
             // 
+            // ExitButton
+            // 
+            this.ExitButton.Location = new System.Drawing.Point(496, 116);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(90, 40);
+            this.ExitButton.TabIndex = 7;
+            this.ExitButton.Text = "EXIT";
+            this.ExitButton.UseVisualStyleBackColor = true;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
+            // 
+            // PortsComboBox
+            // 
+            this.PortsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PortsComboBox.Name = "PortsComboBox";
+            this.PortsComboBox.Size = new System.Drawing.Size(121, 33);
+            // 
             // SerialLiDAR_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.StartButton);
-            this.Controls.Add(this.CommPortLabel);
             this.Controls.Add(this.TMR1_IntervalTextBox);
             this.Controls.Add(this.Timer1DurationTrackbar);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.PortsComboBox);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "SerialLiDAR_Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LiDAR Serial Reader";
@@ -167,19 +166,18 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox PortsComboBox;
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel CommPortStatusLabel;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.TrackBar Timer1DurationTrackbar;
         private System.Windows.Forms.TextBox TMR1_IntervalTextBox;
-        private System.Windows.Forms.Label CommPortLabel;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem utilitiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshSerialPortsToolStripMenuItem;
+        private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.ToolStripComboBox PortsComboBox;
     }
 }
 

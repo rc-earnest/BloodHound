@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.IO.Ports;
 using System.Windows.Forms;
+using System.Runtime.CompilerServices;
 
 namespace ReadSerialLiDAR
 {
@@ -160,6 +161,11 @@ namespace ReadSerialLiDAR
                 MessageBox.Show(ex.Message);
             }
         }
+        void ClusterControl(bool value)
+        {
+            timer1.Enabled = !value;
+            StartButton.Enabled = Timer1DurationTrackbar.Enabled = value;
+        }
 
         // ----------
         // EVENT HANDLERS
@@ -174,23 +180,22 @@ namespace ReadSerialLiDAR
             serialPort1.Read(LiDARdata, 0, dataBuffer.Count);
             LogDataToFile();
 
-            // Disable timer after a single acquisition
-            timer1.Enabled = false;
-
-            // Re-enables start button after acquisition
-            StartButton.Enabled = true;
+            // Disable timer and enable controls
+            ClusterControl(true);
         }
         private void StartButton_Click(object sender, EventArgs e)
         {
-            // Disable start button
-            StartButton.Enabled = false;
-
-            // Enable acquisition timer
-            timer1.Enabled = true;
+            // Enable timer and disable controls
+            ClusterControl(false);
         }
         private void RecheckSerialPorts(object sender, EventArgs e)
         {
             GetPorts();
+        }
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            serialPort1.Close();
+            this.Dispose();
         }
     }
 }
