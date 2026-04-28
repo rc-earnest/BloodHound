@@ -63,6 +63,7 @@ namespace ReadSerialLiDAR
                 {
                     // If array length is greater than 0, set index at 0
                     PortsComboBox.SelectedIndex = 0;
+                    StartButton.Enabled = true;
                 }
                 else
                 {
@@ -70,6 +71,7 @@ namespace ReadSerialLiDAR
                     PortsComboBox.Items.Clear();
                     PortsComboBox.Items.Add("None");
                     PortsComboBox.SelectedIndex = 0;
+                    StartButton.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -167,7 +169,7 @@ namespace ReadSerialLiDAR
                     for (int i = 0; i < data.Length; i++)
                     {
                         // Write the contents of the 1D array line-by-line to a file
-                        currentFile.WriteLine($"ACQ TIME: {timer1.Interval.ToString()} | DATA: {data[i]}");
+                        currentFile.WriteLine($"ACQ TIME: {timer1.Interval.ToString()}ms | DATA: {data[i]}");
                     }
                 }
             }
