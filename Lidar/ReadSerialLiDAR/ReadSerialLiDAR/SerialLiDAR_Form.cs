@@ -39,13 +39,17 @@ namespace ReadSerialLiDAR
         }
         void GetPorts()
         {
+            // Populates 1D array with all available serial ports
             portNames = SerialPort.GetPortNames();
+
+            // Starts with blank text
             PortsComboBox.Text = "";
 
             // Clear array each itteration
             PortsComboBox.Items.Clear();
             try
             {
+                // Populate combobox with the contents of the 1D array
                 foreach (string portName in portNames)
                 {
                     PortsComboBox.Items.Add(portName);
@@ -133,7 +137,11 @@ namespace ReadSerialLiDAR
         // ----------
         void Timer1Change(int value)
         {
+            // Track bar has a range of 100ms - 1000ms (1s)
+            // Multiply the value of the track bar by 100, apply to timer interval propert
             this.timer1.Interval = value * 100;
+
+            // Update visual indicator
             this.TMR1_IntervalTextBox.Text = $"Timer 1 Duration: {this.timer1.Interval}ms";
         }
         void LogDataToFile()
@@ -168,11 +176,16 @@ namespace ReadSerialLiDAR
 
             // Disable timer after a single acquisition
             timer1.Enabled = false;
+
+            // Re-enables start button after acquisition
             StartButton.Enabled = true;
         }
         private void StartButton_Click(object sender, EventArgs e)
         {
+            // Disable start button
             StartButton.Enabled = false;
+
+            // Enable acquisition timer
             timer1.Enabled = true;
         }
         private void RecheckSerialPorts(object sender, EventArgs e)
