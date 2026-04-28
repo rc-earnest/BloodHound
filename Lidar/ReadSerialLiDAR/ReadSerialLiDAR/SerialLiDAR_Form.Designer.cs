@@ -39,8 +39,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.utilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshSerialPortsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ExitButton = new System.Windows.Forms.Button();
             this.PortsComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.ExitButton = new System.Windows.Forms.Button();
+            this.DataLengthStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Timer1DurationTrackbar)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -50,7 +51,8 @@
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CommPortStatusLabel});
+            this.CommPortStatusLabel,
+            this.DataLengthStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 418);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 32);
@@ -60,12 +62,12 @@
             // CommPortStatusLabel
             // 
             this.CommPortStatusLabel.Name = "CommPortStatusLabel";
-            this.CommPortStatusLabel.Size = new System.Drawing.Size(187, 25);
-            this.CommPortStatusLabel.Text = "CommPortStatusLabel";
+            this.CommPortStatusLabel.Size = new System.Drawing.Size(146, 25);
+            this.CommPortStatusLabel.Text = "CommPortStatus";
             // 
             // timer1
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            //this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Timer1DurationTrackbar
             // 
@@ -93,7 +95,7 @@
             this.StartButton.TabIndex = 5;
             this.StartButton.Text = "START";
             this.StartButton.UseVisualStyleBackColor = true;
-            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            //this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // menuStrip1
             // 
@@ -119,9 +121,15 @@
             // refreshSerialPortsToolStripMenuItem
             // 
             this.refreshSerialPortsToolStripMenuItem.Name = "refreshSerialPortsToolStripMenuItem";
-            this.refreshSerialPortsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.refreshSerialPortsToolStripMenuItem.Size = new System.Drawing.Size(264, 34);
             this.refreshSerialPortsToolStripMenuItem.Text = "Refresh Serial Ports";
             this.refreshSerialPortsToolStripMenuItem.Click += new System.EventHandler(this.RecheckSerialPorts);
+            // 
+            // PortsComboBox
+            // 
+            this.PortsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PortsComboBox.Name = "PortsComboBox";
+            this.PortsComboBox.Size = new System.Drawing.Size(121, 33);
             // 
             // ExitButton
             // 
@@ -133,11 +141,11 @@
             this.ExitButton.UseVisualStyleBackColor = true;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
-            // PortsComboBox
+            // DataLengthStatusLabel
             // 
-            this.PortsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.PortsComboBox.Name = "PortsComboBox";
-            this.PortsComboBox.Size = new System.Drawing.Size(121, 33);
+            this.DataLengthStatusLabel.Name = "DataLengthStatusLabel";
+            this.DataLengthStatusLabel.Size = new System.Drawing.Size(103, 25);
+            this.DataLengthStatusLabel.Text = "DataLength";
             // 
             // SerialLiDAR_Form
             // 
@@ -154,7 +162,7 @@
             this.MaximizeBox = false;
             this.Name = "SerialLiDAR_Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "LiDAR Serial Reader";
+            this.Text = "LiDAR Data Logger";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Timer1DurationTrackbar)).EndInit();
@@ -162,6 +170,8 @@
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
+            this.serialPort1.DataReceived += SerialPort1DataReceived;
 
         }
 
@@ -178,6 +188,7 @@
         private System.Windows.Forms.ToolStripMenuItem refreshSerialPortsToolStripMenuItem;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.ToolStripComboBox PortsComboBox;
+        private System.Windows.Forms.ToolStripStatusLabel DataLengthStatusLabel;
     }
 }
 

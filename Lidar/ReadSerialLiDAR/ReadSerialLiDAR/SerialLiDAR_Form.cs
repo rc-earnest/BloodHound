@@ -23,7 +23,7 @@ namespace ReadSerialLiDAR
         string[] portNames;
         string filePath = "..\\..\\logs";
         //byte[] LiDARdata;
-        private List<int> dataBuffer = new List<int>();
+        List<byte> dataBuffer = new List<byte>();
 
         // ----------
         // STARTUP
@@ -38,8 +38,10 @@ namespace ReadSerialLiDAR
         {
             this.timer1.Enabled = false;
             this.Timer1DurationTrackbar.Value = 1;
-            Timer1Change(1);
+            //Timer1Change(1);
             CheckDirectory();
+            DataLengthStatusLabel.Text = $"Bytes Read: 0";
+            this.Text = "LiDAR Serial Data Logger";
         }
         void GetPorts()
         {
@@ -57,13 +59,14 @@ namespace ReadSerialLiDAR
                 foreach (string portName in portNames)
                 {
                     PortsComboBox.Items.Add(portName);
-                    SerialConnect(portName);
+                    //SerialConnect(portName);
                 }
                 if (portNames.Length > 0)
                 {
                     // If array length is greater than 0, set index at 0
                     PortsComboBox.SelectedIndex = 0;
                     StartButton.Enabled = true;
+                    SerialConnect(PortsComboBox.SelectedItem.ToString());
                 }
                 else
                 {
@@ -95,12 +98,15 @@ namespace ReadSerialLiDAR
             serialPort1.Close();
             try
             {
-                // Tx/Rx settings ----------
+                // ----------
+                // Tx/Rx SETTINGS
+                // ----------
                 // Baud rate - the number of Bits/sec
-                //serialPort1.StopBits = System.IO.Ports.StopBits.None;
-                serialPort1.PortName = portNames[selectedIndex];
+                serialPort1.PortName = portName;
                 serialPort1.BaudRate = 115_200;
                 serialPort1.Parity = Parity.None;
+                serialPort1.DataBits = 8;
+                serialPort1.StopBits = StopBits.One;
 
                 if (!serialPort1.IsOpen)
                 {
@@ -123,12 +129,12 @@ namespace ReadSerialLiDAR
                 if (serialPort1.IsOpen)
                 {
                     // Display selected port
-                    CommPortStatusLabel.Text = $"Active Port: {serialPort1.PortName}";
+                    CommPortStatusLabel.Text = $"Active Port: {serialPort1.PortName}  |";
                 }
                 else
                 {
                     // Display that NO port has been selected
-                    CommPortStatusLabel.Text = "Active Port: None";
+                    CommPortStatusLabel.Text = "Active Port: None  |";
                 }
             }
             catch
@@ -149,28 +155,16 @@ namespace ReadSerialLiDAR
         // ----------
         // PROGRAM LOGIC
         // ----------
-        void Timer1Change(int value)
-        {
-            // Track bar has a range of 100ms - 1000ms (1s)
-            // Multiply the value of the track bar by 100, apply to timer interval propert
-            this.timer1.Interval = value * 100;
-
-            // Update visual indicator
-            this.TMR1_IntervalTextBox.Text = $"Timer 1 Duration: {this.timer1.Interval}ms";
-        }
         void LogDataToFile(byte[] data)
         {
             try
             {
                 // Creates log files based on the hour - resets/creates new file every hour
-                string path = $"{filePath}\\{DateTime.Now:yyMMddhh}_DataSample.log";
+                string path = $"{filePath}\\{DateTime.Now:yyyyMMdd.HH00}_DataSample.log";
                 using (StreamWriter currentFile = File.AppendText(path))
                 {
-                    for (int i = 0; i < data.Length; i++)
-                    {
-                        // Write the contents of the 1D array line-by-line to a file
-                        currentFile.WriteLine($"ACQ TIME: {timer1.Interval.ToString()}ms | DATA: {data[i]}");
-                    }
+                    string hex = BitConverter.ToString(data);
+                    currentFile.WriteLine($"ACQ TIME: {timer1.Interval.ToString()}ms | DATA: {hex}");
                 }
             }
             catch (Exception ex)
@@ -181,50 +175,90 @@ namespace ReadSerialLiDAR
         }
         void ClusterControl(bool value)
         {
-            timer1.Enabled = !value;
             StartButton.Enabled = Timer1DurationTrackbar.Enabled = value;
         }
         byte[] GetData()
         {
             // Create a new 1D byte array with a length of the number of readable bytes
-            byte[] LiDARdata = new byte[0];
+            byte[] newData = new byte[0];
             if (serialPort1.IsOpen)
             {
-                // Flush old bytes from receive buffer to remove old data
-                serialPort1.DiscardInBuffer();
-
                 // Make array the size of the input buffer
-                LiDARdata = new byte[serialPort1.BytesToRead];
+                newData = new byte[serialPort1.BytesToRead];
+
+                // Update label for debugging
+                DataLengthStatusLabel.Text = $"Bytes Read: {newData.Length}";
 
                 // Read input buffer with NO offset
-                serialPort1.Read(LiDARdata, 0, LiDARdata.Length);
+                serialPort1.Read(newData, 0, newData.Length);
             }
-            return LiDARdata;
+            return newData;
+        }
+        void ProcessBuffer()
+        {
+            while (dataBuffer.Count >= 4)
+            {
+                // Check if packet header is present
+                if (dataBuffer[0] == 0xAA && dataBuffer[1] == 0x55)
+                {
+                    int length = dataBuffer[2];
+                    if (dataBuffer.Count >= length)
+                    {
+                        byte[] packet = dataBuffer.Take(length).ToArray();
+
+                        LogDataToFile(packet);
+
+                        dataBuffer.RemoveRange(0, length);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    dataBuffer.RemoveAt(0);
+                }
+            }
         }
 
         // ----------
         // EVENT HANDLERS
         // ----------
-        private void Timer1DurationTrackbar_Scroll(object sender, EventArgs e)
-        {
-            Timer1Change(Timer1DurationTrackbar.Value);
-        }
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            // Disable timer and enable controls
-            ClusterControl(true);
+        //private void Timer1DurationTrackbar_Scroll(object sender, EventArgs e)
+        //{
+        //    Timer1Change(Timer1DurationTrackbar.Value);
+        //}
+        //private void timer1_Tick(object sender, EventArgs e)
+        //{
+        //    byte[] newData = GetData();
+        //    //dataBuffer.AddRange(newData);
 
-            // Sequentially retrieve and store/write received data
-            LogDataToFile(GetData());
-        }
-        private void StartButton_Click(object sender, EventArgs e)
-        {
-            // Clear receive buffer
-            serialPort1.DiscardInBuffer();
+        //    //// Sequentially retrieve and store/write received data
+        //    ////LogDataToFile(GetData());
+        //    //ProcessBuffer();
 
-            // Enable timer and disable controls
-            ClusterControl(false);
-        }
+        //    if (newData.Length > 0)
+        //    {
+        //        LogDataToFile(newData);
+        //    }
+        //}
+        //private void StartButton_Click(object sender, EventArgs e)
+        //{
+        //    // Connect to the serial port
+        //    SerialConnect(PortsComboBox.SelectedItem.ToString());
+
+        //    // Clear receive buffer
+        //    serialPort1.DiscardInBuffer();
+
+        //    // Wait for buffer to fully clear
+        //    Thread.Sleep(100);
+
+        //    // Disable controls and enable timer
+        //    //ClusterControl(false);
+        //    StartButton.Enabled = false;
+        //    timer1.Enabled = true;
+        //}
         private void RecheckSerialPorts(object sender, EventArgs e)
         {
             GetPorts();
@@ -233,6 +267,15 @@ namespace ReadSerialLiDAR
         {
             serialPort1.Close();
             this.Dispose();
+        }
+        private void SerialPort1DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            int bytes = serialPort1.BytesToRead;
+            byte[] buffer = new byte[bytes];
+
+            serialPort1.Read(buffer, 0, bytes);
+
+            LogDataToFile(buffer);
         }
     }
 }
