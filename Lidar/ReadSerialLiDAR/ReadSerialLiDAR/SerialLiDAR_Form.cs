@@ -18,6 +18,7 @@ namespace ReadSerialLiDAR
         // Variables
         // ----------
         int selectedIndex;
+        string[] portNames;
 
         // ----------
         // Startup
@@ -34,8 +35,70 @@ namespace ReadSerialLiDAR
         }
         void GetPorts()
         {
+            portNames = SerialPort.GetPortNames();
+            PortsComboBox.Text = "";
 
+            // Clear array each itteration
+            PortsComboBox.Items.Clear();
+            try
+            {
+                foreach (string portName in portNames)
+                {
+                    PortsComboBox.Items.Add(portName);
+                    SerialConnect(portName);
+                }
+                if (portNames.Length > 0)
+                {
+                    // If array length is greater than 0, set index at 0
+                    PortsComboBox.SelectedIndex = 0;
+                }
+                else
+                {
+                    // Clear items and add "empty" indicator
+                    PortsComboBox.Items.Clear();
+                    PortsComboBox.Items.Add("None");
+                    PortsComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Clear ComboBox items
+                PortsComboBox.Items.Clear();
+
+                // Display error message
+                Console.WriteLine($"{ex.Message}\n\nPress 'Cancel' to exit program or 'OK' to continue.",
+                    "ERROR", MessageBoxButtons.OKCancel);
+                if (DialogResult == DialogResult.Cancel)
+                {
+                    // FORCE QUIT the program
+                    Environment.Exit(0);
+                }
+            }
             SetPortName();
+        }
+        void SerialConnect(string portName)
+        {
+            serialPort1.Close();
+            try
+            {
+                // Tx/Rx settings ----------
+                // Baud rate - the number of Bits/sec
+                //serialPort1.StopBits = System.IO.Ports.StopBits.None;
+                serialPort1.PortName = portNames[selectedIndex];
+                serialPort1.BaudRate = 115_200;
+                serialPort1.Parity = Parity.None;
+
+                if (!serialPort1.IsOpen)
+                {
+                    // If port is not open, open it!
+                    serialPort1.Open();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Show error message in console for debugging
+                Console.WriteLine(ex.Message);
+            }
         }
         void SetPortName()
         {
