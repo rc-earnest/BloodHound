@@ -167,7 +167,7 @@ namespace ReadSerialLiDAR
                     for (int i = 0; i < data.Length; i++)
                     {
                         // Write the contents of the 1D array line-by-line to a file
-                        currentFile.WriteLine(data[i]);
+                        currentFile.WriteLine($"ACQ TIME: {timer1.Interval.ToString()} | DATA: {data[i]}");
                     }
                 }
             }
@@ -209,11 +209,11 @@ namespace ReadSerialLiDAR
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            // Sequentially retrieve and store/write received data
-            LogDataToFile(GetData());
-
             // Disable timer and enable controls
             ClusterControl(true);
+
+            // Sequentially retrieve and store/write received data
+            LogDataToFile(GetData());
         }
         private void StartButton_Click(object sender, EventArgs e)
         {
