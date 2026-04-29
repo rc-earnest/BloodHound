@@ -46,6 +46,7 @@
             // serialPort1
             // 
             this.serialPort1.ReceivedBytesThreshold = 40;
+            this.serialPort1.DataReceived += SerialPort1DataReceived;
             // 
             // statusStrip1
             // 

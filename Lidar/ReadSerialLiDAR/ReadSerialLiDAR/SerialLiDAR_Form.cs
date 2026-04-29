@@ -103,7 +103,8 @@ namespace ReadSerialLiDAR
                 // ----------
                 // Baud rate - the number of Bits/sec
                 serialPort1.PortName = portName;
-                serialPort1.BaudRate = 115_200;
+                //serialPort1.BaudRate = 115_200;
+                serialPort1.BaudRate = 9_600;
                 serialPort1.Parity = Parity.None;
                 serialPort1.DataBits = 8;
                 serialPort1.StopBits = StopBits.One;
@@ -173,10 +174,6 @@ namespace ReadSerialLiDAR
                 MessageBox.Show(ex.Message);
             }
         }
-        //void ClusterControl(bool value)
-        //{
-        //    StartButton.Enabled = Timer1DurationTrackbar.Enabled = value;
-        //}
         byte[] GetData()
         {
             // Create a new 1D byte array with a length of the number of readable bytes
@@ -225,40 +222,6 @@ namespace ReadSerialLiDAR
         // ----------
         // EVENT HANDLERS
         // ----------
-        //private void Timer1DurationTrackbar_Scroll(object sender, EventArgs e)
-        //{
-        //    Timer1Change(Timer1DurationTrackbar.Value);
-        //}
-        //private void timer1_Tick(object sender, EventArgs e)
-        //{
-        //    byte[] newData = GetData();
-        //    //dataBuffer.AddRange(newData);
-
-        //    //// Sequentially retrieve and store/write received data
-        //    ////LogDataToFile(GetData());
-        //    //ProcessBuffer();
-
-        //    if (newData.Length > 0)
-        //    {
-        //        LogDataToFile(newData);
-        //    }
-        //}
-        //private void StartButton_Click(object sender, EventArgs e)
-        //{
-        //    // Connect to the serial port
-        //    SerialConnect(PortsComboBox.SelectedItem.ToString());
-
-        //    // Clear receive buffer
-        //    serialPort1.DiscardInBuffer();
-
-        //    // Wait for buffer to fully clear
-        //    Thread.Sleep(100);
-
-        //    // Disable controls and enable timer
-        //    //ClusterControl(false);
-        //    StartButton.Enabled = false;
-        //    timer1.Enabled = true;
-        //}
         private void RecheckSerialPorts(object sender, EventArgs e)
         {
             GetPorts();
@@ -273,8 +236,6 @@ namespace ReadSerialLiDAR
             int bytes = serialPort1.BytesToRead;
             byte[] buffer = new byte[bytes];
             DataLengthStatusLabel.Text = $"Bytes Read: {bytes} - {serialPort1.IsOpen}";
-
-            //serialPort1.IsOpen
 
             //serialPort1.Read(buffer, 0, bytes);
 
