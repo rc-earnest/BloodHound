@@ -103,8 +103,7 @@ namespace ReadSerialLiDAR
                 // ----------
                 // Baud rate - the number of Bits/sec
                 serialPort1.PortName = portName;
-                //serialPort1.BaudRate = 115_200;
-                serialPort1.BaudRate = 9_600;
+                serialPort1.BaudRate = 115_200;
                 serialPort1.Parity = Parity.None;
                 serialPort1.DataBits = 8;
                 serialPort1.StopBits = StopBits.One;
@@ -128,7 +127,7 @@ namespace ReadSerialLiDAR
                 if (serialPort1.IsOpen)
                 {
                     // Display selected port
-                    CommPortStatusLabel.Text = $"Active Port: {serialPort1.PortName}  |";
+                    CommPortStatusLabel.Text = $"Active Port: {serialPort1.PortName} - Open: {serialPort1.IsOpen} |";
                 }
                 else
                 {
@@ -235,7 +234,7 @@ namespace ReadSerialLiDAR
         {
             int bytes = serialPort1.BytesToRead;
             byte[] buffer = new byte[bytes];
-            DataLengthStatusLabel.Text = $"Bytes Read: {bytes} - {serialPort1.IsOpen}";
+            DataLengthStatusLabel.Text = $"Bytes Read: {bytes}";
 
             //serialPort1.Read(buffer, 0, bytes);
 
