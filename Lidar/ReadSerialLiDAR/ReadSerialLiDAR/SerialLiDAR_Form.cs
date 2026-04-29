@@ -168,7 +168,8 @@ namespace ReadSerialLiDAR
                     {
                         if (line.ToString() != "Split packet - disregard")
                         {
-                            string formattedData = $"ACQ: {DateTime.Now:yyyyMMdd.HHmm}:{DateTime.Now.Millisecond} | DATA: {line}\n";
+                            this.DisplayTextBox.Text = line;
+                            string formattedData = $"ACQ: {DateTime.Now:yyyyMMdd.HHmm}:{DateTime.Now.Millisecond} | DATA:\n{line}\n\n";
                             currentFile.WriteLine(formattedData);
                         }
                         //DisplayTextBox.Text += formattedData;
@@ -209,33 +210,27 @@ namespace ReadSerialLiDAR
             string hex = BitConverter.ToString(buffer);
 
             // Replaces dashes with blank spaces for file
-            string raw = hex.Replace("-", " ");
+            hex = hex.Replace("-", " ");
 
-            // Replaces dashes with empty for display
-            hex = hex.Replace("-", "");
+            // Stores packet header for file/display format
+            string[] chars = { "AA 55" };
 
-            // Stores packet header in both file/display formats
-            string[] chars = { "AA55" };
-            string[] header = { "AA 55" };
-
-            // Split/remove header(s) from each respective format
-            string[] rawSave = hex.Split(header, StringSplitOptions.None);
+            // Split/remove header from format
             string[] temp = hex.Split(chars, StringSplitOptions.None);
-
-            rawSave = temp;
-            for (int i = 0; i < rawSave.GetUpperBound(0)-1; i++)
+            
+            for (int i = 0; i < temp.GetUpperBound(0)-1; i++)
             {
                 if (i != 0)
                 {
                     // Concat "AA 55" header
-                    rawSave[i] = "AA55" + rawSave[i];
+                    temp[i] = "AA 55" + temp[i];
                 }
                 else
                 {
-                    rawSave[i] = "Split packet - disregard";
+                    temp[i] = "Split packet - disregard";
                 }
             }
-            LogDataToFile(rawSave);
+            LogDataToFile(temp);
         }
     }
 }
