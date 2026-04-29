@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace ReadSerialLiDAR
 {
@@ -19,8 +20,9 @@ namespace ReadSerialLiDAR
         // ----------
         // VARIABLES
         // ----------
-        string[] portNames;
+        string[] portNames, buffer;
         string filePath = "..\\..\\logs";
+        int bytes;
         //byte[] LiDARdata;
         List<byte> dataBuffer = new List<byte>();
 
@@ -30,13 +32,19 @@ namespace ReadSerialLiDAR
         public SerialLiDAR_Form()
         {
             InitializeComponent();
+            Control.CheckForIllegalCrossThreadCalls = false;
+            this.serialPort1.DataReceived += SerialPort1DataReceived;
             SetDefaults();
             GetPorts();
             //this.Text = serialPort1.BytesToRead.ToString();
         }
         void SetDefaults()
         {
-            this.timer1.Enabled = false;
+            this.ReadTimer.Enabled = true;
+            //this.ReadTimer.Interval = 1000;
+
+            //this.AutoScroll = true;
+
             CheckDirectory();
             DataLengthStatusLabel.Text = $"Bytes Read: 0";
             this.Text = "LiDAR Serial Data Logger";
@@ -232,13 +240,23 @@ namespace ReadSerialLiDAR
         }
         private void SerialPort1DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            int bytes = serialPort1.BytesToRead;
-            byte[] buffer = new byte[bytes];
+            bytes = serialPort1.BytesToRead;
             DataLengthStatusLabel.Text = $"Bytes Read: {bytes}";
 
-            //serialPort1.Read(buffer, 0, bytes);
-
             //LogDataToFile(buffer);
+        }
+        private void ReadTimer_Tick(object sender, EventArgs e)
+        {
+            int offset = serialPort1.BytesToRead;
+            byte[] buffer = new byte[offset];
+            serialPort1.Read(buffer, 0, offset);
+
+            string hex = BitConverter.ToString(buffer).Replace("-", " ");
+
+            string[] temp = hex.Split('A','A');
+
+            this.DisplayTextBox.Text = $"{hex}\n\n";
+            //this.DisplayTextBox.Text += $"{buffer[0].ToString()}\n";
         }
     }
 }

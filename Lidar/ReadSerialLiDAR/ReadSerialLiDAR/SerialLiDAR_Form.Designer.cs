@@ -33,7 +33,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.CommPortStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.DataLengthStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.ReadTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.utilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshSerialPortsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +46,6 @@
             // serialPort1
             // 
             this.serialPort1.ReceivedBytesThreshold = 40;
-            this.serialPort1.DataReceived += SerialPort1DataReceived;
             // 
             // statusStrip1
             // 
@@ -72,6 +71,10 @@
             this.DataLengthStatusLabel.Size = new System.Drawing.Size(103, 25);
             this.DataLengthStatusLabel.Text = "DataLength";
             // 
+            // ReadTimer
+            // 
+            this.ReadTimer.Tick += new System.EventHandler(this.ReadTimer_Tick);
+            // 
             // menuStrip1
             // 
             this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
@@ -80,7 +83,7 @@
             this.utilitiesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 33);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -90,7 +93,7 @@
             this.refreshSerialPortsToolStripMenuItem,
             this.PortsComboBox});
             this.utilitiesToolStripMenuItem.Name = "utilitiesToolStripMenuItem";
-            this.utilitiesToolStripMenuItem.Size = new System.Drawing.Size(85, 48);
+            this.utilitiesToolStripMenuItem.Size = new System.Drawing.Size(85, 29);
             this.utilitiesToolStripMenuItem.Text = "Utilities";
             // 
             // refreshSerialPortsToolStripMenuItem
@@ -110,10 +113,10 @@
             // DisplayTextBox
             // 
             this.DisplayTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DisplayTextBox.Location = new System.Drawing.Point(0, 36);
+            this.DisplayTextBox.Location = new System.Drawing.Point(0, 33);
             this.DisplayTextBox.Name = "DisplayTextBox";
             this.DisplayTextBox.ReadOnly = true;
-            this.DisplayTextBox.Size = new System.Drawing.Size(800, 382);
+            this.DisplayTextBox.Size = new System.Drawing.Size(800, 385);
             this.DisplayTextBox.TabIndex = 7;
             this.DisplayTextBox.Text = "";
             // 
@@ -143,7 +146,7 @@
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel CommPortStatusLabel;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer ReadTimer;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem utilitiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshSerialPortsToolStripMenuItem;
