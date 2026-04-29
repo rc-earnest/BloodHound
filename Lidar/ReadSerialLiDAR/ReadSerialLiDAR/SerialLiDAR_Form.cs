@@ -163,7 +163,6 @@ namespace ReadSerialLiDAR
 
                 using (StreamWriter currentFile = File.AppendText(path))
                 {
-                    //string hex = BitConverter.ToString(data);
                     foreach (string line in data)
                     {
                         if (line.ToString() != "Split packet - disregard")
@@ -172,13 +171,11 @@ namespace ReadSerialLiDAR
                             string formattedData = $"ACQ: {DateTime.Now:yyyyMMdd.HHmm}:{DateTime.Now.Millisecond} | DATA:\n{line}\n\n";
                             currentFile.WriteLine(formattedData);
                         }
-                        //DisplayTextBox.Text += formattedData;
                     }
                 }
             }
             catch (Exception ex)
             {
-                //ClusterControl(true);
                 MessageBox.Show(ex.Message);
             }
         }
@@ -189,11 +186,6 @@ namespace ReadSerialLiDAR
         private void RecheckSerialPorts(object sender, EventArgs e)
         {
             GetPorts();
-        }
-        private void ExitButton_Click(object sender, EventArgs e)
-        {
-            serialPort1.Close();
-            this.Dispose();
         }
         private void SerialPort1DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
