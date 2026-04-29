@@ -24,6 +24,7 @@ namespace ReadSerialLiDAR
         string filePath = "..\\..\\logs";
         int bytes;
         char degrees = '\u00B0';
+        double startAngle, endAngle, angle, distance;
 
         // ----------
         // STARTUP
@@ -168,7 +169,7 @@ namespace ReadSerialLiDAR
                     {
                         if (line.ToString() != "Split packet - disregard")
                         {
-                            this.DisplayTextBox.Text = line;
+                            //this.DisplayTextBox.Text = line;
                             string formattedData = $"ACQ: {DateTime.Now:yyyyMMdd.HHmm}:{DateTime.Now.Millisecond} | DATA:\n{line}\n";
                             currentFile.WriteLine(formattedData);
                         }
@@ -208,6 +209,8 @@ namespace ReadSerialLiDAR
                     Array.Copy(rawData, i + 4, packet, 0, length);
 
                     DecodePacket(packet);
+
+                    i += 4 + length;
                 }
                 else
                 {
@@ -217,7 +220,31 @@ namespace ReadSerialLiDAR
         }
         void DecodePacket(byte[] completeData)
         {
+            // Extract start and end angles
+            ushort startRaw = (ushort)(completeData[0] | completeData[1] << 8);
+            ushort endRaw   = (ushort)(completeData[2] | completeData[3] << 8);
 
+            startAngle = startRaw / 100.0;
+            endAngle   = endRaw / 100.0;
+
+            // Minus angles + checksum
+            int dataCount = (completeData.Length - 6) / 2;
+
+            double step = (endAngle - startAngle) / (dataCount - 1);
+
+            for (int i = 0; i < dataCount; i++)
+            {
+                int index = 4 + i * 2;
+
+                ushort distRaw = (ushort)(completeData[index] | (completeData[index + 1] << 8));
+                distance = distRaw;
+
+                angle = startAngle + (i * step);
+
+                string debug = $"START: {startAngle}{degrees}\nEND: {endAngle}{degrees}\n";
+                string data = $"ANGLE: {angle}{degrees}, DISTANCE: {distance}mm\n";
+                this.DisplayTextBox.Text = debug + data;
+            }
         }
 
         // ----------
@@ -241,6 +268,9 @@ namespace ReadSerialLiDAR
             // Converts Rx'd data into Hexadecimal values
             string hex = BitConverter.ToString(buffer);
 
+            // Turn the received data into readable info
+            TranslateData(buffer);
+
             // Replaces dashes with blank spaces for file
             hex = hex.Replace("-", " ");
 
@@ -249,7 +279,6 @@ namespace ReadSerialLiDAR
 
             // Split/remove header from format
             string[] temp = hex.Split(chars, StringSplitOptions.None);
-
             
             // Document and store data into a file
             for (int i = 0; i < temp.GetUpperBound(0)-1; i++)
@@ -264,10 +293,7 @@ namespace ReadSerialLiDAR
                     temp[i] = "Split packet - disregard";
                 }
             }
-            LogDataToFile(temp);
-
-            // Turn the received data into readable info
-            TranslateData(buffer);
+            //LogDataToFile(temp);
         }
     }
 }
