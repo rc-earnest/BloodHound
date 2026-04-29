@@ -20,11 +20,9 @@ namespace ReadSerialLiDAR
         // ----------
         // VARIABLES
         // ----------
-        string[] portNames, buffer;
+        string[] portNames;
         string filePath = "..\\..\\logs";
         int bytes;
-        //byte[] LiDARdata;
-        List<byte> dataBuffer = new List<byte>();
 
         // ----------
         // STARTUP
@@ -36,14 +34,11 @@ namespace ReadSerialLiDAR
             this.serialPort1.DataReceived += SerialPort1DataReceived;
             SetDefaults();
             GetPorts();
-            //this.Text = serialPort1.BytesToRead.ToString();
         }
         void SetDefaults()
         {
             this.ReadTimer.Enabled = true;
             //this.ReadTimer.Interval = 1000;
-
-            //this.AutoScroll = true;
 
             CheckDirectory();
             DataLengthStatusLabel.Text = $"Bytes Read: 0";
@@ -65,7 +60,6 @@ namespace ReadSerialLiDAR
                 foreach (string portName in portNames)
                 {
                     PortsComboBox.Items.Add(portName);
-                    //SerialConnect(portName);
                 }
                 if (portNames.Length > 0)
                 {
@@ -81,7 +75,6 @@ namespace ReadSerialLiDAR
                     PortsComboBox.Items.Clear();
                     PortsComboBox.Items.Add("None");
                     PortsComboBox.SelectedIndex = 0;
-                    //StartButton.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -161,68 +154,31 @@ namespace ReadSerialLiDAR
         // ----------
         // PROGRAM LOGIC
         // ----------
-        void LogDataToFile(byte[] data)
+        void LogDataToFile(string[] data)
         {
             try
             {
                 // Creates log files based on the hour - resets/creates new file every hour
                 string path = $"{filePath}\\{DateTime.Now:yyyyMMdd.HH00}_DataSample.log";
+
                 using (StreamWriter currentFile = File.AppendText(path))
                 {
-                    string hex = BitConverter.ToString(data);
-                    string formattedData = $"ACQ: {DateTime.Now:yyMMdd.HHmm}.{DateTime.Now.Millisecond} | DATA: {hex}\n";
-                    currentFile.WriteLine(formattedData);
-                    DisplayTextBox.Text += formattedData;
+                    //string hex = BitConverter.ToString(data);
+                    foreach (string line in data)
+                    {
+                        if (line.ToString() != "Split packet - disregard")
+                        {
+                            string formattedData = $"ACQ: {DateTime.Now:yyyyMMdd.HHmm}:{DateTime.Now.Millisecond} | DATA: {line}\n";
+                            currentFile.WriteLine(formattedData);
+                        }
+                        //DisplayTextBox.Text += formattedData;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 //ClusterControl(true);
                 MessageBox.Show(ex.Message);
-            }
-        }
-        byte[] GetData()
-        {
-            // Create a new 1D byte array with a length of the number of readable bytes
-            byte[] newData = new byte[0];
-            if (serialPort1.IsOpen)
-            {
-                // Make array the size of the input buffer
-                newData = new byte[serialPort1.BytesToRead];
-
-                // Update label for debugging
-                DataLengthStatusLabel.Text = $"Bytes Read: {newData.Length}";
-
-                // Read input buffer with NO offset
-                serialPort1.Read(newData, 0, newData.Length);
-            }
-            return newData;
-        }
-        void ProcessBuffer()
-        {
-            while (dataBuffer.Count >= 4)
-            {
-                // Check if packet header is present
-                if (dataBuffer[0] == 0xAA && dataBuffer[1] == 0x55)
-                {
-                    int length = dataBuffer[2];
-                    if (dataBuffer.Count >= length)
-                    {
-                        byte[] packet = dataBuffer.Take(length).ToArray();
-
-                        LogDataToFile(packet);
-
-                        dataBuffer.RemoveRange(0, length);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    dataBuffer.RemoveAt(0);
-                }
             }
         }
 
@@ -242,8 +198,6 @@ namespace ReadSerialLiDAR
         {
             bytes = serialPort1.BytesToRead;
             DataLengthStatusLabel.Text = $"Bytes Read: {bytes}";
-
-            //LogDataToFile(buffer);
         }
         private void ReadTimer_Tick(object sender, EventArgs e)
         {
@@ -251,12 +205,37 @@ namespace ReadSerialLiDAR
             byte[] buffer = new byte[offset];
             serialPort1.Read(buffer, 0, offset);
 
-            string hex = BitConverter.ToString(buffer).Replace("-", " ");
+            // Converts Rx'd data into Hexadecimal values
+            string hex = BitConverter.ToString(buffer);
 
-            string[] temp = hex.Split('A','A');
+            // Replaces dashes with blank spaces for file
+            string raw = hex.Replace("-", " ");
 
-            this.DisplayTextBox.Text = $"{hex}\n\n";
-            //this.DisplayTextBox.Text += $"{buffer[0].ToString()}\n";
+            // Replaces dashes with empty for display
+            hex = hex.Replace("-", "");
+
+            // Stores packet header in both file/display formats
+            string[] chars = { "AA55" };
+            string[] header = { "AA 55" };
+
+            // Split/remove header(s) from each respective format
+            string[] rawSave = hex.Split(header, StringSplitOptions.None);
+            string[] temp = hex.Split(chars, StringSplitOptions.None);
+
+            rawSave = temp;
+            for (int i = 0; i < rawSave.GetUpperBound(0)-1; i++)
+            {
+                if (i != 0)
+                {
+                    // Concat "AA 55" header
+                    rawSave[i] = "AA55" + rawSave[i];
+                }
+                else
+                {
+                    rawSave[i] = "Split packet - disregard";
+                }
+            }
+            LogDataToFile(rawSave);
         }
     }
 }
