@@ -32,12 +32,11 @@ namespace ReadSerialLiDAR
             InitializeComponent();
             SetDefaults();
             GetPorts();
+            //this.Text = serialPort1.BytesToRead.ToString();
         }
         void SetDefaults()
         {
             this.timer1.Enabled = false;
-            //this.Timer1DurationTrackbar.Value = 1;
-            //Timer1Change(1);
             CheckDirectory();
             DataLengthStatusLabel.Text = $"Bytes Read: 0";
             this.Text = "LiDAR Serial Data Logger";
@@ -64,7 +63,8 @@ namespace ReadSerialLiDAR
                 {
                     // If array length is greater than 0, set index at 0
                     PortsComboBox.SelectedIndex = 0;
-                    //StartButton.Enabled = true;
+
+                    // Connect to port at index 0
                     SerialConnect(PortsComboBox.SelectedItem.ToString());
                 }
                 else
@@ -272,10 +272,13 @@ namespace ReadSerialLiDAR
         {
             int bytes = serialPort1.BytesToRead;
             byte[] buffer = new byte[bytes];
+            DataLengthStatusLabel.Text = $"Bytes Read: {bytes} - {serialPort1.IsOpen}";
 
-            serialPort1.Read(buffer, 0, bytes);
+            //serialPort1.IsOpen
 
-            LogDataToFile(buffer);
+            //serialPort1.Read(buffer, 0, bytes);
+
+            //LogDataToFile(buffer);
         }
     }
 }

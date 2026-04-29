@@ -43,6 +43,10 @@
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
+            // serialPort1
+            // 
+            this.serialPort1.ReceivedBytesThreshold = 40;
+            // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
@@ -69,6 +73,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.utilitiesToolStripMenuItem});
@@ -84,7 +89,7 @@
             this.refreshSerialPortsToolStripMenuItem,
             this.PortsComboBox});
             this.utilitiesToolStripMenuItem.Name = "utilitiesToolStripMenuItem";
-            this.utilitiesToolStripMenuItem.Size = new System.Drawing.Size(85, 32);
+            this.utilitiesToolStripMenuItem.Size = new System.Drawing.Size(85, 48);
             this.utilitiesToolStripMenuItem.Text = "Utilities";
             // 
             // refreshSerialPortsToolStripMenuItem
@@ -97,6 +102,7 @@
             // PortsComboBox
             // 
             this.PortsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PortsComboBox.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.PortsComboBox.Name = "PortsComboBox";
             this.PortsComboBox.Size = new System.Drawing.Size(121, 33);
             // 
