@@ -23,6 +23,7 @@ namespace ReadSerialLiDAR
         string[] portNames;
         string filePath = "..\\..\\logs";
         int bytes;
+        char degrees = '\u00B0';
 
         // ----------
         // STARTUP
@@ -168,7 +169,7 @@ namespace ReadSerialLiDAR
                         if (line.ToString() != "Split packet - disregard")
                         {
                             this.DisplayTextBox.Text = line;
-                            string formattedData = $"ACQ: {DateTime.Now:yyyyMMdd.HHmm}:{DateTime.Now.Millisecond} | DATA:\n{line}\n\n";
+                            string formattedData = $"ACQ: {DateTime.Now:yyyyMMdd.HHmm}:{DateTime.Now.Millisecond} | DATA:\n{line}\n";
                             currentFile.WriteLine(formattedData);
                         }
                     }
@@ -178,6 +179,45 @@ namespace ReadSerialLiDAR
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        void TranslateData(byte[] rawData)
+        {
+            // Angle_step = (end_angle - start_angle) / (num_points - 1)
+            // angle[i] = start_angle + i * angle_step
+
+            int i = 0;
+
+            // 
+            while (i < rawData.Length - 4)
+            {
+                // Contine ONLY IF handshake is present
+                if (rawData[i] == 0xAA && rawData[i + 1] == 0x55)
+                {
+                    int length = rawData[i + 2] | (rawData[i + 3] << 8);
+
+                    // IF: Packet is incomplete ----------------
+                    if (i + 4 + length > rawData.Length)
+                        break;
+
+                    // ELSE: Extract packet --------------------
+
+                    // Init new byte array with the same length as above
+                    byte[] packet = new byte[length];
+
+                    // Copy "parsed" data into new array, excluding the header and
+                    Array.Copy(rawData, i + 4, packet, 0, length);
+
+                    DecodePacket(packet);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
+        void DecodePacket(byte[] completeData)
+        {
+
         }
 
         // ----------
@@ -209,7 +249,9 @@ namespace ReadSerialLiDAR
 
             // Split/remove header from format
             string[] temp = hex.Split(chars, StringSplitOptions.None);
+
             
+            // Document and store data into a file
             for (int i = 0; i < temp.GetUpperBound(0)-1; i++)
             {
                 if (i != 0)
@@ -223,6 +265,9 @@ namespace ReadSerialLiDAR
                 }
             }
             LogDataToFile(temp);
+
+            // Turn the received data into readable info
+            TranslateData(buffer);
         }
     }
 }
