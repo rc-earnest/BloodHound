@@ -54,9 +54,10 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CommPortStatusLabel,
             this.DataLengthStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 213);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 208);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(457, 32);
+            this.statusStrip1.Size = new System.Drawing.Size(424, 32);
+            this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -84,7 +85,7 @@
             this.utilitiesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(457, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(424, 33);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -116,7 +117,7 @@
             this.DisplayTextBox.Location = new System.Drawing.Point(0, 33);
             this.DisplayTextBox.Name = "DisplayTextBox";
             this.DisplayTextBox.ReadOnly = true;
-            this.DisplayTextBox.Size = new System.Drawing.Size(457, 180);
+            this.DisplayTextBox.Size = new System.Drawing.Size(424, 175);
             this.DisplayTextBox.TabIndex = 7;
             this.DisplayTextBox.Text = "";
             // 
@@ -124,9 +125,9 @@
             // 
             this.LogFileCheckBox.AutoSize = true;
             this.LogFileCheckBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.LogFileCheckBox.Location = new System.Drawing.Point(0, 189);
+            this.LogFileCheckBox.Location = new System.Drawing.Point(0, 184);
             this.LogFileCheckBox.Name = "LogFileCheckBox";
-            this.LogFileCheckBox.Size = new System.Drawing.Size(457, 24);
+            this.LogFileCheckBox.Size = new System.Drawing.Size(424, 24);
             this.LogFileCheckBox.TabIndex = 8;
             this.LogFileCheckBox.Text = "Log Raw Data to file?";
             this.LogFileCheckBox.UseVisualStyleBackColor = true;
@@ -135,12 +136,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(457, 245);
+            this.ClientSize = new System.Drawing.Size(424, 240);
             this.Controls.Add(this.LogFileCheckBox);
             this.Controls.Add(this.DisplayTextBox);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "SerialLiDAR_Form";
