@@ -39,7 +39,6 @@
             this.refreshSerialPortsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PortsComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.DisplayTextBox = new System.Windows.Forms.RichTextBox();
-            this.LogFileCheckBox = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +55,7 @@
             this.DataLengthStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 418);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(646, 32);
+            this.statusStrip1.Size = new System.Drawing.Size(1520, 32);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -84,7 +83,7 @@
             this.utilitiesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(646, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(1520, 33);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -94,7 +93,7 @@
             this.refreshSerialPortsToolStripMenuItem,
             this.PortsComboBox});
             this.utilitiesToolStripMenuItem.Name = "utilitiesToolStripMenuItem";
-            this.utilitiesToolStripMenuItem.Size = new System.Drawing.Size(85, 32);
+            this.utilitiesToolStripMenuItem.Size = new System.Drawing.Size(85, 29);
             this.utilitiesToolStripMenuItem.Text = "Utilities";
             // 
             // refreshSerialPortsToolStripMenuItem
@@ -107,39 +106,28 @@
             // PortsComboBox
             // 
             this.PortsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PortsComboBox.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.PortsComboBox.Name = "PortsComboBox";
             this.PortsComboBox.Size = new System.Drawing.Size(121, 33);
             // 
             // DisplayTextBox
             // 
             this.DisplayTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DisplayTextBox.Location = new System.Drawing.Point(0, 36);
+            this.DisplayTextBox.Location = new System.Drawing.Point(0, 33);
             this.DisplayTextBox.Name = "DisplayTextBox";
             this.DisplayTextBox.ReadOnly = true;
-            this.DisplayTextBox.Size = new System.Drawing.Size(646, 382);
+            this.DisplayTextBox.Size = new System.Drawing.Size(1520, 385);
             this.DisplayTextBox.TabIndex = 7;
             this.DisplayTextBox.Text = "";
-            // 
-            // LogFileCheckBox
-            // 
-            this.LogFileCheckBox.AutoSize = true;
-            this.LogFileCheckBox.Location = new System.Drawing.Point(451, 418);
-            this.LogFileCheckBox.Name = "LogFileCheckBox";
-            this.LogFileCheckBox.Size = new System.Drawing.Size(188, 24);
-            this.LogFileCheckBox.TabIndex = 8;
-            this.LogFileCheckBox.Text = "Log Raw Data to file?";
-            this.LogFileCheckBox.UseVisualStyleBackColor = true;
             // 
             // SerialLiDAR_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(646, 450);
-            this.Controls.Add(this.LogFileCheckBox);
+            this.ClientSize = new System.Drawing.Size(1520, 450);
             this.Controls.Add(this.DisplayTextBox);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "SerialLiDAR_Form";
@@ -165,7 +153,6 @@
         private System.Windows.Forms.ToolStripComboBox PortsComboBox;
         private System.Windows.Forms.ToolStripStatusLabel DataLengthStatusLabel;
         private System.Windows.Forms.RichTextBox DisplayTextBox;
-        private System.Windows.Forms.CheckBox LogFileCheckBox;
     }
 }
 

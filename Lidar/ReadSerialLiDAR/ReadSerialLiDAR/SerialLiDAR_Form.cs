@@ -32,21 +32,19 @@ namespace ReadSerialLiDAR
         public SerialLiDAR_Form()
         {
             InitializeComponent();
-            //Control.CheckForIllegalCrossThreadCalls = false;
+            Control.CheckForIllegalCrossThreadCalls = false;
             this.serialPort1.DataReceived += SerialPort1DataReceived;
             SetDefaults();
-            CheckDirectory();
             GetPorts();
-            this.ReadTimer.Enabled = true;
         }
         void SetDefaults()
         {
+            this.ReadTimer.Enabled = true;
+            //this.ReadTimer.Interval = 1000;
+
+            CheckDirectory();
             DataLengthStatusLabel.Text = $"Bytes Read: 0";
             this.Text = "LiDAR Serial Data Logger";
-
-            this.LogFileCheckBox.Checked = false;
-
-            //this.ReadTimer.Interval = 1000;
         }
         void GetPorts()
         {
@@ -185,81 +183,69 @@ namespace ReadSerialLiDAR
         }
         void TranslateData(byte[] rawData)
         {
-            try
+            // Angle_step = (end_angle - start_angle) / (num_points - 1)
+            // angle[i] = start_angle + i * angle_step
+
+            int i = 0;
+
+            // 
+            while (i < rawData.Length - 4)
             {
-                // Angle_step = (end_angle - start_angle) / (num_points - 1)
-                // angle[i] = start_angle + i * angle_step
-
-                int i = 0;
-
-                while (i < rawData.Length - 4)
+                // Contine ONLY IF handshake is present
+                if (rawData[i] == 0xAA && rawData[i + 1] == 0x55)
                 {
-                    // Contine ONLY IF handshake is present
-                    if (rawData[i] == 0xAA && rawData[i + 1] == 0x55)
-                    {
-                        int length = rawData[i + 2] | (rawData[i + 3] << 8);
+                    int length = rawData[i + 2] | (rawData[i + 3] << 8);
 
-                        // IF: Packet is incomplete ----------------
-                        if (i + 4 + length > rawData.Length)
-                            break;
+                    // IF: Packet is incomplete ----------------
+                    if (i + 4 + length > rawData.Length)
+                        break;
 
-                        // ELSE: Extract packet --------------------
+                    // ELSE: Extract packet --------------------
 
-                        // Init new byte array with the same length as above
-                        byte[] packet = new byte[length];
+                    // Init new byte array with the same length as above
+                    byte[] packet = new byte[length];
 
-                        // Copy "parsed" data into new array, excluding the header and
-                        Array.Copy(rawData, i + 4, packet, 0, length);
+                    // Copy "parsed" data into new array, excluding the header and
+                    Array.Copy(rawData, i + 4, packet, 0, length);
 
-                        DecodePacket(packet);
+                    DecodePacket(packet);
 
-                        i += 4 + length;
-                    }
-                    else
-                    {
-                        i++;
-                    }
+                    i += 4 + length;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                else
+                {
+                    i++;
+                }
             }
         }
         void DecodePacket(byte[] completeData)
         {
             // BUGGED METHOD - NEED TO RE-ANALYZE AND FIX CONVERSION(S) - - - - - - - - - - - - - -
-            try
+
+            // Extract start and end angles
+            ushort startRaw = (ushort)(completeData[0] | completeData[1] << 8);
+            ushort endRaw   = (ushort)(completeData[2] | completeData[3] << 8);
+
+            startAngle = startRaw / 100.0;
+            endAngle   = endRaw / 100.0;
+
+            // Minus angles + checksum
+            int dataCount = (completeData.Length - 6) / 2;
+
+            double step = (endAngle - startAngle) / (dataCount - 1);
+
+            for (int i = 0; i < dataCount; i++)
             {
-                // Extract start and end angles
-                ushort startRaw = (ushort)(completeData[0] | completeData[1] << 8);
-                ushort endRaw = (ushort)(completeData[2] | completeData[3] << 8);
+                int index = 4 + i * 2;
 
-                startAngle = startRaw / 100.0;
-                endAngle = endRaw / 100.0;
+                ushort distRaw = (ushort)(completeData[index] | (completeData[index + 1] << 8));
+                distance = distRaw;
 
-                // Minus angles + checksum
-                int dataCount = (completeData.Length - 6) / 2;
+                angle = startAngle + (i * step);
 
-                double step = (endAngle - startAngle) / (dataCount - 1);
-
-                for (int i = 0; i < dataCount; i++)
-                {
-                    int index = 4 + i * 2;
-
-                    ushort distRaw = (ushort)(completeData[index] | (completeData[index + 1] << 8));
-                    distance = distRaw;
-
-                    angle = startAngle + (i * step);
-
-                    string debug = $"START: {startAngle}{degrees}\nEND: {endAngle}{degrees}\n";
-                    string data = $"ANGLE: {angle}{degrees}, DISTANCE: {distance}mm\n";
-                    this.DisplayTextBox.Text = debug + data;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                string debug = $"START: {startAngle}{degrees}\nEND: {endAngle}{degrees}\n";
+                string data = $"ANGLE: {angle}{degrees}, DISTANCE: {distance}mm\n";
+                this.DisplayTextBox.Text = debug + data;
             }
         }
 
@@ -277,51 +263,39 @@ namespace ReadSerialLiDAR
         }
         private void ReadTimer_Tick(object sender, EventArgs e)
         {
-            try
+            int offset = serialPort1.BytesToRead;
+            byte[] buffer = new byte[offset];
+            serialPort1.Read(buffer, 0, offset);
+
+            // Turn the received data into readable info
+            TranslateData(buffer);
+
+            // Converts Rx'd data into Hexadecimal values
+            string hex = BitConverter.ToString(buffer);
+
+            // Replaces dashes with blank spaces for file
+            hex = hex.Replace("-", " ");
+
+            // Stores packet header for file/display format
+            string[] chars = { "AA 55" };
+
+            // Split/remove header from format
+            string[] temp = hex.Split(chars, StringSplitOptions.None);
+            
+            // Document and store data into a file
+            for (int i = 0; i < temp.GetUpperBound(0)-1; i++)
             {
-                int offset = serialPort1.BytesToRead;
-                byte[] buffer = new byte[offset];
-                serialPort1.Read(buffer, 0, offset);
-
-                // Turn the received data into readable info
-                TranslateData(buffer);
-
-                // User-controlled file log enable
-                if (LogFileCheckBox.Checked)
+                if (i != 0)
                 {
-                    // Converts Rx'd data into Hexadecimal values
-                    string hex = BitConverter.ToString(buffer);
-
-                    // Replaces dashes with blank spaces for file
-                    hex = hex.Replace("-", " ");
-
-                    // Stores packet header for file/display format
-                    string[] chars = { "AA 55" };
-
-                    // Split/remove header from format
-                    string[] temp = hex.Split(chars, StringSplitOptions.None);
-
-                    // Document and store data into a file
-                    for (int i = 0; i < temp.GetUpperBound(0) - 1; i++)
-                {
-                    if (i != 0)
-                    {
-                        // Concat "AA 55" header
-                        temp[i] = "AA 55" + temp[i];
-                    }
-                    else
-                    {
-                        temp[i] = "Split packet - disregard";
-                    }
+                    // Concat "AA 55" header
+                    temp[i] = "AA 55" + temp[i];
                 }
-
-                    LogDataToFile(temp);
+                else
+                {
+                    temp[i] = "Split packet - disregard";
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //LogDataToFile(temp);
         }
     }
 }
