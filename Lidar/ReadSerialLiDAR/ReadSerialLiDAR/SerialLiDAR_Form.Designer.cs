@@ -54,7 +54,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CommPortStatusLabel,
             this.DataLengthStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 208);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 191);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(424, 32);
             this.statusStrip1.SizingGrip = false;
@@ -117,7 +117,8 @@
             this.DisplayTextBox.Location = new System.Drawing.Point(0, 33);
             this.DisplayTextBox.Name = "DisplayTextBox";
             this.DisplayTextBox.ReadOnly = true;
-            this.DisplayTextBox.Size = new System.Drawing.Size(424, 175);
+            this.DisplayTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.DisplayTextBox.Size = new System.Drawing.Size(424, 158);
             this.DisplayTextBox.TabIndex = 7;
             this.DisplayTextBox.Text = "";
             // 
@@ -125,7 +126,7 @@
             // 
             this.LogFileCheckBox.AutoSize = true;
             this.LogFileCheckBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.LogFileCheckBox.Location = new System.Drawing.Point(0, 184);
+            this.LogFileCheckBox.Location = new System.Drawing.Point(0, 167);
             this.LogFileCheckBox.Name = "LogFileCheckBox";
             this.LogFileCheckBox.Size = new System.Drawing.Size(424, 24);
             this.LogFileCheckBox.TabIndex = 8;
@@ -136,7 +137,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 240);
+            this.ClientSize = new System.Drawing.Size(424, 223);
             this.Controls.Add(this.LogFileCheckBox);
             this.Controls.Add(this.DisplayTextBox);
             this.Controls.Add(this.statusStrip1);

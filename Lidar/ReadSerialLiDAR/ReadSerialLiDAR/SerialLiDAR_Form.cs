@@ -262,7 +262,7 @@ namespace ReadSerialLiDAR
                         int length = rawData[i + 2] | (rawData[i + 3] << 8);
 
                         // Check if data is good, if not skip
-                        if (length <= 0 || length > rawData.Length)
+                        if (length <= 0 || length > rawData.Length - i)
                         {
                             i++;
                             continue;
@@ -270,7 +270,7 @@ namespace ReadSerialLiDAR
 
                         // IF: Packet is incomplete, exit loop
                         if (i + 4 + length > rawData.Length)
-                            break;
+                            return;
 
                         // Init new byte array with the same length as above
                         byte[] packet = new byte[length];
@@ -320,6 +320,12 @@ namespace ReadSerialLiDAR
 
                 double step = (endAngle - startAngle) / (dataCount - 1);
 
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine($"Start Angle: {startAngle}{degrees}");
+                sb.AppendLine($"End Angle: {endAngle}{degrees}");
+                sb.AppendLine();
+
                 for (int i = 0; i < dataCount; i++)
                 {
                     int index = 4 + i * 2;
@@ -329,17 +335,23 @@ namespace ReadSerialLiDAR
                     // Format value into numerical string with comma seperators
                     string dist = distRaw.ToString("N0");
 
+                    sb.AppendLine($"Measured Angle: {angle}{degrees}");
                     angle = Math.Round((startAngle + i * step), 3);
 
-                    string debug = $"Start Angle: {startAngle}{degrees}\n End Angle: {endAngle}{degrees}\n\n";
-                    string data = $"Measured Angle: {angle}{degrees}\nMeasured Distance: {dist}mm\n";
-                    this.DisplayTextBox.Text = debug + data;
+                    sb.AppendLine($"Measured Distance: {dist}mm\n");
                 }
+                this.DisplayTextBox.Text = sb.ToString();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        void UpdateDisplay(string dist)
+        {
+            string debug = $"Start Angle: {startAngle}{degrees}\n End Angle: {endAngle}{degrees}\n\n";
+            string data = $"Measured Angle: {angle}{degrees}\nMeasured Distance: {dist}mm\n";
+            this.DisplayTextBox.Text = debug + data;
         }
 
         // ----------
