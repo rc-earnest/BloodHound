@@ -265,12 +265,14 @@ namespace ReadSerialLiDAR
                     int index = 4 + i * 2;
 
                     ushort distRaw = (ushort)(completeData[index] | (completeData[index + 1] << 8));
-                    distance = distRaw;
 
-                    angle = startAngle + (i * step);
+                    // Format value into numerical string with comma seperators
+                    string dist = distRaw.ToString("N0");
 
-                    string debug = $"START: {startAngle}{degrees}\n    END: {endAngle}{degrees}\n";
-                    string data = $"ANGLE: {angle}{degrees}, DISTANCE: {distance}mm\n";
+                    angle = Math.Round((startAngle + i * step), 3);
+
+                    string debug = $"Start Angle: {startAngle}{degrees}\n End Angle: {endAngle}{degrees}\n\n";
+                    string data = $"Measured Angle: {angle}{degrees}\nMeasured Distance: {dist}mm\n";
                     this.DisplayTextBox.Text = debug + data;
                 }
             }
