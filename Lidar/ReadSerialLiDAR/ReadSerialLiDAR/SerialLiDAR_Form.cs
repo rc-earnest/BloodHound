@@ -165,6 +165,59 @@ namespace ReadSerialLiDAR
         // ----------
         // PROGRAM LOGIC
         // ----------
+        void FetchData()
+        {
+            try
+            {
+                int offset = serialPort1.BytesToRead;
+                byte[] buffer = new byte[offset];
+                int bytesRead = serialPort1.Read(buffer, 0, offset);
+
+                // Automatically resizes buffer if values are mismatched
+                if (bytesRead != offset)
+                {
+                    Array.Resize(ref buffer, bytesRead);
+                }
+
+                // Turn the received data into readable info
+                TranslateData(buffer);
+
+                // User-controlled file log enable
+                if (LogFileCheckBox.Checked)
+                {
+                    // Converts Rx'd data into Hexadecimal values
+                    string hex = BitConverter.ToString(buffer);
+
+                    // Replaces dashes with blank spaces for file
+                    hex = hex.Replace("-", " ");
+
+                    // Stores packet header for file/display format
+                    string[] chars = { "AA 55" };
+
+                    // Split/remove header from format
+                    string[] temp = hex.Split(chars, StringSplitOptions.None);
+
+                    // Document and store data into a file
+                    for (int i = 0; i < temp.GetUpperBound(0) - 1; i++)
+                    {
+                        if (i != 0)
+                        {
+                            // Concat "AA 55" header
+                            temp[i] = "AA 55" + temp[i];
+                        }
+                        else
+                        {
+                            temp[i] = "Split packet - disregard";
+                        }
+                    }
+                    LogDataToFile(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         void LogDataToFile(string[] data)
         {
             try
@@ -194,16 +247,18 @@ namespace ReadSerialLiDAR
         {
             try
             {
-                // Angle_step = (end_angle - start_angle) / (num_points - 1)
-                // angle[i] = start_angle + i * angle_step
-
                 int i = 0;
 
                 while (i < rawData.Length - 4)
                 {
-                    // Contine ONLY IF handshake is present
+                    // ------------------------------
+                    // Strip handshake/header (AA 55) from data
+                    // ------------------------------
+
+                    // IF: handshake is present in first 2 bytes, continue
                     if (rawData[i] == 0xAA && rawData[i + 1] == 0x55)
                     {
+                        // Convert the two bytes into integer decimal value
                         int length = rawData[i + 2] | (rawData[i + 3] << 8);
 
                         // Check if data is good, if not skip
@@ -213,16 +268,14 @@ namespace ReadSerialLiDAR
                             continue;
                         }
 
-                        // IF: Packet is incomplete ----------------
+                        // IF: Packet is incomplete, exit loop
                         if (i + 4 + length > rawData.Length)
                             break;
-
-                        // ELSE: Extract packet --------------------
 
                         // Init new byte array with the same length as above
                         byte[] packet = new byte[length];
 
-                        // Copy "parsed" data into new array, excluding the header and
+                        // Copy "parsed" data into new array, excluding the header
                         Array.Copy(rawData, i + 4, packet, 0, length);
 
                         DecodePacket(packet);
@@ -245,6 +298,8 @@ namespace ReadSerialLiDAR
             // BUGGED METHOD - NEED TO RE-ANALYZE AND FIX CONVERSION(S) - - - - - - - - - - - - - -
             try
             {
+                // IMPORTANT NOTE: THE DATA PASSED INTO THIS METHOD DOES *NOT* CONTAIN THE HEADER
+
                 // Prevent null data or out of bounds errors from occurring
                 if (completeData == null || completeData.Length < 6)
                     return;
@@ -298,6 +353,12 @@ namespace ReadSerialLiDAR
         {
             bytes = serialPort1.BytesToRead;
 
+            // If the number of received bytes = 90, get data
+            //if (bytes == 90)
+            //{
+            //    FetchData();
+            //}
+
             // Prevent crashing(?)... not sure how it works
             if (this.IsHandleCreated)
             {
@@ -309,56 +370,7 @@ namespace ReadSerialLiDAR
         }
         private void ReadTimer_Tick(object sender, EventArgs e)
         {
-            try
-            {
-                int offset = serialPort1.BytesToRead;
-                byte[] buffer = new byte[offset];
-                int bytesRead = serialPort1.Read(buffer, 0, offset);
-
-                // Automatically resizes buffer if values are mismatched
-                if (bytesRead != offset)
-                {
-                    Array.Resize(ref buffer, bytesRead);
-                }
-
-                // Turn the received data into readable info
-                TranslateData(buffer);
-
-                // User-controlled file log enable
-                if (LogFileCheckBox.Checked)
-                {
-                    // Converts Rx'd data into Hexadecimal values
-                    string hex = BitConverter.ToString(buffer);
-
-                    // Replaces dashes with blank spaces for file
-                    hex = hex.Replace("-", " ");
-
-                    // Stores packet header for file/display format
-                    string[] chars = { "AA 55" };
-
-                    // Split/remove header from format
-                    string[] temp = hex.Split(chars, StringSplitOptions.None);
-
-                    // Document and store data into a file
-                    for (int i = 0; i < temp.GetUpperBound(0) - 1; i++)
-                    {
-                        if (i != 0)
-                        {
-                            // Concat "AA 55" header
-                            temp[i] = "AA 55" + temp[i];
-                        }
-                        else
-                        {
-                            temp[i] = "Split packet - disregard";
-                        }
-                    }
-                    LogDataToFile(temp);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            FetchData();
         }
     }
 }
