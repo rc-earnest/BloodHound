@@ -53,20 +53,20 @@ I2C_SETUP_MASTER
     ;****		    Set Up Slave Board Addresses				 ***
     ;***************************************************************************************
 	BANKSEL	    DRIVE_CONTROL_W
-	MOVLW	    H'10'
-	MOVWF	    DRIVE_CONTROL_W	;Save Drive Control Daugher Board Write Address
+	MOVLW	    H'20'
+	MOVWF	    DRIVE_CONTROL_W	    ;Save Drive Control Daugher Board Write Address
 	BANKSEL	    DRIVE_CONTROL_R
 	MOVLW	    H'11'
-	MOVWF	    DRIVE_CONTROL_R	;Save Drive Control Daugher Board Read Address
+	MOVWF	    DRIVE_CONTROL_R	    ;Save Drive Control Daugher Board Read Address
 	BANKSEL	    PERIPHERAL_CONTROL_W1
-	MOVLW	    H'20'
-	MOVWF	    PERIPHERAL_CONTROL_W1 ;Save Peripheral Control Daugher Board Write Address
+	MOVLW	    H'22'		    ;this will have to change in the future once the drive slave gets updated
+	MOVWF	    PERIPHERAL_CONTROL_W1   ;Save Peripheral Control Daugher Board Write Address
 	BANKSEL	    PERIPHERAL_CONTROL_W2
 	MOVLW	    H'44'
 	MOVWF	    PERIPHERAL_CONTROL_W2
 	BANKSEL	    PERIPHERAL_CONTROL_R
 	MOVLW	    H'21'
-	MOVWF	    PERIPHERAL_CONTROL_R ;Save Peripheral Control Daugher Board Read Address
+	MOVWF	    PERIPHERAL_CONTROL_R    ;Save Peripheral Control Daugher Board Read Address
 	
     ;***************************************************************************************
     ;****		Enable and Set Additional Slave Board Addresses			 ***
