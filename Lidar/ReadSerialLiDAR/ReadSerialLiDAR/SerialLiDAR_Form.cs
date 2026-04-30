@@ -32,7 +32,11 @@ namespace ReadSerialLiDAR
         public SerialLiDAR_Form()
         {
             InitializeComponent();
+
+            // *Can* prevent crashes, but may also cause more issues.
+                // Disabled because of other implemented fixes.
             //Control.CheckForIllegalCrossThreadCalls = false;
+            
             this.serialPort1.DataReceived += SerialPort1DataReceived;
             SetDefaults();
             CheckDirectory();
@@ -85,7 +89,7 @@ namespace ReadSerialLiDAR
                 PortsComboBox.Items.Clear();
 
                 // Display error message
-                Console.WriteLine($"{ex.Message}\n\nPress 'Cancel' to exit program or 'OK' to continue.",
+                MessageBox.Show($"{ex.Message}\n\nPress 'Cancel' to exit program or 'OK' to continue.",
                     "ERROR", MessageBoxButtons.OKCancel);
 
                 if (DialogResult == DialogResult.Cancel)
@@ -197,6 +201,13 @@ namespace ReadSerialLiDAR
                     {
                         int length = rawData[i + 2] | (rawData[i + 3] << 8);
 
+                        // Check if data is good, if not skip
+                        if (length <= 0 || length > rawData.Length)
+                        {
+                            i++;
+                            continue;
+                        }
+
                         // IF: Packet is incomplete ----------------
                         if (i + 4 + length > rawData.Length)
                             break;
@@ -229,6 +240,10 @@ namespace ReadSerialLiDAR
             // BUGGED METHOD - NEED TO RE-ANALYZE AND FIX CONVERSION(S) - - - - - - - - - - - - - -
             try
             {
+                // Prevent null data or out of bounds errors from occurring
+                if (completeData == null || completeData.Length < 6)
+                    return;
+
                 // Extract start and end angles
                 ushort startRaw = (ushort)(completeData[0] | completeData[1] << 8);
                 ushort endRaw = (ushort)(completeData[2] | completeData[3] << 8);
@@ -238,6 +253,10 @@ namespace ReadSerialLiDAR
 
                 // Minus angles + checksum
                 int dataCount = (completeData.Length - 6) / 2;
+
+                // Prevent divide by 0 error
+                if (dataCount <= 1)
+                    return;
 
                 double step = (endAngle - startAngle) / (dataCount - 1);
 
@@ -250,7 +269,7 @@ namespace ReadSerialLiDAR
 
                     angle = startAngle + (i * step);
 
-                    string debug = $"START: {startAngle}{degrees}\nEND: {endAngle}{degrees}\n";
+                    string debug = $"START: {startAngle}{degrees}\n    END: {endAngle}{degrees}\n";
                     string data = $"ANGLE: {angle}{degrees}, DISTANCE: {distance}mm\n";
                     this.DisplayTextBox.Text = debug + data;
                 }
@@ -271,7 +290,15 @@ namespace ReadSerialLiDAR
         private void SerialPort1DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             bytes = serialPort1.BytesToRead;
-            DataLengthStatusLabel.Text = $"Bytes Read: {bytes}";
+
+            // Prevent crashing(?)... not sure how it works
+            if (this.IsHandleCreated)
+            {
+                this.BeginInvoke((MethodInvoker)(() =>
+                {
+                    DataLengthStatusLabel.Text = $"Bytes Read: {bytes}";
+                }));
+            }
         }
         private void ReadTimer_Tick(object sender, EventArgs e)
         {
@@ -279,7 +306,13 @@ namespace ReadSerialLiDAR
             {
                 int offset = serialPort1.BytesToRead;
                 byte[] buffer = new byte[offset];
-                serialPort1.Read(buffer, 0, offset);
+                int bytesRead = serialPort1.Read(buffer, 0, offset);
+
+                // Automatically resizes buffer if values are mismatched
+                if (bytesRead != offset)
+                {
+                    Array.Resize(ref buffer, bytesRead);
+                }
 
                 // Turn the received data into readable info
                 TranslateData(buffer);
@@ -301,18 +334,17 @@ namespace ReadSerialLiDAR
 
                     // Document and store data into a file
                     for (int i = 0; i < temp.GetUpperBound(0) - 1; i++)
-                {
-                    if (i != 0)
                     {
-                        // Concat "AA 55" header
-                        temp[i] = "AA 55" + temp[i];
+                        if (i != 0)
+                        {
+                            // Concat "AA 55" header
+                            temp[i] = "AA 55" + temp[i];
+                        }
+                        else
+                        {
+                            temp[i] = "Split packet - disregard";
+                        }
                     }
-                    else
-                    {
-                        temp[i] = "Split packet - disregard";
-                    }
-                }
-
                     LogDataToFile(temp);
                 }
             }
