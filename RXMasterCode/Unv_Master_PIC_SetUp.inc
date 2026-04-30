@@ -103,25 +103,13 @@ INITIALIZE
     CLRF	T1CON			;DISABLE TIMER 1
     
 ;*** TIMER 2 SETUP *****
-    ;BANKSEL	T2CON
-   ; MOVLW	H'00'			;Sets Prescaler and Postscaler to 1:1 (Wait to enable timer)
-    ;MOVWF	T2CON
-    ;BANKSEL	PR2		
-   ; MOVLW	D'250'			;Set PR2 count 
-    ;MOVWF	PR2	
-    ;BANKSEL	T2CON
-    ;MOVLW	H'78'			;Prescaler 1:4, Postscaler 1:16 (Wait to enable timer)
-    ;MOVLW	H'38'			;Prescaler 1:16 + Postscaler 1:4 ? exactly 4 ms
-    ;MOVWF	T2CON
-   ;BANKSEL	PR2		
-    ;MOVLW	D'249'			;PR2=249 -> 4ms period at 16MHz
-    ;MOVWF	PR2
     BANKSEL	T2CON
-    MOVLW	H'79'			;Prescaler 1:4, Postscaler 1:16, timer off -> 4ms period
+    MOVLW	H'00'			;Sets Prescaler and Postscaler to 1:1 (Wait to enable timer)
     MOVWF	T2CON
     BANKSEL	PR2		
-    MOVLW	D'249'			;PR2=249 -> 4ms period at 16MHz
-    MOVWF	PR2
+    MOVLW	D'250'			;Set PR2 count 
+    MOVWF	PR2	
+    
 ;*** Alternate Pin Functions ****
     BANKSEL	APFCON1
     MOVLW	H'00'
@@ -236,13 +224,13 @@ INITIALIZE
     MOVWF	PIE4			;Disable Interrupts
     
     ;*** UART Set Up: *****
-    BANKSEL	TXSTA
+    BANKSEL	TX1STA
     MOVLW	H'86'
-    MOVWF	TXSTA			;Async, 8 Bit Tx, No Break Char, BRGH High (Wait On enable)
+    MOVWF	TX1STA			;Async, 8 Bit Tx, No Break Char, BRGH High (Wait On enable)
     
-    BANKSEL	RCSTA
+    BANKSEL	RC1STA
     MOVLW	H'80'
-    MOVWF	RCSTA			;Serial Port Enable, 8 Bit Rx, Disable Adress Selection (Wait for Cont. Rx Enable)
+    MOVWF	RC1STA			;Serial Port Enable, 8 Bit Rx, Disable Adress Selection (Wait for Cont. Rx Enable)
     
     BANKSEL	BAUDCTL
     MOVLW	H'48'

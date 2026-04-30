@@ -72,114 +72,54 @@ URC_RX_HANDLERS CODE
 ;****This Function will Determine the Byte Received, Verify Handshake and Address,   ***
 ;****Save the Received Byte into Temp Variables, and Set a flag to signal to Decode  ***
 ;***************************************************************************************
-;UART_RX
- ;BANKSEL    BYTE_COUNT
- ;MOVLW	    H'00'
- ;SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
- ;BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
- ;GOTO	    BYTE_1		    ;First Received Byte Check for HandShake CHAR 
- 
- ;MOVLW	    H'01'
- ;SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
- ;BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
- ;GOTO	    BYTE_2		    ;Second Received Byte Check for Robot Address 
- 
- ;MOVLW	    H'02'
- ;SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
- ;BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
- ;GOTO	    BYTE_3		    ;Third Received Byte Save as Data Packet Command 
- 
- ;MOVLW	    H'03'
- ;SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
- ;BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
- ;GOTO	    BYTE_4		    ;Fourth Received Byte Save as Memory Save 1 
-    
- ;MOVLW	    H'04'
- ;SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
- ;BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
- ;GOTO	    BYTE_5		    ;Fifth Received Byte Save as Memory Save 2 
- 
- ;MOVLW	    H'05'
- ;SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
- ;BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
- ;GOTO	    BYTE_6		    ;Sixth Received Byte Save as Memory Save 3 
- 
- ;CLRF	    BYTE_COUNT
- ;GOTO	    UART_RX_END		    ;Unknown Byte Count (NOT 0-6 Bytes) Clear Count and Exit
- 
-;BYTE_1	;**First Received Byte Check for HandShake CHAR**
- ;MOVLW	    H'24'
- ;BANKSEL    RCREG
- ;SUBWF	    RCREG,0		    ;Subtract RCREG - W; Result Store in W
- ;BTFSC	    STATUS,2
-; GOTO	    HANDSHAKE_VERIFIED	    ;HandShake Confirmed Increment Byte Count
- ;BANKSEL    BYTE_COUNT
- ;CLRF	    BYTE_COUNT
- ;GOTO	    UART_RX_END		    ;HandShake Not Verified. Clear Count and Exit
-;HANDSHAKE_VERIFIED
-; BANKSEL    BYTE_COUNT
- ;INCF	    BYTE_COUNT
- ;GOTO	    UART_RX_END		    ;HandShake Verified Increment Byte Count and Exit
- 
-;***************************************************************************************
-;****UART_RX Function Should be Called when a Byte is Received From UART	     ***
-;****This Function will Determine the Byte Received, Verify Handshake and Address,   ***
-;****Save the Received Byte into Temp Variables, and Set a flag to signal to Decode  ***
-;***************************************************************************************
 UART_RX
-    ;=== DEBUG: Toggle RA0 on master every time ANY UART byte arrives ===
-    BANKSEL LATA
-    MOVLW   0x01
-    XORWF   LATA, F
-
-    BANKSEL    BYTE_COUNT
-    MOVLW	    H'00'
-    SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
-    BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
-    GOTO	    BYTE_1		    ;First Received Byte Check for HandShake CHAR 
+ BANKSEL    BYTE_COUNT
+ MOVLW	    H'00'
+ SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
+ BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
+ GOTO	    BYTE_1		    ;First Received Byte Check for HandShake CHAR 
  
-    MOVLW	    H'01'
-    SUBWF	    BYTE_COUNT,0
-    BTFSC	    STATUS,2
-    GOTO	    BYTE_2
+ MOVLW	    H'01'
+ SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
+ BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
+ GOTO	    BYTE_2		    ;Second Received Byte Check for Robot Address 
  
-    MOVLW	    H'02'
-    SUBWF	    BYTE_COUNT,0
-    BTFSC	    STATUS,2
-    GOTO	    BYTE_3
+ MOVLW	    H'02'
+ SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
+ BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
+ GOTO	    BYTE_3		    ;Third Received Byte Save as Data Packet Command 
  
-    MOVLW	    H'03'
-    SUBWF	    BYTE_COUNT,0
-    BTFSC	    STATUS,2
-    GOTO	    BYTE_4
+ MOVLW	    H'03'
+ SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
+ BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
+ GOTO	    BYTE_4		    ;Fourth Received Byte Save as Memory Save 1 
+    
+ MOVLW	    H'04'
+ SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
+ BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
+ GOTO	    BYTE_5		    ;Fifth Received Byte Save as Memory Save 2 
  
-    MOVLW	    H'04'
-    SUBWF	    BYTE_COUNT,0
-    BTFSC	    STATUS,2
-    GOTO	    BYTE_5
+ MOVLW	    H'05'
+ SUBWF	    BYTE_COUNT,0	    ;Subtract BYTE_COUNT - W; Result Store in W
+ BTFSC	    STATUS,2		    ;Check Zero Bit.  1 if Zero; 0 if not Zero
+ GOTO	    BYTE_6		    ;Sixth Received Byte Save as Memory Save 3 
  
-    MOVLW	    H'05'
-    SUBWF	    BYTE_COUNT,0
-    BTFSC	    STATUS,2
-    GOTO	    BYTE_6
+ CLRF	    BYTE_COUNT
+ GOTO	    UART_RX_END		    ;Unknown Byte Count (NOT 0-6 Bytes) Clear Count and Exit
  
-    CLRF	    BYTE_COUNT
-    GOTO	    UART_RX_END		    ;Unknown Byte Count (NOT 0-6 Bytes) Clear Count and Exit
-
-    ; (the rest of your original BYTE_1 through UART_RX_END code stays exactly the same)
 BYTE_1	;**First Received Byte Check for HandShake CHAR**
-    MOVLW	    H'24'
-    BANKSEL    RCREG
-    SUBWF	    RCREG,0
-    BTFSC	    STATUS,2
-    GOTO	    HANDSHAKE_VERIFIED
-    BANKSEL    BYTE_COUNT
-    CLRF	    BYTE_COUNT
-    GOTO	    UART_RX_END
+ MOVLW	    H'24'
+ BANKSEL    RCREG
+ SUBWF	    RCREG,0		    ;Subtract RCREG - W; Result Store in W
+ BTFSC	    STATUS,2
+ GOTO	    HANDSHAKE_VERIFIED	    ;HandShake Confirmed Increment Byte Count
+ BANKSEL    BYTE_COUNT
+ CLRF	    BYTE_COUNT
+ GOTO	    UART_RX_END		    ;HandShake Not Verified. Clear Count and Exit
 HANDSHAKE_VERIFIED
-    BANKSEL    BYTE_COUNT
-    INCF	    BYTE_COUNT
-    GOTO	    UART_RX_END
+ BANKSEL    BYTE_COUNT
+ INCF	    BYTE_COUNT
+ GOTO	    UART_RX_END		    ;HandShake Verified Increment Byte Count and Exit
  
 BYTE_2	;**Second Received Byte Check for Robot Address**
  BANKSEL    ROBOT_ADDR
@@ -194,8 +134,6 @@ BYTE_2	;**Second Received Byte Check for Robot Address**
 ADDR_VERIFIED
  BANKSEL    BYTE_COUNT
  INCF	    BYTE_COUNT
- BANKSEL    LATA
- BSF        LATA,1			;D4 LED - valid address received
  BANKSEL    CONNECT_CHK_COUNT
  CLRF	    CONNECT_CHK_COUNT	    ;Clear Connection Timeout Counter
  GOTO	    UART_RX_END		    ;Robot Address Verified Increment Byte Count and Exit
@@ -287,11 +225,6 @@ JOYSTICK_DATA_2
  MOVFW	    MEM_SAVE_1
  BANKSEL    JOY2_LR
  MOVWF	    JOY2_LR		    ;First Data Variable is Joystick 2 Left and Right
- 
-;=== DEBUG: Toggle D6 (LATA bit 3) every time a 'j' packet is decoded ===
- BANKSEL    LATA
- MOVLW      0x08             ; 0x08 = bit 3
- XORWF      LATA, F          ; toggle D6
  
  BANKSEL    MEM_SAVE_2
  MOVFW	    MEM_SAVE_2
