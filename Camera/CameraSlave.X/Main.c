@@ -74,7 +74,7 @@ const uint8_t cmd_button_table [7][10] = {
     {0x02,0x7C,0x00,0x00,0x00,0x00,0x00,0x00,0x70,0x9F}, // Video on uses normal header
     {0x03,0x47,0x4A,0x19,0xB8,0x8B,0x00,0x80,0x31,0x53}, // Home uses normal header
     {0x04,0x6D,0x01,0x03,0x00,0x00,0x00,0x00,0xA0,0xDB}, // FFC/ADJ uses normal header
-    {0x05,0x47,0xFE,0x00,0x00,0x00,0x00,0x00,0xED,0x00}, // Reset Camera uses normal header
+    {0x05,0x47,0xFE,0x00,0x00,0x00,0x00,0x00,0x6D,0x00}, // Reset Camera uses normal header
     {0x06,0x5A,0x00,0x00,0x00,0x00,0x00,0x00,0xB2,0xD8}, // Zoom Stop
 };
 
@@ -152,15 +152,15 @@ static void TranslateTABXY(uint8_t byte){
 
     // Bit 0 (0x01): A button pressed ? map to command index 0x05 (Reset Camera)
     if (byte & 0x01){
-        TxA = 0x03;
+        TxA = 0x05;
     }
     else{
         TxA = 0xFF; // Not pressed ? mark as inactive
     }
 
     // Bit 4 (0x10): Left Trigger pressed ? map to command index 0x01 (Zoom Out)
-    if (byte & 0x20){
-        TxTL = 0x00;
+    if (byte & 0x10){
+        TxTL = 0x01;
         Last_TL = 1;
     }
     else{
@@ -271,13 +271,13 @@ static void TranslateY(uint8_t byte){
 static void TranslateX(uint8_t byte){
 
     if (byte <= 0x32){          // Far left deflection ? fastest pan left
-        TxX = 0x08;
+        TxX = 0x0B;
     }
     else if (byte <= 0x5A){     // Moderate left deflection ? medium pan left
-        TxX = 0x07;
+        TxX = 0x0A;
     }
     else if (byte <= 0x7B){     // Slight left deflection ? slow pan left
-        TxX = 0x06;
+        TxX = 0x09;
     }
     else if (byte <= 0x88){     // Center zone upper half ? deadzone, no command
         TxX = 0xFF;
@@ -286,13 +286,13 @@ static void TranslateX(uint8_t byte){
         TxX = 0xFF;
     }
     else if (byte <= 0xB5){     // Slight right deflection ? slow pan right
-        TxX = 0x09;
+        TxX = 0x06;
     }
     else if (byte <= 0xDD){     // Moderate right deflection ? medium pan right
-        TxX = 0x0A;
+        TxX = 0x07;
     }
     else{                       // Far right deflection ? fastest pan right
-        TxX = 0x0B;
+        TxX = 0x08;
     }
 }
 

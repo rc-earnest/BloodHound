@@ -1416,7 +1416,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 -> -> 0 `i `uc
 -> -> 0 `i `uc
--> -> 237 `i `uc
+-> -> 109 `i `uc
 -> -> 0 `i `uc
 ..
 :U ..
@@ -1624,8 +1624,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! != & -> _byte `i -> 1 `i -> 0 `i 736  ]
 {
 "155
-[; ;Main.c: 155:         TxA = 0x03;
-[e = _TxA -> -> 3 `i `uc ]
+[; ;Main.c: 155:         TxA = 0x05;
+[e = _TxA -> -> 5 `i `uc ]
 "156
 [; ;Main.c: 156:     }
 }
@@ -1642,12 +1642,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 [e :U 737 ]
 "162
-[; ;Main.c: 162:     if (byte & 0x20){
-[e $ ! != & -> _byte `i -> 32 `i -> 0 `i 738  ]
+[; ;Main.c: 162:     if (byte & 0x10){
+[e $ ! != & -> _byte `i -> 16 `i -> 0 `i 738  ]
 {
 "163
-[; ;Main.c: 163:         TxTL = 0x00;
-[e = _TxTL -> -> 0 `i `uc ]
+[; ;Main.c: 163:         TxTL = 0x01;
+[e = _TxTL -> -> 1 `i `uc ]
 "164
 [; ;Main.c: 164:         Last_TL = 1;
 [e = _Last_TL -> -> 1 `i `a ]
