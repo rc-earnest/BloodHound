@@ -12,7 +12,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
-
+/* PROJECT BLOODHOUND - LiDAR SERIAL RECEPTION TESTING & DOCUMENTATION
+ * Jonas Cram
+ * 5th Semester - Spring 2026
+ * Robotics and Communication Systems Engineering Technology (RCET)
+ * Idaho State University - College of Technology
+ */
 namespace ReadSerialLiDAR
 {
     public partial class SerialLiDAR_Form : Form
