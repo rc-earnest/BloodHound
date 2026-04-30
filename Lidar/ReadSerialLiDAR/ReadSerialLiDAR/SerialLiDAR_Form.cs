@@ -130,7 +130,7 @@ namespace ReadSerialLiDAR
                 if (serialPort1.IsOpen)
                 {
                     // Display selected port
-                    CommPortStatusLabel.Text = $"Active Port: {serialPort1.PortName} - Open: {serialPort1.IsOpen} |";
+                    CommPortStatusLabel.Text = $"Active Port: {serialPort1.PortName} - Open: {serialPort1.IsOpen}  |";
                 }
                 else
                 {
@@ -220,6 +220,8 @@ namespace ReadSerialLiDAR
         }
         void DecodePacket(byte[] completeData)
         {
+            // BUGGED METHOD - NEED TO RE-ANALYZE AND FIX CONVERSION(S) - - - - - - - - - - - - - -
+
             // Extract start and end angles
             ushort startRaw = (ushort)(completeData[0] | completeData[1] << 8);
             ushort endRaw   = (ushort)(completeData[2] | completeData[3] << 8);
@@ -265,11 +267,11 @@ namespace ReadSerialLiDAR
             byte[] buffer = new byte[offset];
             serialPort1.Read(buffer, 0, offset);
 
-            // Converts Rx'd data into Hexadecimal values
-            string hex = BitConverter.ToString(buffer);
-
             // Turn the received data into readable info
             TranslateData(buffer);
+
+            // Converts Rx'd data into Hexadecimal values
+            string hex = BitConverter.ToString(buffer);
 
             // Replaces dashes with blank spaces for file
             hex = hex.Replace("-", " ");
