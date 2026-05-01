@@ -1,7 +1,20 @@
 This is the current information about the RTK GPS module for the bloodhound, as of May 1, 2026.
 
-The hardware will only work when both the Base Station PIKSI and the Rover PIKSI are outside. At least 5 satellites need to be locked on for RTK to function (over 33 dB-Hz for signal strength). With the computer connected to the base station and the rover connected to a power source, the rover's path can be seen on the console. The piksi_console_v0.30.9_windows application is the installer for the Windows version of the PIKSI console. This is required to program the PIKSI. The base station also needs to be programmed with its exact coordinates. Without it, the RTK data will be off.
+The hardware will only work when both the Base Station PIKSI and the Rover PIKSI are outside.
+ At least 5 satellites need to be locked on for RTK to function (over 33 dB-Hz for signal strength). 
+With the computer connected to the base station and the rover connected to a power source, the rover's path can be seen on the console. 
+The piksi_console_v0.30.9_windows application is the installer for the Windows version of the PIKSI console. 
+This is required to program the PIKSI. The base station also needs to be programmed with its exact coordinates. 
+Without it, the RTK data will be off.
 
 In-depth information on how to program the PIKSI, along with the specs, is stored in the RTK_WEEKLY Report included in this repo.
 
-The hardware is set up perfectly for both the base station and the rover to communicate with the slave. The RTK Slave software needs to be fixed and updated. The slave is currently designed to initiate a data read once every second, during which it will look for the handshake and the NMEA header. It will only store the latitude and longitude data before looking for the stop bits and disabling the read. What is currently happening is that the data is enabling the read, holding for 8 seconds, then disabling the read. The PIKSI outputs the data at 10Hz, in 82-byte packets. This means that each packet takes at most 80 milliseconds to send, and occurs every 100 milliseconds. This indicates a timing error with the reads. With more time, it can be fixed and updated, but it will have to be left to one of the future members of this project 
+The hardware is set up perfectly for both the base station and the rover to communicate with the slave. 
+The RTK Slave software needs to be fixed and updated. 
+The slave is currently designed to initiate a data read once every second, during which it will look for the handshake and the NMEA header. 
+It will only store the latitude and longitude data before looking for the stop bits and disabling the read. 
+What is currently happening is that the data is enabling the read, holding for 8 seconds, then disabling the read. 
+The PIKSI outputs the data at 10Hz, in 82-byte packets. 
+This means that each packet takes at most 80 milliseconds to send, and occurs every 100 milliseconds. 
+This indicates a timing error with the reads. 
+With more time, it can be fixed and updated, but it will have to be left to one of the future members of this project 
