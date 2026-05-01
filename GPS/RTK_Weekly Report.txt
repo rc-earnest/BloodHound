@@ -1,0 +1,268 @@
+Week 1 (April 12-17)
+
+Thursday, 4/16/26
+
+- Did preliminary research on RTK antenna and specific setup for the devices that we have.
+-Figured out how the devices are set up
+- A specific program is required to set up the program, which might be able to use the program only as a setup, and use a slave board to update data
+
+Original Firmware GitHub
+https://github.com/swift-nav/piksi_firmware 
+
+YouTube video to set up devices
+https://www.youtube.com/watch?v=PpNhtQW0o7U 
+
+The user guide was downloaded onto my computer, which has everything in the video, as well as specifics to set up the program
+
+Piksi datasheet
+https://www.swiftnav.com/sites/default/files/piksi_datasheet_v2.3.1.pdf
+
+manufacturer page with support pages
+https://support.swiftnav.com/support/home 
+
+13:00-15:00 (2Hrs)
+
+Friday, 4/17/26
+
+- Further research has shown that every other application of the Piksi uses a base station and a roving receiver
+- All other applications use the USB port to provide power to the module
+- The data sheet claims that it can be powered through the UART, so it might be possible to run it with the slave board
+- Unsure yet if the modules themselves can be used separately without the program; still need further research
+- Components can be powered through the UART, so hooking it up only to the slave is possible
+- It is possible to hook up a computer to the base station and receive data from the rover, but it is unclear if it is directly sent to the base, or if we need to use a separate transmitter
+- Need to speak with the project lead to see how much is required for the current project, and what can be pushed down the line further
+- I have hand-drawn a basic sketch that shows how it theoretically works, for both reading from the base and the rover
+- Preliminary research has shown that there isn't a readily available base station that we can piggyback off of. This means we will have to look into other options or make our own base station.
+- Configuring one of our modules into a base station isn't too difficult. Positioning will be the biggest issue that we have, due to the large number of buildings and the rough terrain that we have
+- Upon further research, there is little to no possibility of using private networks for RTK. All sources charge at least $50 a month to link to their services, which won't work for our needs(funding)
+- Designing the base station will be rather simple(just need a tripod), but powering it won't be as simple. We either need a portable battery for the base station, or we need to find a way to hook up the station to the power grid(i.e., plugging into the wall)
+- Found a file that shows how the manufacturer's program logs data 
+- in baseline mode:
+	Time: y-m-d H:M:S.mS
+	North: North Vector between base and rover, in meters
+	East: East Vector between base and rover, in meters
+	Down: Down Vector between base and rover, in meters
+	Distance: Distance between Base and Rover, in meters
+	Satellites: # of Satellites tracked at the time
+	Flags: flag used to determine if it is in float mode or fixed mode
+	Hypotheses: The number of fixed integer hypotheses that Piksi is considering at the
+moment
+-in position mode:
+	Time: y-m-d H:M:S.mS
+	Latitude: Latitude in decimal degrees
+	Longitude: Longitude in decimal degrees
+	Height: Height above ellipsoid in meters
+	Satellites: # of Satellites tracked at the time
+	Flags: flag used to determine if it is in float mode or fixed mode
+-in velocity mode:
+	Time: y-m-d H:M:S.mS
+	North Velocity: North Vector velocity, in m/s
+	East Velocity: East Vector velocity, in m/s
+	Down Velocity: Down Vector velocity, in m/s
+	Total Velocity: Total Vector velocity, in m/s
+	Satellites: # of Satellites tracked at the time
+- Found a file that shows how to use the manufacturer's program in more depth
+- If the base station isn't used, the Piksi will default to an accuracy of about 1m in the worst-case scenario
+
+Digikey guide to set up RTK. Doesn't use the correct components, but it can be referenced
+https://www.digikey.com/en/maker/tutorials/2025/setting-up-a-rover-base-rtk-system?msockid=10baf04b95276ca92666e341949d6d68 
+
+Google Groups discussion that talks about how to send and receive data from the base station
+https://groups.google.com/g/swiftnav-discuss/c/UNf9aSxWJFs
+
+Diagram Guide from the producers for setting up the base station hardware. They use the newer component in the guide, but it is helpful to visualize it
+https://support.swiftnav.com/support/solutions/articles/44001904334-piksi-multi-gnss-rtk-position-with-stationary-base
+
+A helpful guide that shows how to set up a base station and various ways that it could be upgraded in the future
+https://docs.datagnss.com/gnss/rtk_receiver/casestudy/setup-owned-base-and-rover/
+
+Wiki page that goes into more depth about the Piksi program than the producer's guide
+https://wiki.ros.org/swiftnav_piksi
+
+A GitHub page that shows how to set up the Piksi as a base station using the manufacturer's program
+https://github.com/fm-uulm/ethz_piksi_ros/wiki/Base-Station-Piksi-V2---STM-v0.21-%26%26-NAP-v0.16
+
+9:00-11:55, 12:30-15:00(5Hrs,25Mins)
+
+Research was great this last week. It is a ton of information, but it is necessary
+
+Next week, I plan to:
+	A) Build a Base station with the Piksi
+	B) Test the Communication with the base and the rover
+	C) Start connecting the Piksi to the Bloodhound
+
+Week 2 (April 19-24)
+
+Wednesday 4/22/26
+
+- downloaded console onto computer to test Piksi boards
+- The weather was overcast, so it wasn't a good day to go out and test the board
+- By running the simulator, it was determined that the Piksi sends data across the UART in 30mS bursts, every 100mS
+- Each burst, including the framing errors, is over 200 2-byte packets
+- I am unsure what the data is, and how I can use it, but it is all location data, as far as I am aware
+- Baud rate is set at 115200 automatically, but it wouldn't hurt to adjust for separate needs
+- for the simulator, it operates at 3.3 Volts, based on the computer's voltage
+- It can operate up to about 5V
+- Will need to check when the weather is clear, but it might be possible to read rover data from the base station
+
+13:00-15:00 (2Hrs)
+
+Thursday 4/23/26
+
+- discovered that the UART data has several types of configurations
+- SBP is specific to the Swift software
+- NMEA is ASCII-based, with a low data rate, but has a fixed field size, handshake, and end message indicator
+- RTCM is an open standard for GNSS observations, which is great for RTK
+- I am leaning more towards NMEA transmission over SBP and RTCM, due to the lower data packets and fixed transmission size
+- RTCM isn't displaying on my scope, so I think NMEA is the way to go
+- NMEA transmissions are less than or equal to 82 characters
+- Firmware on the Piksi seemed to be out of date, so I downloaded the correct files and updated the console and Piksi Firmware
+- After the download, the console gave me more control over the UART functions.
+- It removed the RTCM function, but gave me control over what NMEA data the Piksi sends
+- according to the console, NMEA can send out 4 types of data:
+	GPGSY NMEA: number of satellites seen, and each satellite's ID number, elevation in degrees, azimuth in degrees, and signal-to-noise ratio 
+	GPRMC NMEA: navigation info like time, status, latitude, n/s for latitude, longitude, e/w for longitude, speed in knots, track angle, date, and magnetic variation
+	GPVTG NMEA: course over ground in degrees true north, course over ground in degrees magnetic north, speed over ground in knots, speed over ground in km/hr., and mode
+	GPGLL NMEA: geographic data like latitude, n/s indicator, longitude, e/w indicator, UTC, and status
+- apparently, the NMEA needs to have a baud rate of either 4800 or 9600
+
+source for NMEA
+https://www.rfwireless-world.com/terminology/gps-nmea-sentences 
+
+9:00-12:00, 13:00-15:00 (5Hrs)
+
+Friday 4/24/26
+
+- Set up a temporary base station with a tripod, satellite antenna, a preprogrammed Piksi, and a radio
+- The base station Piksi was programmed as follows:
+	Broadcast = true
+	surveyed Lat = Pocatello Latitude, in degrees
+	surveyed Lon = Pocatello Latitude, in degrees
+	surveyed Alt = Pocatello Altitude, in meters
+	UARTA Mode = SBP
+	SBP Message Mask = 64
+	Configure Telemetry Radio On Boot = true
+	Baud Rate = 57600, with 915 MHz radio
+- The Rover Piksi was programmed as follows:
+	Broadcast = false
+	UARTA Mode = SBP
+	SBP Message Mask = 64
+	Configure Telemetry Radio On Boot = true
+	Baud Rate = 57600, with 915 MHz radio
+	UARTB Mode = NMEA
+	SBP Message Mask = 0
+	Configure Telemetry Radio On Boot = false
+	Baud Rate = 9600, for NMEA standard
+	GPGSY Msg Rate = 0
+	GPRMC Msg Rate = 0
+	GPVTG Msg Rate = 0
+	GPGLL Msg Rate = 0
+- With these settings, the 2 Piksis can communicate with each other and show the exact location of the rover
+- For a more precise reading, program the base station with the exact coordinates where it is located
+- The Base and the Rover Piksi both need at least 5 satellites for the location to work
+- For an accurate reading, both the base station and the rover can't be indoors
+- The satellite antenna can't be set on the ground, otherwise the Piksi won't read any satellites
+- The higher up the antenna is, the better, and it can't be obstructed by anything
+- Did a field test for the Base station and the rover; the results were better than what I was hoping for
+- The first test was hooking up the base station to a battery and connecting the rover to the computer
+- With this configuration, I was able to get a Fixed RTK reading on the Piksi Console, and it tracked my location perfectly
+- The second test was hooking up the base station to the computer and connecting the rover to the battery
+- With this configuration, I was able to get a Floating RTK reading on the Piksi Console, and it kept track of the rover's location
+- However, the console does remove data from the screen after a set amount of time
+- I need to look into the console and see if there is a record function that I can take advantage of
+- With the above settings, the results show that the base station can read the rover's location, and the rover module can be set to send data to a slave/master configuration
+- The data can be seen in the Baseline Tab on the Piksi Console
+- Hardware works well enough to move on; now I need to work on the software to make it all work together
+- The rover, when UARTB is set to NMEA, sends GPGGA data every 100 mS, in 80 mS bursts, sending <= 82 bytes of data
+- This Data includes:
+ 	handshake, 			$
+ 	type of data, 			GPGGA
+	UTC, 				hhmmss.sss (HrMinSec.mS)
+	n/s data, 			ddmm.mmm (2 degrees and decimal minutes)
+	n/s indicator, 			N or S
+	e/w data, 			dddmm.mmmm (3 degrees and decimal minutes)
+	e/w indicator, 			E or W
+	position fix indicator, 	1=Fixed, 2=Differential, 3=Estimated, 4=Simulation
+	# satellites, 			the number of satellites used
+	HDOP,				The Horizontal Dilution of Precision(low is better)
+	MSL Altitude, 			Units above Sea Level
+	MSL units, 			M=Meters, F=Feet
+	Geoid Separation, 		Distance Between WGS84 ellipsoid and geoid
+	Geoid Units, 			M=Meters, F=Feet
+	DGPS age, 			0000(time since last DGPS update)
+	DGPS ref,	 		Reference station ID(blank if none)
+	checksum, 			2-digit hex value
+	and the stop bits, 		CL/LF
+- We might only use the longitude, latitude, and maybe altitude; the rest is used to describe how accurate the data is
+- The rover has the other NMEA data rates removed; this makes it so that the data it sends has no corruption or weird overwrites
+- I haven't found a way to disable this yet; I might disable the other for now to get it working, and let a future student fix the problem
+- The Piksi is hard-coded to 10Hz data transmission; there isn't a way to adjust this from the console 
+- To fix this for the slave, I will have to program the slave so that it only stores and sends out data whenever the master calls for it
+- I can either have the slave store the data once a second, and only send out the data when the transmission is complete, and the master calls for it; or I can program the slave so that it ignores the UART transmission until the master calls for it, in which case I can clock stretch the bus until it stores the needed data, then send out the required information
+
+This week was great. I was able to set up the base station and get it and the rover to communicate with each other. I was also able to get the rover to send its data across UARTB in NMEA correctly.
+
+Current Time Spent: 19Hrs,25Min
+
+Next week, I plan to:
+	A) Connect the rover to a Bloodhound Slave
+	B) Store the Rover data in the Bloodhound Slave
+	C) Start the protocol for the master to read the GPS data
+
+Week 3 (April 27 - May 1)
+
+Monday 4/27/26
+
+- Got the hardware needed to connect the GPS module to the slave
+- Started working on the slave, making sure that the configuration was at the same specs as what the project lead needs
+- Set up the main loop, the basic tmr1 overflow math, and the start of the handshake test
+
+11:00-12:00, 13:00-15:05 (3Hrs, 5Min)
+
+Tuesday 4/28/26
+
+- Verified that the GPS module can be powered through the UART
+- Finished setting up the slave pick to receive UART data
+- Set up program logic that will register the handshake, skip the unneeded data, and store only the latitude and longitude
+- Added in overrun and framing error logic that I previously developed
+- Created a subroutine that will read the standard last bytes of the NMEA transmission, and disable the receiver
+- Adjusted the overrun and framing error logic so that it will run the disable logic almost immediately
+
+10:00-12:00, 13:00-15:00 (4Hrs)
+
+Wednesday 4/29/26
+
+- Slave board has been programmed
+- The code works, but instead of storing data every 1 second, it stores the data once every 6ish seconds
+- I will attempt to make the code smaller and make the timing much closer
+- A problem with my code was discovered; the frequency wasn't matching my desired calculations
+- For some reason, the Pic was operating at 16MHz, instead of my intended 32MHz
+- I will need to go through and make sure that the FOSC is 32MHz; all of the work I have been doing will go to waste otherwise
+- One line of code was my problem; Data is now working the way I need it to
+
+9:00-12:00, 13:00-15:00 (5Hrs)
+
+Thursday 4/30/26
+
+-Working on having the slave correctly read and store the data
+- An issue that I have run into is that the 1-second timer goes off and sets the indicator, and then 8 seconds will pass before the indicator is disabled
+- Due to the amount of data flowing into the PIC, it is difficult to acquire the data that we need
+- An issue that came up was that the data derived for the slave board was applied from the simulator
+- I am unsure how to test the actual data coming from the pic, since I need both the base station and the rover communicating, as well as an oscilloscope to verify the data
+
+9:00-12:00, 13:00-15:00 (5Hrs)
+
+Friday 5/1/26
+
+- Attempted to fix code
+- Discovered that the Handshake locking runs every 2 seconds, which is causing me a lot of issues
+- I still need to go through and figure out why it is doing that, but I am running out of time
+- I added all of the files to the GitHub branch that I had researched, and I will also include this log report for whoever will pick this project up
+
+10:00-12:00, 13:00-15:00 (4Hrs)
+
+This week wasn't as great as I would have liked. Programming the PIC16F1788 gave me quite a bit of trouble, due to my unfamiliarity with it. I also had trouble with the timing logic. I had it designed to read and process the data once every second, but the current program is running and storing the data every 8 seconds, which implies that the data isn't being stored correctly.
+
+Total Time Spent: 40Hrs, 30Min
+
+This is the last week that I have to work on this project.
