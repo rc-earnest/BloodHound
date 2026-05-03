@@ -1926,8 +1926,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! <= -> _byte `i -> 50 `i 767  ]
 {
 "274
-[; ;Main.c: 274:         TxX = 0x08;
-[e = _TxX -> -> 8 `i `uc ]
+[; ;Main.c: 274:         TxX = 0x0B;
+[e = _TxX -> -> 11 `i `uc ]
 "275
 [; ;Main.c: 275:     }
 }
@@ -1938,8 +1938,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! <= -> _byte `i -> 90 `i 769  ]
 {
 "277
-[; ;Main.c: 277:         TxX = 0x07;
-[e = _TxX -> -> 7 `i `uc ]
+[; ;Main.c: 277:         TxX = 0x0A;
+[e = _TxX -> -> 10 `i `uc ]
 "278
 [; ;Main.c: 278:     }
 }
@@ -1950,8 +1950,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! <= -> _byte `i -> 123 `i 771  ]
 {
 "280
-[; ;Main.c: 280:         TxX = 0x06;
-[e = _TxX -> -> 6 `i `uc ]
+[; ;Main.c: 280:         TxX = 0x09;
+[e = _TxX -> -> 9 `i `uc ]
 "281
 [; ;Main.c: 281:     }
 }
@@ -1986,8 +1986,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! <= -> _byte `i -> 181 `i 777  ]
 {
 "289
-[; ;Main.c: 289:         TxX = 0x09;
-[e = _TxX -> -> 9 `i `uc ]
+[; ;Main.c: 289:         TxX = 0x06;
+[e = _TxX -> -> 6 `i `uc ]
 "290
 [; ;Main.c: 290:     }
 }
@@ -1998,8 +1998,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! <= -> _byte `i -> 221 `i 779  ]
 {
 "292
-[; ;Main.c: 292:         TxX = 0x0A;
-[e = _TxX -> -> 10 `i `uc ]
+[; ;Main.c: 292:         TxX = 0x07;
+[e = _TxX -> -> 7 `i `uc ]
 "293
 [; ;Main.c: 293:     }
 }
@@ -2009,8 +2009,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 779 ]
 {
 "295
-[; ;Main.c: 295:         TxX = 0x0B;
-[e = _TxX -> -> 11 `i `uc ]
+[; ;Main.c: 295:         TxX = 0x08;
+[e = _TxX -> -> 8 `i `uc ]
 "296
 [; ;Main.c: 296:     }
 }

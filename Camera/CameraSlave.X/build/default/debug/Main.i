@@ -10702,13 +10702,13 @@ static void TranslateY(uint8_t byte){
 static void TranslateX(uint8_t byte){
 
     if (byte <= 0x32){
-        TxX = 0x08;
+        TxX = 0x0B;
     }
     else if (byte <= 0x5A){
-        TxX = 0x07;
+        TxX = 0x0A;
     }
     else if (byte <= 0x7B){
-        TxX = 0x06;
+        TxX = 0x09;
     }
     else if (byte <= 0x88){
         TxX = 0xFF;
@@ -10717,13 +10717,13 @@ static void TranslateX(uint8_t byte){
         TxX = 0xFF;
     }
     else if (byte <= 0xB5){
-        TxX = 0x09;
+        TxX = 0x06;
     }
     else if (byte <= 0xDD){
-        TxX = 0x0A;
+        TxX = 0x07;
     }
     else{
-        TxX = 0x0B;
+        TxX = 0x08;
     }
 }
 

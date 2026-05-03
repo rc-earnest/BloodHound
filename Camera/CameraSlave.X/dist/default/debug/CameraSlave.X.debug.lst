@@ -1,7 +1,7 @@
 
 
 Microchip MPLAB XC8 Assembler V3.10 build 20250813170317 
-                                                                                               Mon Apr 27 14:35:24 2026
+                                                                                               Fri May  1 14:44:03 2026
 
 Microchip MPLAB XC8 C Compiler v3.10 (Free license) build 20250813170317 Og1 
      1                           	processor	16F1788
@@ -2255,8 +2255,8 @@ Microchip MPLAB XC8 C Compiler v3.10 (Free license) build 20250813170317 Og1
   2216     02C6                     u1480:
   2217     02C6                     l1697:
   2218                           
-  2219                           ;Main.c: 274:         TxX = 0x08;
-  2220     02C6  3008               	movlw	8
+  2219                           ;Main.c: 274:         TxX = 0x0B;
+  2220     02C6  300B               	movlw	11
   2221     02C7  00BF               	movwf	_TxX	;volatile
   2222                           
   2223                           ;Main.c: 275:     }
@@ -2272,8 +2272,8 @@ Microchip MPLAB XC8 C Compiler v3.10 (Free license) build 20250813170317 Og1
   2233     02CF                     u1490:
   2234     02CF                     l1701:
   2235                           
-  2236                           ;Main.c: 277:         TxX = 0x07;
-  2237     02CF  3007               	movlw	7
+  2236                           ;Main.c: 277:         TxX = 0x0A;
+  2237     02CF  300A               	movlw	10
   2238     02D0  00BF               	movwf	_TxX	;volatile
   2239                           
   2240                           ;Main.c: 278:     }
@@ -2289,8 +2289,8 @@ Microchip MPLAB XC8 C Compiler v3.10 (Free license) build 20250813170317 Og1
   2250     02D8                     u1500:
   2251     02D8                     l1705:
   2252                           
-  2253                           ;Main.c: 280:         TxX = 0x06;
-  2254     02D8  3006               	movlw	6
+  2253                           ;Main.c: 280:         TxX = 0x09;
+  2254     02D8  3009               	movlw	9
   2255     02D9  00BF               	movwf	_TxX	;volatile
   2256                           
   2257                           ;Main.c: 281:     }
@@ -2333,8 +2333,8 @@ Microchip MPLAB XC8 C Compiler v3.10 (Free license) build 20250813170317 Og1
   2294     02F1                     u1530:
   2295     02F1                     l1717:
   2296                           
-  2297                           ;Main.c: 289:         TxX = 0x09;
-  2298     02F1  3009               	movlw	9
+  2297                           ;Main.c: 289:         TxX = 0x06;
+  2298     02F1  3006               	movlw	6
   2299     02F2  00BF               	movwf	_TxX	;volatile
   2300                           
   2301                           ;Main.c: 290:     }
@@ -2350,8 +2350,8 @@ Microchip MPLAB XC8 C Compiler v3.10 (Free license) build 20250813170317 Og1
   2311     02FA                     u1540:
   2312     02FA                     l1721:
   2313                           
-  2314                           ;Main.c: 292:         TxX = 0x0A;
-  2315     02FA  300A               	movlw	10
+  2314                           ;Main.c: 292:         TxX = 0x07;
+  2315     02FA  3007               	movlw	7
   2316     02FB  00BF               	movwf	_TxX	;volatile
   2317                           
   2318                           ;Main.c: 293:     }
@@ -2360,8 +2360,8 @@ Microchip MPLAB XC8 C Compiler v3.10 (Free license) build 20250813170317 Og1
   2321                           ;Main.c: 294:     else{
   2322                           
   2323                           
-  2324                           ;Main.c: 295:         TxX = 0x0B;
-  2325     02FD  300B               	movlw	11
+  2324                           ;Main.c: 295:         TxX = 0x08;
+  2325     02FD  3008               	movlw	8
   2326     02FE  00BF               	movwf	_TxX	;volatile
   2327     02FF                     l245:
   2328     02FF  0008               	return
@@ -4617,7 +4617,7 @@ DATA                 0      0      45      0.0%
 
 
 Microchip Technology PIC Macro Assembler V3.10 build 20250813170317 
-Symbol Table                                                                                   Mon Apr 27 14:35:24 2026
+Symbol Table                                                                                   Fri May  1 14:44:03 2026
 
                               _j 0070                               l70 043D                               l73 043A  
                              l82 0415                               l91 0430                               l67 0436  
