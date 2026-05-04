@@ -32,6 +32,7 @@ DATA_TX_1			EQU	H'042'
 DATA_TX_2			EQU	H'043'
 DATA_TX_3			EQU	H'044'
 DATA_TX_4			EQU	H'045'
+DATA_TX_5			EQU H'04C'
 DATA_RECEIVED		EQU	H'046'
     
    
@@ -59,7 +60,7 @@ I2C_SETUP_MASTER
 	MOVLW	    H'11'
 	MOVWF	    DRIVE_CONTROL_R	    ;Save Drive Control Daugher Board Read Address
 	BANKSEL	    PERIPHERAL_CONTROL_W1
-	MOVLW	    H'22'		    ;this will have to change in the future once the drive slave gets updated
+	MOVLW	    H'22'		    
 	MOVWF	    PERIPHERAL_CONTROL_W1   ;Save Peripheral Control Daugher Board Write Address
 	BANKSEL	    PERIPHERAL_CONTROL_W2
 	MOVLW	    H'44'
