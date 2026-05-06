@@ -383,6 +383,8 @@ namespace ReadSerialLiDAR
                 }));
             }
         }
+
+        // NEED TO GET AWAY FROM TIMERS - MOVE TO EVENT-BASED HANDLERS
         private void ReadTimer_Tick(object sender, EventArgs e)
         {
             FetchData();
