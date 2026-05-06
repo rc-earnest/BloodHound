@@ -27,7 +27,7 @@ volatile uint8_t TxTL = 0x00;    // Translated Left Trigger command index
 volatile uint8_t TxTR = 0x00;    // Translated Right Trigger command index
 volatile uint8_t TxA = 0x00;     // Translated A button command index
 volatile uint8_t TxB = 0x00;     // Translated B button command index
-volatile uint8_t TxBY = 0x00;    // Translated BY (X button, mapped to BY slot) command index
+volatile uint8_t TxBY = 0x00;    // Translated BY (Y button, mapped to BY slot) command index
 volatile uint8_t TxJ = 0x00;     // Translated joystick button command index
 volatile uint8_t j = 0;          // I2C byte counter ? tracks which byte in the current I2C packet is being received
 volatile uint8_t mux_select = 0x00; // Tracks current mux channel selection (0?3), output on PORTB lower 2 bits
@@ -134,7 +134,7 @@ static void lookup_and_send_buttons(uint8_t cmd){
 // 0xFF is used as a sentinel meaning "no command / deadzone ? skip this input."
 static void TranslateTABXY(uint8_t byte){
 
-    // Bit 3 (0x08): X button pressed ? map to BY command slot (index 0x04 = Home)
+    // Bit 3 (0x08): Y button pressed ? map to BY command slot (index 0x04 = FFC/ADJ)
     if (byte & 0x08){
         TxBY = 0x04;
     }
@@ -184,7 +184,7 @@ static void TranslateTABXY(uint8_t byte){
         Last_TR = 0;
     }
 
-    // Bit 2 (0x04): Y button ? used as a mux channel selector, NOT a camera command
+    // Bit 2 (0x04): X button ? used as a mux channel selector, NOT a camera command
     // xy_last provides edge detection so the channel only advances once per button press,
     // not continuously while the button is held
     if(byte & 0x04){
@@ -364,22 +364,22 @@ void __interrupt() ISR(){
                 SSP1CON1bits.CKP = 1;  // Release clock stretch so master can send next byte
             }
             else if (j == 1){
-                // Byte 1: Y-axis potentiometer value ? store it
+                // Byte 1: Y-axis potentiometer value store it
                 Y_Byte = SSP1BUF;
                 SSP1CON1bits.CKP = 1;  // Release clock stretch
             }
             else if (j == 2){
-                // Byte 2: X-axis potentiometer value ? store it
+                // Byte 2: X-axis potentiometer value store it
                 X_Byte = SSP1BUF;
                 SSP1CON1bits.CKP = 1;  // Release clock stretch
             }
             else if (j == 3){
-                // Byte 3: Trigger and ABXY button states packed into one byte ? store it
+                // Byte 3: Trigger and ABXY button states packed into one byte store it
                 TsABXY = SSP1BUF;
                 SSP1CON1bits.CKP = 1;  // Release clock stretch
             }
             else if (j == 4){
-                // Byte 4: Joystick button states ? store it and signal main loop that packet is complete
+                // Byte 4: Joystick button states store it and signal main loop that packet is complete
                 JButtons = SSP1BUF;
                 rx_done = 1;           // Notify main loop a full packet is ready to process
                 SSP1CON1bits.CKP = 0;  // Hold clock low ? main loop will release it after processing
@@ -389,7 +389,7 @@ void __interrupt() ISR(){
             j = (j + 1) % 5;
         }
         else{
-            // I2C read request from master (unexpected in this application) ? flush buffer and ignore
+            // I2C read request from master (unexpected in this application) flush buffer and ignore
             (void)SSP1BUF;
         }
     }
@@ -437,7 +437,7 @@ void main(){
 
             // Step 3: Dispatch button commands over UART
             lookup_and_send_buttons(TxA);   // A button ? Reset Camera (if pressed)
-            lookup_and_send_buttons(TxBY);  // X button (BY slot) ? Home position (if pressed)
+            lookup_and_send_buttons(TxBY);  // Y button (BY slot) ? FFC/ADJ (if pressed)
             lookup_and_send_buttons(TxB);   // B button ? Video On (if pressed)
             lookup_and_send_buttons(TxTR);  // Right Trigger ? Zoom In (if pressed)
             lookup_and_send_buttons(TxTL);  // Left Trigger ? Zoom Out (if pressed)
