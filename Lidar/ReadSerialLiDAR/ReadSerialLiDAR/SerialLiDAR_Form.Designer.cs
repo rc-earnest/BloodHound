@@ -85,7 +85,7 @@
             this.utilitiesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(424, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(424, 36);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -114,11 +114,11 @@
             // DisplayTextBox
             // 
             this.DisplayTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DisplayTextBox.Location = new System.Drawing.Point(0, 33);
+            this.DisplayTextBox.Location = new System.Drawing.Point(0, 36);
             this.DisplayTextBox.Name = "DisplayTextBox";
             this.DisplayTextBox.ReadOnly = true;
             this.DisplayTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.DisplayTextBox.Size = new System.Drawing.Size(424, 158);
+            this.DisplayTextBox.Size = new System.Drawing.Size(424, 155);
             this.DisplayTextBox.TabIndex = 7;
             this.DisplayTextBox.Text = "";
             // 

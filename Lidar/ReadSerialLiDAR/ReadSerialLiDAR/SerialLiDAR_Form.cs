@@ -27,7 +27,7 @@ namespace ReadSerialLiDAR
         // ----------
         string[] portNames;
         string filePath = "..\\..\\logs";
-        int bytes;
+        int bytes, errorCount = 0;
         char degrees = '\u00B0';
         double startAngle, endAngle, angle, distance;
 
@@ -169,48 +169,51 @@ namespace ReadSerialLiDAR
         {
             try
             {
-                int offset = serialPort1.BytesToRead;
-                byte[] buffer = new byte[offset];
-                int bytesRead = serialPort1.Read(buffer, 0, offset);
-
-                // Automatically resizes buffer if values are mismatched
-                if (bytesRead != offset)
+                if (serialPort1.IsOpen)
                 {
-                    Array.Resize(ref buffer, bytesRead);
-                }
+                    int offset = serialPort1.BytesToRead;
+                    byte[] buffer = new byte[offset];
+                    int bytesRead = serialPort1.Read(buffer, 0, offset);
 
-                // Turn the received data into readable info
-                TranslateData(buffer);
-
-                // User-controlled file log enable
-                if (LogFileCheckBox.Checked)
-                {
-                    // Converts Rx'd data into Hexadecimal values
-                    string hex = BitConverter.ToString(buffer);
-
-                    // Replaces dashes with blank spaces for file
-                    hex = hex.Replace("-", " ");
-
-                    // Stores packet header for file/display format
-                    string[] chars = { "AA 55" };
-
-                    // Split/remove header from format
-                    string[] temp = hex.Split(chars, StringSplitOptions.None);
-
-                    // Document and store data into a file
-                    for (int i = 0; i < temp.GetUpperBound(0) - 1; i++)
+                    // Automatically resizes buffer if values are mismatched
+                    if (bytesRead != offset)
                     {
-                        if (i != 0)
-                        {
-                            // Concat "AA 55" header
-                            temp[i] = "AA 55" + temp[i];
-                        }
-                        else
-                        {
-                            temp[i] = "Split packet - disregard";
-                        }
+                        Array.Resize(ref buffer, bytesRead);
                     }
-                    LogDataToFile(temp);
+
+                    // Turn the received data into readable info
+                    TranslateData(buffer);
+
+                    // User-controlled file log enable
+                    if (LogFileCheckBox.Checked)
+                    {
+                        // Converts Rx'd data into Hexadecimal values
+                        string hex = BitConverter.ToString(buffer);
+
+                        // Replaces dashes with blank spaces for file
+                        hex = hex.Replace("-", " ");
+
+                        // Stores packet header for file/display format
+                        string[] chars = { "AA 55" };
+
+                        // Split/remove header from format
+                        string[] temp = hex.Split(chars, StringSplitOptions.None);
+
+                        // Document and store data into a file
+                        for (int i = 0; i < temp.GetUpperBound(0) - 1; i++)
+                        {
+                            if (i != 0)
+                            {
+                                // Concat "AA 55" header
+                                temp[i] = "AA 55" + temp[i];
+                            }
+                            else
+                            {
+                                temp[i] = "Split packet - disregard";
+                            }
+                        }
+                        LogDataToFile(temp);
+                    }
                 }
             }
             catch (Exception ex)
