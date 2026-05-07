@@ -178,16 +178,6 @@ MOTOR_PWM
     BTFSC	STATUS,2		;Z set = match = duty done
     GOTO	MOTOR_PW_END
     
-;    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;    ;-- Check if motor duty elapsed (right motor on RB0) --
-;    BANKSEL	MOTOR_DUTY_COUNT
-;    MOVFW	MOTOR_DUTY_COUNT
-;    BANKSEL	MOTOR_COUNT
-;    XORWF	MOTOR_COUNT,0
-;    BANKSEL	STATUS
-;    BTFSC	STATUS,2
-;    ;GOTO	RIGHT_MOTOR_PW_END
-;    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     GOTO	TMR2_INTERRUPT_END
     
 RESET_MOTOR
@@ -214,11 +204,6 @@ MOTOR_PW_END
     BCF		PORTB,0          ; Right motor PWM low ? both cleared together
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     GOTO	TMR2_INTERRUPT_END
-    
-;RIGHT_MOTOR_PW_END
-;    BANKSEL	PORTB
-;    BCF		PORTB,0          ; Right motor PWM low
-;    GOTO	TMR2_INTERRUPT_END
 
 TMR2_INTERRUPT_END
     BANKSEL	PIR1
@@ -273,6 +258,7 @@ UPDATE_DRIVE_STATUS
     CALL	SAVE_I2C_DATA
     CALL	DETERMINE_DRIVE_STATE	    ;JOY1_UD -> both motor counts
     CALL	DETERMINE_ACTUATOR_STATE    ;JOY2_LR -> steering servo count
+    CALL	CHECK_HEADLIGHTS
     BANKSEL	I2C_RX_COMPLETE
     CLRF	I2C_RX_COMPLETE
     RETURN
@@ -391,94 +377,74 @@ BRAKE
 
 DETERMINE_DRIVE_STATE_END
     RETURN        
-       
+
+    
 ;*******************************************************************************
-;*** DETERMINE_ACTUATOR_STATE: incremental servo stepping on RA4.	    ***
-;***								    ***
-;*** JOY1_LR > UPPER_THRESHOLD: step SERVO_POS +1 toward FORWARD_COUNT.    ***
-;*** JOY1_LR < LOWER_THRESHOLD: step SERVO_POS -1 toward REVERSE_COUNT.    ***
-;*** Deadband: snap to STOP_COUNT (exact center, no drift).		    ***
-;***								    ***
-;*** With PR2=50 (0.1mS ticks), servo counts are half the old values:	    ***
-;***   FORWARD_COUNT = 18 ticks = 1.8mS					    ***
-;***   STOP_COUNT    = 15 ticks = 1.5mS					    ***
-;***   REVERSE_COUNT = 12 ticks = 1.2mS					    ***
-;*** These are set in INITIALIZE in the setup file.			    ***
+;*** CHECK_HEADLIGHTS: Toggles RA6 when Joystick 2 is pushed UP
+;*** JOY2_UD > 200 triggers the toggle.
+;*******************************************************************************
+CHECK_HEADLIGHTS
+    BANKSEL JOY2_UD
+    MOVLW   D'200'           ; Set a high threshold for the "Up" push
+    SUBWF   JOY2_UD, W       ; W = JOY2_UD - 200
+    BANKSEL STATUS
+    BTFSS   STATUS, 0        ; If Carry is clear, JOY2_UD < 200 (Not pushed up)
+    GOTO    UP_NOT_PRESSED
+
+    ;-- Joystick IS pushed UP --
+    BANKSEL LAST_BTN_STATE
+    BTFSC   LAST_BTN_STATE, 0 ; Was it already up in the last packet?
+    RETURN                    ; Yes, ignore until it's released and pushed again
+
+    ;-- NEW UP-PUSH Detected! Toggle RA6 --
+    BANKSEL LATA
+    MOVLW   B'01000000'      ; Mask for RA6
+    XORWF   LATA, F          ; Flip the headlight state
+
+    ;-- Mark as "Held" --
+    BANKSEL LAST_BTN_STATE
+    BSF     LAST_BTN_STATE, 0
+    RETURN
+
+UP_NOT_PRESSED
+    ;-- Clear the state once stick returns to center/down --
+    BANKSEL LAST_BTN_STATE
+    BCF     LAST_BTN_STATE, 0
+    RETURN
+    
+;*******************************************************************************
+;*** DETERMINED_ACTUATOR_STATE: Proportional Steering Mapping
+;*** Maps JOY2_LR (0-255) to Pulse Width (12-19 ticks)
+;*** 1.2ms (Right) = 12 ticks | 1.5ms (Center) = 15 ticks | 1.9ms (Left) = 19 ticks
 ;*******************************************************************************
 DETERMINE_ACTUATOR_STATE
-    ;---- Check if joystick is past upper threshold (steer right) ----
-    BANKSEL	UPPER_THRESHOLD
-    MOVFW	UPPER_THRESHOLD
-    ;BANKSEL	JOY1_LR
-    ;SUBWF	JOY1_LR,0		;W = JOY2_LR - UPPER_THRESHOLD
-    BANKSEL	JOY2_LR
-    SUBWF	JOY2_LR,0		;W = JOY2_LR - UPPER_THRESHOLD
-    BANKSEL	STATUS
-    BTFSC	STATUS,0		;Carry set = pushed right
-    GOTO	SERVO_INCREMENT
-
-    ;---- Check if joystick is past lower threshold (steer left) ----
-    BANKSEL	LOWER_THRESHOLD
-    MOVFW	LOWER_THRESHOLD
-    ;BANKSEL	JOY1_LR
-    ;SUBWF	JOY1_LR,0		;W = JOY2_LR - LOWER_THRESHOLD
-    BANKSEL	JOY2_LR
-    SUBWF	JOY2_LR,0		;W = JOY2_LR - LOWER_THRESHOLD
-    BANKSEL	STATUS
-    BTFSS	STATUS,0		;Carry clear = pushed left
-    GOTO	SERVO_DECREMENT
-
-    GOTO	SERVO_RETURN_CENTER	;In deadband -- snap to center
-
-SERVO_INCREMENT
-    ;-- Step one tick right, clamp to FORWARD_COUNT (hard right limit) --
-    BANKSEL	SERVO_POS
-    INCF	SERVO_POS,F
-    BANKSEL	FORWARD_COUNT
-    MOVFW	FORWARD_COUNT
-    BANKSEL	SERVO_POS
-    SUBWF	SERVO_POS,0		;W = SERVO_POS - FORWARD_COUNT
-    BANKSEL	STATUS
-    BTFSS	STATUS,0		;Carry clear = under limit, no clamp needed
-    GOTO	SERVO_UPDATE
-    BANKSEL	FORWARD_COUNT
-    MOVFW	FORWARD_COUNT
-    BANKSEL	SERVO_POS
-    MOVWF	SERVO_POS		;Clamp to hard right limit
-    GOTO	SERVO_UPDATE
-
-SERVO_DECREMENT
-    ;-- Step one tick left, clamp to REVERSE_COUNT (hard left limit) --
-    BANKSEL	SERVO_POS
-    DECF	SERVO_POS,F
-    BANKSEL	REVERSE_COUNT
-    MOVFW	REVERSE_COUNT
-    BANKSEL	SERVO_POS
-    SUBWF	SERVO_POS,0		;W = SERVO_POS - REVERSE_COUNT
-    BANKSEL	STATUS
-    BTFSC	STATUS,0		;Carry set = above limit, no clamp needed
-    GOTO	SERVO_UPDATE
-    BANKSEL	REVERSE_COUNT
-    MOVFW	REVERSE_COUNT
-    BANKSEL	SERVO_POS
-    MOVWF	SERVO_POS		;Clamp to hard left limit
-    GOTO	SERVO_UPDATE
-
-SERVO_RETURN_CENTER
-    ;-- Deadband: snap directly to STOP_COUNT -- guaranteed exact center, no drift --
-    BANKSEL	STOP_COUNT
-    MOVFW	STOP_COUNT
-    BANKSEL	SERVO_POS
-    MOVWF	SERVO_POS		;SERVO_POS = center, no stepping, no overshoot
-
-SERVO_UPDATE
-    ;-- Write SERVO_POS into ACTUATOR_MOTOR_STATUS for TMR2 to use --
-    BANKSEL	SERVO_POS
-    MOVFW	SERVO_POS
-    BANKSEL	ACTUATOR_MOTOR_STATUS
-    MOVWF	ACTUATOR_MOTOR_STATUS
-
-DETERMINE_ACTUATOR_STATE_END
+    BANKSEL JOY2_LR
+    MOVFW   JOY2_LR          ; Get raw joystick value (0-255)
+    
+    ;-- Linear Mapping Logic --
+    ; Divide joystick by 32 to get a value from 0 to 7
+    ; (Right shift 5 times)
+    MOVWF   SERVO_POS        ; Use SERVO_POS as temporary math register
+    LSRF    SERVO_POS, F
+    LSRF    SERVO_POS, F
+    LSRF    SERVO_POS, F
+    LSRF    SERVO_POS, F
+    LSRF    SERVO_POS, F     ; SERVO_POS is now 0 to 7
+    
+    ; Now add the offset for the lowest pulse width (1.2ms = 12 ticks)
+    MOVLW   D'12'
+    ADDWF   SERVO_POS, W     ; W = (0 to 7) + 12 = 12 to 19
+    
+    ;-- Inversion Check --
+    ; If joystick 0 was supposed to be 1.9ms (Left) and 255 was 1.2ms (Right)
+    ; we might need to flip the result. Based on your current values:
+    ; 12 = Right, 19 = Left.
+    ; High Joy value (255) results in 19 (Left). 
+    ; Low Joy value (0) results in 12 (Right).
+    
+    BANKSEL ACTUATOR_MOTOR_STATUS
+    MOVWF   ACTUATOR_MOTOR_STATUS ; Update the pulse width for the ISR
+    
     RETURN
     
 ;******************************************
@@ -492,117 +458,3 @@ MAIN
     
     
     END
-;DETERMINE_DRIVE_STATE
-;;-- Forward check
-;    BANKSEL	UPPER_THRESHOLD
-;    MOVF	UPPER_THRESHOLD,0
-;    BANKSEL	JOY1_UD
-;    SUBWF	JOY1_UD,0	;W = UPPER_THRESHOLD - JOY1_UD 
-;    BANKSEL	STATUS
-;    BTFSC	STATUS,0	;Carry set = forward zone
-;    GOTO	MOTOR_FORWARD
-;
-;     ;-- Reverse check: borrow fires when JOY1_UD < LOWER_THRESHOLD --
-;    BANKSEL	LOWER_THRESHOLD
-;    MOVF	LOWER_THRESHOLD,0
-;    BANKSEL	JOY1_UD
-;    SUBWF	JOY1_UD,0	;W = JOY1_UD - LOWER_THRESHOLD
-;    BANKSEL	STATUS
-;    BTFSS	STATUS,0	;Carry clear = reverse zone
-;    GOTO	MOTOR_REVERSE
-;
-;    ;--- Deadband: stop ---
-;    BANKSEL	MOTOR_DUTY_COUNT
-;    MOVLW	D'3'              ; 15% duty = 0.8V brake
-;    MOVWF	MOTOR_DUTY_COUNT
-;    
-;    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;    BANKSEL PORTA
-;    BCF PORTA,5	    ;BRAKE OFF WHEN JOYSTICK NUETRAL
-;    
-;    BANKSEL DIRECTION_FLAG
-;    MOVLW 0x01
-;    MOVWF DIRECTION_FLAG         ; 1 = neutral ? next reverse is allowed
-;    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;    
-;    GOTO	DETERMINE_DRIVE_STATE_END
-;    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;*******************************************************************************
-;;*** BRAKE_SUB: separate subroutine that ONLY handles braking               ***
-;;*** Sets RA5 high (your brake SSR) and forces motor duty to 0.             ***
-;;*** Called from forward-to-brake path so it never interferes with          ***
-;;*** actual MOTOR_REVERSE drive logic.                                       ***
-;;*******************************************************************************
-;BRAKE_SUB
-;    BANKSEL PORTA
-;    BSF PORTA,5                  ; brake ON (your actual RA5 pin)
-;    BANKSEL MOTOR_DUTY_COUNT
-;    MOVLW D'0'
-;    MOVWF MOTOR_DUTY_COUNT       ; force motor stop
-;    RETURN
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;    
-;MOTOR_FORWARD
-;    BANKSEL	PORTA
-;    BSF		PORTA,1
-;    ;;;;;;;;;;;;;;;;;;;;
-;    BCF PORTA,5	    ;BRAKE OFF IN FORWARD
-;    
-;    BANKSEL DIRECTION_FLAG
-;    CLRF DIRECTION_FLAG          ; 0 = was forward ? brake only on next pull-back
-;    ;;;;;;;;;;;;;;;;;;;;
-;    
-;    BANKSEL	JOY1_UD
-;    MOVF	JOY1_UD,0
-;    
-;    XORLW	D'161'	;161
-;    
-;    ADDLW	D'7'	    ;7
-;    MOVWF	MOTOR_DUTY_COUNT
-;    
-;    GOTO	DETERMINE_DRIVE_STATE_END
-;    
-;MOTOR_REVERSE
-;    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;    BANKSEL DIRECTION_FLAG
-;    BTFSC DIRECTION_FLAG,0       ; if 1 (was neutral) ? allow reverse drive
-;    GOTO BRAKE_ONLY
-;    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;    ;--- Reverse drive allowed ---
-;    BANKSEL	PORTA
-;    BCF		PORTA,1
-;    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;    BCF PORTA,5                  ; brake OFF
-;    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;    
-;    BANKSEL	JOY1_UD
-;    MOVF	JOY1_UD,0
-;    
-;    XORLW	D'79'	    ;79
-;    
-;    ADDLW	D'7'	    ;7
-;    MOVWF	MOTOR_DUTY_COUNT
-;    
-;    GOTO	DETERMINE_DRIVE_STATE_END
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;BRAKE_ONLY
-;;    ;--- Braking while coming from forward ---
-;;    BANKSEL PORTA
-;;    BCF PORTA,1                  ; direction doesn't matter
-;;    BSF PORTA,5                  ; brake ON
-;;    BANKSEL MOTOR_DUTY_COUNT
-;;    MOVLW D'0'                   ; force motor stop
-;;    MOVWF MOTOR_DUTY_COUNT
-;;    BANKSEL DIRECTION_FLAG
-;;    CLRF DIRECTION_FLAG
-;;    ; DIRECTION_FLAG stays 0 so we keep braking until neutral
-;;    GOTO DETERMINE_DRIVE_STATE_END
-;BRAKE_ONLY
-;    CALL BRAKE_SUB               ; use the new separate subroutine
-;    ; DIRECTION_FLAG stays 0 so we keep braking until neutral
-;    GOTO DETERMINE_DRIVE_STATE_END
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;
-;DETERMINE_DRIVE_STATE_END
-;    RETURN
