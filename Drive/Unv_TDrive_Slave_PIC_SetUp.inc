@@ -56,10 +56,11 @@ ACTUATOR_MOTOR_STATUS	EQU	0x33	    ;Register to Track Actuator Motor Mode (This 
 SERVO_POS		EQU	0x34	    ;Register to Track Servo Position (20=1.0mS left limit, 29=1.5mS center, 40=2.0mS right limit)	
 MOTOR_DUTY_COUNT	EQU	0x35	    ;Number of 0.05ms ticks to keep RA0 HIGH (duty cycle)	
 DIRECTION_FLAG		EQU	0x36	    ;0 = Forward, 1 = Reverse
-MOTOR_COUNT		EQU	0x37	; new
-SERVO_COUNT		EQU	0x38   ; new
+MOTOR_COUNT		EQU	0x37	
+SERVO_COUNT		EQU	0x38   
 MOTOR_PERIOD		EQU	0x39
 SERVO_PERIOD		EQU	0x3A
+LAST_BTN_STATE		EQU	0x3B
 ;******************************************		
 ;Start of Setup File Code
 ;******************************************
@@ -196,14 +197,9 @@ INITIALIZE
     
 ;*** Alternate Pin Functions ****
     BANKSEL	APFCON1
-    ;MOVLW	H'41'
-    ;MOVLW	H'01'       ; CCP1SEL=0 (CCP1 on RC2, not RB0), CCP2SEL=1
-    ;MOVWF	APFCON1			;Set Comm on Port C CCP on Port B
     CLRF	APFCON1
     
     BANKSEL	APFCON2
-    ;MOVLW	H'01'
-    ;MOVWF	APFCON2			;Set Save/Select on Port A CCP3 on Port B
     CLRF	APFCON2
 
     
